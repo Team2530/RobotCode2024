@@ -9,6 +9,8 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Constants.*;
@@ -138,6 +140,10 @@ public class SwerveModule {
         // SmartDashboard.putNumber("Abs" + thisModuleNumber,
         // getAbsoluteEncoderPosition());
         SmartDashboard.putNumber("Drive" + thisModuleNumber, drive_command);
+    }
+
+    public void setDriveVoltage(Measure<Voltage> voltage) {
+        driveMotor.setVoltage(voltage.magnitude());
     }
 
     public void setModuleState(SwerveModuleState state) {

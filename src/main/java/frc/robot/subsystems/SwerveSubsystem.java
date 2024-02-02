@@ -1,11 +1,14 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SPI;
@@ -13,7 +16,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.*;
@@ -46,6 +52,10 @@ public class SwerveSubsystem extends SubsystemBase {
             16, 17,
             2, 3
     };
+
+    private SysIdRoutine driveMotorRoutine = new SysIdRoutine(
+        new SysIdRoutine.Config(null, null, null, SysIdRoutineLogger.logState()),
+        new SysIdRoutine.Mechanism(this::setDriveMotorVoltages, null, this));
 
     private final AHRS navX = new AHRS(SPI.Port.kMXP);
     private double navxSim;
@@ -153,6 +163,13 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft.setModuleState(states[Constants.DriveConstants.ModuleIndices.REAR_LEFT]);
     }
 
+    public void setDriveMotorVoltages(Measure<Voltage> voltage) {
+        frontLeft.setDriveVoltage(voltage);
+        frontRight.setDriveVoltage(voltage);
+        backLeft.setDriveVoltage(voltage);
+        backRight.setDriveVoltage(voltage);
+    }
+
     public void setChassisSpeedsAUTO(ChassisSpeeds speeds) {
         double tmp = -speeds.vxMetersPerSecond;
         speeds.vxMetersPerSecond = -speeds.vyMetersPerSecond;
@@ -201,4 +218,8 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.simulate_step();
         navxSim += 0.02 * lastChassisSpeeds.omegaRadiansPerSecond;
     }
+
+    public Command sysIdDriveQuasiCommand(Direction direction) {
+    return driveMotorRoutine.quasistatic(direction);
+  }
 }
