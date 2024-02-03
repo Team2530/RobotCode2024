@@ -109,7 +109,7 @@ public class DriveCommand extends Command {
         // State transition logic
         switch (state) {
             case Free:
-                state = xbox.getBButton() ? DriveState.Locked : DriveState.Free;
+                state = xbox.getRightBumper() ? DriveState.Locked : DriveState.Free;
                 break;
             case Locked:
                 state = ((xyRaw.getNorm() > 0.15) && !xbox.getBButton()) ? DriveState.Free : DriveState.Locked;

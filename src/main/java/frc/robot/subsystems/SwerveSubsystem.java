@@ -201,18 +201,14 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void setXstance() {
-        // frontLeft.setModuleStateRaw(new SwerveModuleState(0,
-        // Rotation2d.fromDegrees(45)));
-        // frontRight.setModuleStateRaw(new SwerveModuleState(0,
-        // Rotation2d.fromDegrees(-45)));
-        // backLeft.setModuleStateRaw(new SwerveModuleState(0,
-        // Rotation2d.fromDegrees(-45)));
-        // backRight.setModuleStateRaw(new SwerveModuleState(0,
-        // Rotation2d.fromDegrees(45)));
-        frontLeft.setModuleStateRaw(new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)));
-        frontRight.setModuleStateRaw(new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)));
-        backLeft.setModuleStateRaw(new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)));
-        backRight.setModuleStateRaw(new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)));
+        frontLeft.setModuleStateRaw(new SwerveModuleState(0,
+        Rotation2d.fromDegrees(45)));
+        frontRight.setModuleStateRaw(new SwerveModuleState(0,
+        Rotation2d.fromDegrees(-45)));
+        backLeft.setModuleStateRaw(new SwerveModuleState(0,
+        Rotation2d.fromDegrees(-45)));
+        backRight.setModuleStateRaw(new SwerveModuleState(0,
+        Rotation2d.fromDegrees(45)));
     }
 
     public ChassisSpeeds getChassisSpeeds() {
