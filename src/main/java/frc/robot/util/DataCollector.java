@@ -1,9 +1,15 @@
 package frc.robot.util;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.zip.GZIPOutputStream;
+
+import com.moandjiezana.toml.Toml;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -23,7 +29,7 @@ import frc.robot.subsystems.SwerveSubsystem;
  */
 public class DataCollector {
 
-    public static final byte VERSION = 1;
+    public static final byte VERSION = 2;
 
     /**
      * A wrapper around the passed-in OutputStream. This handles many useful byte-related functions out of the box.
@@ -32,6 +38,8 @@ public class DataCollector {
 
     /* Timestamp of the last collected frame */
     private long lastMS;
+
+    private Toml configuration;
 
     /**
      * @param fileName A filename for the logging file. This is set in {@link Robot#disabledExit()}, and can be modified in {@link Constants.LoggingConstants}.
@@ -42,11 +50,13 @@ public class DataCollector {
 
     /* Use this constructor to specify an alternate outputstream. */
     public DataCollector(OutputStream outputStream) {
-        try {
-            this.data = new DataOutputStream(new GZIPOutputStream(outputStream));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // try {
+            this.data = new DataOutputStream((outputStream));
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
+
+        this.configuration = new Toml().read(DataCollector.class.getResourceAsStream("/logging.toml"));
     }
 
     /**
@@ -68,9 +78,47 @@ public class DataCollector {
             data.writeByte(VERSION);
             this.lastMS = System.currentTimeMillis();
             data.writeUTF(Instant.now().toString());
-        } catch (IOException e) {
+
+            writeConstants();
+        } catch (IOException | IllegalArgumentException | IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void writeConstants() throws IllegalArgumentException, IllegalAccessException, IOException {
+        final List<ConstantData> constants = new ArrayList<>();
+
+        for(Class<?> subClass : Constants.class.getDeclaredClasses()) {
+            Field[] constantFields = subClass.getDeclaredFields();
+
+            for(int fieldIndex = 0; fieldIndex < constantFields.length; fieldIndex ++) {
+                Field constantField = constantFields[fieldIndex];
+                constantField.setAccessible(true);
+                constants.add(new ConstantData(
+                    subClass.getSimpleName().replaceAll("[Cc]onstants", ""), 
+                    constantField.getName(), 
+                    constantField.getType().getTypeName().replaceAll("java\\.util", ""), 
+                    constantField.get(null).toString()
+                ));
+            }
+        }
+
+        data.writeShort(constants.size());
+        for(ConstantData constantData : constants) {
+            // Arrays are not stored in the log file.
+            if(constantData.getType().endsWith("]")) continue;
+            if(isConstantIgnored(constantData)) continue;
+
+            data.writeUTF(constantData.getFullName());
+            data.writeUTF(constantData.getType());
+            data.writeUTF(constantData.getValue());
+        }
+    }
+
+    public boolean isConstantIgnored(ConstantData constant) {
+        List<String> configuration.getList("constants_allowlist");
+        return false;
     }
 
     /**
