@@ -146,6 +146,10 @@ public class SwerveModule {
         driveMotor.setVoltage(voltage.magnitude());
     }
 
+    public void setSteerVoltage(Measure<Voltage> voltage) {
+        steerMotor.setVoltage(voltage.magnitude());
+    }
+
     public void setModuleState(SwerveModuleState state) {
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();

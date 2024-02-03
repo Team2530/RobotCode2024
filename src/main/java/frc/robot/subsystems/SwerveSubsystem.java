@@ -53,9 +53,14 @@ public class SwerveSubsystem extends SubsystemBase {
             2, 3
     };
 
-    private SysIdRoutine driveMotorRoutine = new SysIdRoutine(
+    private SysIdRoutine DRIVE_SysIdRoutine = new SysIdRoutine(
         new SysIdRoutine.Config(null, null, null, SysIdRoutineLogger.logState()),
-        new SysIdRoutine.Mechanism(this::setDriveMotorVoltages, null, this));
+        new SysIdRoutine.Mechanism(this::setDriveMotorVoltages, null, this)
+    );
+    private SysIdRoutine STEER_SysIdRoutine = new SysIdRoutine(
+        new SysIdRoutine.Config(null, null, null, SysIdRoutineLogger.logState()),
+        new SysIdRoutine.Mechanism(this::setSteerMotorVoltages, null, this)
+    );
 
     private final AHRS navX = new AHRS(SPI.Port.kMXP);
     private double navxSim;
@@ -170,6 +175,13 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.setDriveVoltage(voltage);
     }
 
+    public void setSteerMotorVoltages(Measure<Voltage> voltage) {
+        frontLeft.setSteerVoltage(voltage);
+        frontRight.setSteerVoltage(voltage);
+        backLeft.setSteerVoltage(voltage);
+        backRight.setSteerVoltage(voltage);
+    }
+
     public void setChassisSpeedsAUTO(ChassisSpeeds speeds) {
         double tmp = -speeds.vxMetersPerSecond;
         speeds.vxMetersPerSecond = -speeds.vyMetersPerSecond;
@@ -220,6 +232,10 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public Command sysIdDriveQuasiCommand(Direction direction) {
-    return driveMotorRoutine.quasistatic(direction);
-  }
+        return DRIVE_SysIdRoutine.quasistatic(direction);
+    }
+
+    public Command sysIdSteerQuasiCommand(Direction direction) {
+        return STEER_SysIdRoutine.quasistatic(direction);
+    }
 }

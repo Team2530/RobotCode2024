@@ -10,6 +10,7 @@ import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -44,6 +45,9 @@ public class RobotContainer {
         configureBindings();
 
         swerveDriveSubsystem.setDefaultCommand(normalDrive);
+        
+        SmartDashboard.putData("SysIdDrive", swerveDriveSubsystem.sysIdDriveQuasiCommand(Direction.kForward));
+        SmartDashboard.putData("SysIdSteer", swerveDriveSubsystem.sysIdSteerQuasiCommand(Direction.kForward));
     }
 
     /**
@@ -64,7 +68,6 @@ public class RobotContainer {
         // use b to chase April tag
         driverXbox.b().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, false));
         driverXbox.a().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, true));
-        driverXbox.y().whileTrue(swerveDriveSubsystem.sysIdDriveQuasiCommand(Direction.kForward));
     }
 
     /**
