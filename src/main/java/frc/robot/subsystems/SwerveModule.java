@@ -146,9 +146,20 @@ public class SwerveModule {
         driveMotor.setVoltage(voltage.magnitude());
     }
 
+    // https://www.chiefdelphi.com/t/get-voltage-from-spark-max/344136
+    public double getDriveVoltage() {
+        return driveMotor.getBusVoltage() * driveMotor.getAppliedOutput();
+    }
+
     public void setSteerVoltage(Measure<Voltage> voltage) {
         steerMotor.setVoltage(voltage.magnitude());
     }
+
+    // https://www.chiefdelphi.com/t/get-voltage-from-spark-max/344136
+    public double getSteerVoltage() {
+        return steerMotor.getBusVoltage() * steerMotor.getAppliedOutput();
+    }
+
 
     public void setModuleState(SwerveModuleState state) {
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {

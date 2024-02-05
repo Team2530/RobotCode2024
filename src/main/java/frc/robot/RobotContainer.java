@@ -13,6 +13,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 /**
@@ -66,8 +67,20 @@ public class RobotContainer {
      */
     private void configureBindings() {
         // use b to chase April tag
-        driverXbox.b().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, false));
-        driverXbox.a().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, true));
+        //driverXbox.b().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, false));
+        //driverXbox.a().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limrLightSubsystem, true));
+        //SysId commands for driving motors
+        driverXbox.a().whileTrue(swerveDriveSubsystem.sysIdDriveQuasiCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.b().whileTrue(swerveDriveSubsystem.sysIdDriveQuasiCommand(SysIdRoutine.Direction.kReverse));
+        driverXbox.x().whileTrue(swerveDriveSubsystem.sysIdDriveDynamicCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.y().whileTrue(swerveDriveSubsystem.sysIdDriveDynamicCommand(SysIdRoutine.Direction.kReverse));
+    
+        //SysId commands for steering motors
+        driverXbox.a().whileTrue(swerveDriveSubsystem.sysIdSteerQuasiCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.b().whileTrue(swerveDriveSubsystem.sysIdSteerQuasiCommand(SysIdRoutine.Direction.kReverse));
+        driverXbox.x().whileTrue(swerveDriveSubsystem.sysIdSteerDynamicCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.y().whileTrue(swerveDriveSubsystem.sysIdSteerDynamicCommand(SysIdRoutine.Direction.kReverse));
+    
     }
 
     /**
