@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4566929133858268,
-      "y": 5.561341122682245
+      "x": 2.0,
+      "y": 7.0
     },
-    "rotation": 179.99999999959616
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "amP"
+            "pathName": "New Path"
           }
         }
       ]

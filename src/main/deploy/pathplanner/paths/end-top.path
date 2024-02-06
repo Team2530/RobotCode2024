@@ -49,7 +49,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "4-top",
+  "folder": null,
   "previewStartingState": null,
   "useDefaultConstraints": false
 }
