@@ -69,7 +69,7 @@ public class SwerveSubsystem extends SubsystemBase {
     );
     private SysIdRoutine STEER_SysIdRoutine = new SysIdRoutine(
         new SysIdRoutine.Config(),
-        new SysIdRoutine.Mechanism(this::setSteerMotorVoltages, null, this)
+        new SysIdRoutine.Mechanism(this::setSteerMotorVoltages, this::sysIdSteerMotorLog, this)
     );
       
     // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.

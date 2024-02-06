@@ -124,7 +124,6 @@ public class SwerveModule {
     }
 
     public void setModuleStateRaw(SwerveModuleState state) {
-        state = SwerveModuleState.optimize(state, new Rotation2d(getSteerPosition()));
         double drive_command = state.speedMetersPerSecond / DriveConstants.MAX_MODULE_VELOCITY;
         driveMotor.set(drive_command * (motor_inv ? -1.0 : 1.0));
 
