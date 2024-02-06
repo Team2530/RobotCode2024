@@ -64,11 +64,11 @@ public class SwerveSubsystem extends SubsystemBase {
     };
 
     private SysIdRoutine DRIVE_SysIdRoutine = new SysIdRoutine(
-        new SysIdRoutine.Config(null, null, null, SysIdRoutineLogger.logState()),
-        new SysIdRoutine.Mechanism(this::setDriveMotorVoltages, null, this)
+        new SysIdRoutine.Config(),
+        new SysIdRoutine.Mechanism(this::setDriveMotorVoltages, this::sysIdDriveMotorLog, this)
     );
     private SysIdRoutine STEER_SysIdRoutine = new SysIdRoutine(
-        new SysIdRoutine.Config(null, null, null, SysIdRoutineLogger.logState()),
+        new SysIdRoutine.Config(),
         new SysIdRoutine.Mechanism(this::setSteerMotorVoltages, null, this)
     );
       
@@ -314,7 +314,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public Command sysIdDriveQuasiCommand(Direction direction) {
-        return DRIVE_SysIdRoutine.quasistatic(direction);
+        return DRIVE_SysIdRoutine.quasistatic(direction).withName("SysId Drive Quasi " + direction);
     }
 
     public Command sysIdDriveDynamicCommand(Direction direction) {

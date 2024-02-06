@@ -46,9 +46,6 @@ public class RobotContainer {
         configureBindings();
 
         swerveDriveSubsystem.setDefaultCommand(normalDrive);
-        
-        SmartDashboard.putData("SysIdDrive", swerveDriveSubsystem.sysIdDriveQuasiCommand(Direction.kForward));
-        SmartDashboard.putData("SysIdSteer", swerveDriveSubsystem.sysIdSteerQuasiCommand(Direction.kForward));
     }
 
     /**
@@ -76,11 +73,10 @@ public class RobotContainer {
         driverXbox.y().whileTrue(swerveDriveSubsystem.sysIdDriveDynamicCommand(SysIdRoutine.Direction.kReverse));
     
         //SysId commands for steering motors
-        driverXbox.a().whileTrue(swerveDriveSubsystem.sysIdSteerQuasiCommand(SysIdRoutine.Direction.kForward));
-        driverXbox.b().whileTrue(swerveDriveSubsystem.sysIdSteerQuasiCommand(SysIdRoutine.Direction.kReverse));
-        driverXbox.x().whileTrue(swerveDriveSubsystem.sysIdSteerDynamicCommand(SysIdRoutine.Direction.kForward));
-        driverXbox.y().whileTrue(swerveDriveSubsystem.sysIdSteerDynamicCommand(SysIdRoutine.Direction.kReverse));
-    
+        driverXbox.button(13).whileTrue(swerveDriveSubsystem.sysIdSteerQuasiCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.button(15).whileTrue(swerveDriveSubsystem.sysIdSteerQuasiCommand(SysIdRoutine.Direction.kReverse));
+        driverXbox.button(14).whileTrue(swerveDriveSubsystem.sysIdSteerDynamicCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.button(12).whileTrue(swerveDriveSubsystem.sysIdSteerDynamicCommand(SysIdRoutine.Direction.kReverse));
     }
 
     /**
