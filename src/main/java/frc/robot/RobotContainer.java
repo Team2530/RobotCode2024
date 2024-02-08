@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
+import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
@@ -28,6 +29,7 @@ public class RobotContainer {
             ControllerConstants.OPERATOR_CONTROLLER_PORT);
 
     private final SwerveSubsystem swerveDriveSubsystem = new SwerveSubsystem();
+    private final LimeLightSubsystem limeLightSubsystem = new LimeLightSubsystem();
 
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
 
@@ -57,7 +59,11 @@ public class RobotContainer {
      * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
      * joysticks}.
      */
-    private void configureBindings() {}
+    private void configureBindings() {
+        // use b to chase April tag
+        driverXbox.b().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, false));
+        driverXbox.a().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, true));
+    }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
