@@ -6,17 +6,16 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.Constants.*;
+import frc.robot.*;
 
 public class SwerveSubsystem extends SubsystemBase {
     SwerveModule frontLeft = new SwerveModule(SwerveModuleConstants.FL_STEER_ID, SwerveModuleConstants.FL_DRIVE_ID,
@@ -67,10 +66,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public void periodic() {
         odometry.update(getRotation2d(), getModulePositions());
 
-        // TODO: Test
-        // WARNING: REMOVE IF USING TAG FOLLOW!!!
-        // odometry.addVisionMeasurement(LimelightHelpers.getBotPose2d(null),
-        // Timer.getFPGATimestamp());
+        updateVisionOdometry();
 
         if(DriverStation.getAlliance().isPresent()) {
             switch (DriverStation.getAlliance().get()) {
@@ -195,6 +191,26 @@ public class SwerveSubsystem extends SubsystemBase {
         };
 
         return states;
+    }
+
+    /**
+     * Updates pose estimator based on what vision sees
+     */
+    public void updateVisionOdometry() {
+        // Update robot pose with Limelight vision
+        NetworkTableEntry poseEntry = LimelightHelpers.getLimelightNTTableEntry("limelight", "botpose_wpiblue");
+        double[] poseArray = poseEntry.getDoubleArray(new double[0]);
+
+        if(poseArray.length > 0) {
+            double timestamp = poseEntry.getLastChange() / 1e6 - poseArray[6] / 1e3;
+
+        Pose2d visionPose = new Pose2d(
+            new Translation2d(poseArray[0], poseArray[1]),
+            new Rotation2d(Units.degreesToRadians(poseArray[5]))
+        );
+
+        odometry.addVisionMeasurement(visionPose, timestamp);
+        }
     }
 
     @Override
