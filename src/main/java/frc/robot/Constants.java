@@ -8,9 +8,11 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
@@ -51,8 +53,8 @@ public final class Constants {
     public static final double MODULE_KD = 0.0066806;// 0.0057682; //0.0076954;
 
     // --------- Front Left Module --------- \\
-    public static final int FL_DRIVE_ID = 2;
-    public static final int FL_STEER_ID = 1;
+    public static final int FL_DRIVE_ID = 1;
+    public static final int FL_STEER_ID = 2;
     public static final int FL_ABSOLUTE_ENCODER_PORT = 1;
     public static final double FL_OFFSET_RADIANS = Units.rotationsToRadians(0.213135) + Math.PI * 0.5 + Math.PI;
     public static final boolean FL_ABSOLUTE_ENCODER_REVERSED = true;
@@ -90,8 +92,8 @@ public final class Constants {
     public static final double MAX_ROBOT_RAD_VELOCITY = 12.0; // Approx. Measured rads/sec
 
     // TODO: Change based on actual robot!
-    public static final double TRACK_WIDTH = Units.inchesToMeters(18.75);
-    public static final double WHEEL_BASE = Units.inchesToMeters(18.75);
+    public static final double TRACK_WIDTH = Units.inchesToMeters(19.75);
+    public static final double WHEEL_BASE = Units.inchesToMeters(24.75);
     public static final Rotation2d NAVX_ANGLE_OFFSET = Rotation2d.fromDegrees(90);
     public static final double DRIVE_BASE_RADIUS = Units.inchesToMeters(15);
 
@@ -112,7 +114,45 @@ public final class Constants {
     public static final double Z_SPEED_LIMIT = 1.0;
   }
 
-  public static final class PathPlannerConstants {
+  public static class CommonConstants {
+    public static final boolean LOG_INTO_FILE_ENABLED = false;
+  }
+
+  public static class VisionContsants {
+    
+    public static final double THETA_kP = .9;
+    public static final double THETA_kI = 0.0;
+    public static final double THETA_kD = 0.08;
+
+    public static final double X_kP = 1.0;
+    public static final double X_kI = 0.0;
+    public static final double X_kD = 0.02;
+
+    public static final double Y_kP = 1.5;
+    public static final double Y_kI = 0.0;
+    public static final double Y_kD = 0.02;
+  }
+
+  public static class LimelightConstants {
+    public static final String limeLightName = "limelight";
+    public static final Transform3d robotToCamera = new Transform3d(
+    new Translation3d(0.06, -0.2, 0.2127),
+    new Rotation3d(0.0, Units.degreesToRadians(-15.0), Units.degreesToRadians(3.0)));
+    public static final boolean LOG_APRIL_TAGS_INTO_SMARTDASH_BOARD = true;
+  }
+
+  public static class AprilTags {
+    //Blue alliance left or single tags
+    public static final String[] BLUE_ALLIANCE_LEFT_OR_SINGLE_APRILTAGS = { "2", "8", "6", "14", "15", "16" };
+    //Blue alliance right tags
+    public static final String[] BLUE_ALLIANCE_RIGHT_APRILTAGS = { "1", "7" };
+    //Red alliance left or single tags
+    public static final String[] RED_ALLIANCE_LEFT_OR_SINLGE_APRILTAGS = { "10", "4", "5", "11", "12", "13" };
+     //Blue alliance right tags
+    public static final String[] RED_ALLIANCE_RIGHT_APRILTAGS = { "9", "3" };
+  }
+
+    public static final class PathPlannerConstants {
     public static final PIDConstants TRANSLATION_PID = new PIDConstants(5.0, 0, 0);
     public static final PIDConstants ROTATION_PID = new PIDConstants(5.0, 0, 0);
 
