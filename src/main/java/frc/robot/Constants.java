@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -80,6 +81,48 @@ public final class Constants {
     public static final boolean BL_ABSOLUTE_ENCODER_REVERSED = true;
     public static final boolean BL_MOTOR_REVERSED = false;
 
+  }
+
+  public static class ArmConstants {
+    // --------- First Joint --------- \\
+    public static final int LEFT_FIRST_MOTOR_ID = 10;
+    public static final int RIGHT_FIRST_MOTOR_ID = 11;
+    public static final int FIRST_ABSOLUTE_ENCODER_PORT = 5;
+    public static final double FIRST_OFFSET_RADIANS = Units.rotationsToRadians(0);
+    public static final boolean FIRST_ABSOLUTE_ENCODER_REVERSED = false;
+    public static final boolean LEFT_FIRST_MOTOR_REVERSED = false;
+    public static final boolean RIGHT_FIRST_MOTOR_REVERSED = false;
+
+    // PID
+    public static final double SHOULDER_kP = 1.0;
+    public static final double SHOULDER_kI = 0;
+    public static final double SHOULDER_kD = 0;
+    public static final Constraints SHOULDER_CONSTRAINTS = new Constraints(1, 1);
+    
+    // Feedforwad
+    public static final double SHOULDER_kS = 1;
+    public static final double SHOULDER_kG = 1;
+    public static final double SHOULDER_kV = 1;
+    public static final double SHOULDER_kA = 1;
+
+    // --------- Second Joint -------- \\
+    public static final int SECOND_MOTOR_ID = 12;
+    public static final int SECOND_ABSOLUTE_ENCODER_PORT = 6;
+    public static final double SECOND_OFFSET_RADIANS = Units.rotationsToRadians(0);
+    public static final boolean SECOND_ABSOLUTE_ENCODER_REVERSED = false;
+    public static final boolean SECOND_MOTOR_REVERSED = false;
+
+    // PID
+    public static final double WRIST_kP = 1.0;
+    public static final double WRIST_kI = 0;
+    public static final double WRIST_kD = 0;
+    public static final Constraints WRIST_CONSTRAINTS = new Constraints(1, 1);
+    
+    // Feedforwad
+    public static final double WRIST_kS = 1;
+    public static final double WRIST_kG = 1;
+    public static final double WRIST_kV = 1;
+    public static final double WRIST_kA = 1;
   }
 
   public static class DriveConstants {
