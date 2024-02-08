@@ -54,31 +54,31 @@ public final class Constants {
     public static final int FL_DRIVE_ID = 2;
     public static final int FL_STEER_ID = 1;
     public static final int FL_ABSOLUTE_ENCODER_PORT = 1;
-    public static final double FL_OFFSET_RADIANS = Units.rotationsToRadians(0.074951) + Math.PI * 0.5;
+    public static final double FL_OFFSET_RADIANS = Units.rotationsToRadians(0.213135) + Math.PI * 0.5 + Math.PI;
     public static final boolean FL_ABSOLUTE_ENCODER_REVERSED = true;
     public static final boolean FL_MOTOR_REVERSED = false;
 
     // --------- Front Right Module --------- \\
-    public static final int FR_DRIVE_ID = 4;
-    public static final int FR_STEER_ID = 3;
-    public static final int FR_ABSOLUTE_ENCODER_PORT = 4;
-    public static final double FR_OFFSET_RADIANS = Units.rotationsToRadians(-0.062256) + Math.PI * 0.5;
+    public static final int FR_DRIVE_ID = 7;
+    public static final int FR_STEER_ID = 8;
+    public static final int FR_ABSOLUTE_ENCODER_PORT = 2;
+    public static final double FR_OFFSET_RADIANS = Units.rotationsToRadians(-0.305908) + Math.PI * 0.5 + Math.PI;
     public static final boolean FR_ABSOLUTE_ENCODER_REVERSED = true;
     public static final boolean FR_MOTOR_REVERSED = false;
 
     // --------- Back Right Module --------- \\
-    public static final int BR_DRIVE_ID = 6;
-    public static final int BR_STEER_ID = 5;
-    public static final int BR_ABSOLUTE_ENCODER_PORT = 2;
-    public static final double BR_OFFSET_RADIANS = Units.rotationsToRadians(0.152100) + Math.PI * 0.5;
+    public static final int BR_DRIVE_ID = 5;
+    public static final int BR_STEER_ID = 6;
+    public static final int BR_ABSOLUTE_ENCODER_PORT = 3;
+    public static final double BR_OFFSET_RADIANS = Units.rotationsToRadians(0.230225) + Math.PI * 0.5 + Math.PI;
     public static final boolean BR_ABSOLUTE_ENCODER_REVERSED = true;
     public static final boolean BR_MOTOR_REVERSED = false;
 
     // --------- Back Left Module --------- \\
-    public static final int BL_DRIVE_ID = 8;
-    public static final int BL_STEER_ID = 7;
-    public static final int BL_ABSOLUTE_ENCODER_PORT = 3;
-    public static final double BL_OFFSET_RADIANS = Units.rotationsToRadians(-0.109131) + Math.PI * 0.5;
+    public static final int BL_DRIVE_ID = 3;
+    public static final int BL_STEER_ID = 4;
+    public static final int BL_ABSOLUTE_ENCODER_PORT = 4;
+    public static final double BL_OFFSET_RADIANS = Units.rotationsToRadians(-0.077637) + Math.PI * 0.5 + Math.PI;
     public static final boolean BL_ABSOLUTE_ENCODER_REVERSED = true;
     public static final boolean BL_MOTOR_REVERSED = false;
 
