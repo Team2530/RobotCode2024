@@ -8,37 +8,36 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Constants.ArmConstants;
 
 import static java.lang.Math.*;
+import static frc.robot.Constants.ArmConstants.*;
 
 public class ArmSubsystem extends SubsystemBase {
     // -------- First Joint ------- \\
-    private final TalonFX left_firstJointMotor = new TalonFX(ArmConstants.LEFT_FIRST_MOTOR_ID);
-    private final TalonFX right_firstJointMotor = new TalonFX(ArmConstants.RIGHT_FIRST_MOTOR_ID);
+    private final TalonFX left_firstJointMotor = new TalonFX(LEFT_FIRST_MOTOR_ID);
+    private final TalonFX right_firstJointMotor = new TalonFX(RIGHT_FIRST_MOTOR_ID);
     
-    private final CANcoder firstJointEncoder = new CANcoder(ArmConstants.FIRST_ABSOLUTE_ENCODER_PORT);
+    private final CANcoder firstJointEncoder = new CANcoder(FIRST_ABSOLUTE_ENCODER_PORT);
 
-    private final ArmFeedforward shoulderFeedforward = new ArmFeedforward(ArmConstants.SHOULDER_kS, ArmConstants.SHOULDER_kG, ArmConstants.SHOULDER_kV, ArmConstants.SHOULDER_kA);
-    private final ProfiledPIDController shoulderFeedback = new ProfiledPIDController(ArmConstants.SHOULDER_kP, ArmConstants.SHOULDER_kI, ArmConstants.SHOULDER_kD, ArmConstants.SHOULDER_CONSTRAINTS);
+    private final ArmFeedforward shoulderFeedforward = new ArmFeedforward(SHOULDER_kS, SHOULDER_kG, SHOULDER_kV, SHOULDER_kA);
+    private final ProfiledPIDController shoulderFeedback = new ProfiledPIDController(SHOULDER_kP, SHOULDER_kI, SHOULDER_kD, SHOULDER_CONSTRAINTS);
 
 
     // -------- Second Joint ------ \\
-    private final TalonFX secondJointMotor = new TalonFX(ArmConstants.SECOND_MOTOR_ID);
+    private final TalonFX secondJointMotor = new TalonFX(SECOND_MOTOR_ID);
 
-    private final CANcoder secondJointEncoder = new CANcoder(ArmConstants.SECOND_ABSOLUTE_ENCODER_PORT);
+    private final CANcoder secondJointEncoder = new CANcoder(SECOND_ABSOLUTE_ENCODER_PORT);
 
-    private final ArmFeedforward wristFeedforward = new ArmFeedforward(ArmConstants.WRIST_kS, ArmConstants.WRIST_kG, ArmConstants.WRIST_kV, ArmConstants.WRIST_kA);
-    private final ProfiledPIDController wristFeedback = new ProfiledPIDController(ArmConstants.WRIST_kP, ArmConstants.WRIST_kI, ArmConstants.WRIST_kD, ArmConstants.WRIST_CONSTRAINTS);
+    private final ArmFeedforward wristFeedforward = new ArmFeedforward(WRIST_kS, WRIST_kG, WRIST_kV, WRIST_kA);
+    private final ProfiledPIDController wristFeedback = new ProfiledPIDController(WRIST_kP, WRIST_kI, WRIST_kD, WRIST_CONSTRAINTS);
 
 
     public ArmSubsystem () {
-        left_firstJointMotor.setInverted(ArmConstants.LEFT_FIRST_MOTOR_REVERSED);
-        right_firstJointMotor.setInverted(ArmConstants.RIGHT_FIRST_MOTOR_REVERSED);
+        left_firstJointMotor.setInverted(LEFT_FIRST_MOTOR_REVERSED);
+        right_firstJointMotor.setInverted(RIGHT_FIRST_MOTOR_REVERSED);
         right_firstJointMotor.setControl(new Follower(left_firstJointMotor.getDeviceID(), true));
 
-        secondJointMotor.setInverted(ArmConstants.SECOND_MOTOR_REVERSED);
+        secondJointMotor.setInverted(SECOND_MOTOR_REVERSED);
     }
 
     public void setWrist(double setpoint, double velocity) {
@@ -55,9 +54,15 @@ public class ArmSubsystem extends SubsystemBase {
         left_firstJointMotor.setVoltage(feedback + feedforward);
     }
 
+    public Translation2d getFirstLinkEndpoint() {
+        final double angle1 = firstJointEncoder.getPosition().getValueAsDouble();
+
+        return new Translation2d(sin(angle1), -cos(angle1)).times(L1);
+    }
+
     public Translation2d getCurrentEndpoint() {
-        final double length1 = Constants.ArmConstants.L1;
-        final double length2 = Constants.ArmConstants.L2;
+        final double length1 = L1;
+        final double length2 = L2;
 
         final double angle1 = firstJointEncoder.getPosition().getValueAsDouble();
         final double angle2 = secondJointEncoder.getPosition().getValueAsDouble();
@@ -66,5 +71,19 @@ public class ArmSubsystem extends SubsystemBase {
         final Translation2d b = new Translation2d(sin(angle1 + angle2), -cos(angle1 + angle2)).times(length2);
 
         return a.plus(b);
+    }
+
+    public static double secondJointIK(double x, double y) {
+        return acos((x * x + y * y - L1 * L1 - L2 * L2) / (2 * L1 * L2));
+    }
+
+    public static double firstJointIK(double x, double y, double z2) {
+        return atan2(y, x) - atan2(L2 * sin(z2), L1 + L2 * cos(z2));
+    }
+
+    public static double[] armInverseKinematics(double x, double y) {
+        double z2 = secondJointIK(x, y);
+        double z1 = firstJointIK(x, y, z2);
+        return new double[] {z1, z2};
     }
 }
