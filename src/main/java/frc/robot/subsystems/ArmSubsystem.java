@@ -7,7 +7,9 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 import static java.lang.Math.*;
 import static frc.robot.Constants.ArmConstants.*;
@@ -40,6 +42,14 @@ public class ArmSubsystem extends SubsystemBase {
         secondJointMotor.setInverted(SECOND_MOTOR_REVERSED);
     }
 
+    @Override
+    public void periodic() {
+        // find target
+        
+
+        // lerp towards target
+    }
+
     public void setWrist(double setpoint, double velocity) {
         double feedback = wristFeedback.calculate(secondJointEncoder.getPosition().getValue(), setpoint);
         double feedforward = wristFeedforward.calculate(setpoint, velocity);
@@ -60,15 +70,14 @@ public class ArmSubsystem extends SubsystemBase {
         return new Translation2d(sin(angle1), -cos(angle1)).times(L1);
     }
 
-    public Translation2d getCurrentEndpoint() {
-        final double length1 = L1;
-        final double length2 = L2;
 
+
+    public Translation2d getCurrentEndpoint() {
         final double angle1 = firstJointEncoder.getPosition().getValueAsDouble();
         final double angle2 = secondJointEncoder.getPosition().getValueAsDouble();
 
-        final Translation2d a = new Translation2d(sin(angle1), -cos(angle1)).times(length1);
-        final Translation2d b = new Translation2d(sin(angle1 + angle2), -cos(angle1 + angle2)).times(length2);
+        final Translation2d a = new Translation2d(sin(angle1), -cos(angle1)).times(L1);
+        final Translation2d b = new Translation2d(sin(angle1 + angle2), -cos(angle1 + angle2)).times(L2);
 
         return a.plus(b);
     }
