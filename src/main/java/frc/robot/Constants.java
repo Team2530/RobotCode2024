@@ -123,6 +123,9 @@ public final class Constants {
     public static final double WRIST_kG = 1;
     public static final double WRIST_kV = 1;
     public static final double WRIST_kA = 1;
+
+    // Link lengths
+    public static final double L0 = 13.6, L1 = 19.7, L2 = 12;
   }
 
   public static class DriveConstants {
