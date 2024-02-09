@@ -8,8 +8,22 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.units.Distance;
+import edu.wpi.first.units.MutableMeasure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.RobotContainer;
+
+import static edu.wpi.first.units.MutableMeasure.mutable;
+import static edu.wpi.first.units.Units.Volts;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 
 import static java.lang.Math.*;
 import static frc.robot.Constants.ArmConstants.*;
@@ -32,6 +46,23 @@ public class ArmSubsystem extends SubsystemBase {
 
     private final ArmFeedforward wristFeedforward = new ArmFeedforward(WRIST_kS, WRIST_kG, WRIST_kV, WRIST_kA);
     private final ProfiledPIDController wristFeedback = new ProfiledPIDController(WRIST_kP, WRIST_kI, WRIST_kD, WRIST_CONSTRAINTS);
+
+    // -------- SysId -------------- \\
+    // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
+    private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
+    // Mutable holder for unit-safe linear distance values, persisted to avoid reallocation.
+    private final MutableMeasure<Distance> m_distance = mutable(Meters.of(0));
+    // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
+    private final MutableMeasure<Velocity<Distance>> m_velocity = mutable(MetersPerSecond.of(0));
+
+    private SysIdRoutine SHOULDER_sysIdRoutine = new SysIdRoutine(
+        new SysIdRoutine.Config(),
+        new SysIdRoutine.Mechanism((voltage) -> {left_firstJointMotor.setVoltage(voltage.magnitude());}, this::sysIdShoulderMotorLog, this)
+    );
+    private SysIdRoutine WRIST_sysIdRoutine = new SysIdRoutine(
+        new SysIdRoutine.Config(),
+        new SysIdRoutine.Mechanism((voltage) -> {secondJointMotor.setVoltage(voltage.magnitude());}, this::sysIdWristMotorLog, this)
+    );
 
 
     public ArmSubsystem () {
@@ -80,6 +111,50 @@ public class ArmSubsystem extends SubsystemBase {
         final Translation2d b = new Translation2d(sin(angle1 + angle2), -cos(angle1 + angle2)).times(L2);
 
         return a.plus(b);
+    }
+
+    public void sysIdShoulderMotorLog(SysIdRoutineLog log){
+         log.motor("shoulder-left")
+                    .voltage(
+                        m_appliedVoltage.mut_replace(
+                            left_firstJointMotor.getMotorVoltage().getValue() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(firstJointEncoder.getPosition().getValue(), Meters))
+                    .linearVelocity(
+                        m_velocity.mut_replace(left_firstJointMotor.getVelocity().getValue(), MetersPerSecond));
+        log.motor("shoulder-right")
+                    .voltage(
+                        m_appliedVoltage.mut_replace(
+                            right_firstJointMotor.getMotorVoltage().getValue() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(right_firstJointMotor.getPosition().getValue(), Meters))
+                    .linearVelocity(
+                        m_velocity.mut_replace(right_firstJointMotor.getVelocity().getValue(), MetersPerSecond));
+    }
+
+    public void sysIdWristMotorLog(SysIdRoutineLog log){
+        // Record a frame for the front left motors
+         log.motor("wrist")
+                    .voltage(
+                        m_appliedVoltage.mut_replace(
+                            secondJointMotor.getMotorVoltage().getValue() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(secondJointMotor.getPosition().getValue(), Meters))
+                    .linearVelocity(
+                        m_velocity.mut_replace(secondJointMotor.getVelocity().getValue(), MetersPerSecond));
+    }
+
+    public Command shoulderQuasiCommand(Direction direction){
+        return SHOULDER_sysIdRoutine.quasistatic(direction);
+    }
+
+    public Command shoulderDynamicCommand(Direction direction){
+        return SHOULDER_sysIdRoutine.dynamic(direction);
+    }
+
+    public Command wristQuasiCommand(Direction direction){
+        return WRIST_sysIdRoutine.quasistatic(direction);
+    }
+    
+    public Command wristDynamicCommand(Direction direction){
+        return WRIST_sysIdRoutine.dynamic(direction);
     }
 
     public static double secondJointIK(double x, double y) {

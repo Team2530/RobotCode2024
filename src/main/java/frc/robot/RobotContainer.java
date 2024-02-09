@@ -6,12 +6,14 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -30,6 +32,7 @@ public class RobotContainer {
 
     private final SwerveSubsystem swerveDriveSubsystem = new SwerveSubsystem();
     private final LimeLightSubsystem limeLightSubsystem = new LimeLightSubsystem();
+    private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
 
@@ -60,9 +63,15 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        // use b to chase April tag
-        driverXbox.b().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, false));
-        driverXbox.a().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, true));
+        driverXbox.a().whileTrue(armSubsystem.wristQuasiCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.b().whileTrue(armSubsystem.wristQuasiCommand(SysIdRoutine.Direction.kReverse));
+        driverXbox.x().whileTrue(armSubsystem.wristDynamicCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.y().whileTrue(armSubsystem.wristDynamicCommand(SysIdRoutine.Direction.kReverse));
+    
+        driverXbox.button(13).whileTrue(armSubsystem.shoulderQuasiCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.button(15).whileTrue(armSubsystem.shoulderQuasiCommand(SysIdRoutine.Direction.kReverse));
+        driverXbox.button(14).whileTrue(armSubsystem.shoulderDynamicCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.button(12).whileTrue(armSubsystem.shoulderDynamicCommand(SysIdRoutine.Direction.kReverse));
     }
 
     /**
