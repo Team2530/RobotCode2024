@@ -87,13 +87,7 @@ public class DriveCommand extends Command {
                 .calculate((DRIVE_MULT - SLOWMODE_MULT) * xbox.getRightTriggerAxis() + SLOWMODE_MULT);
         xSpeed *= dmult;
         ySpeed *= dmult;
-        zSpeed *= dmult;
-
-        if (xbox.getXButton()) {
-            swerveSubsystem.zeroHeading();
-            swerveSubsystem.resetOdometry(new Pose2d());
-            swerveSubsystem.zeroHeading();
-        }
+        zSpeed *= dmult; 
 
         ChassisSpeeds speeds;
 

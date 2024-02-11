@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -117,6 +118,18 @@ public class SwerveSubsystem extends SubsystemBase {
         }
         navX.reset();
         navX.setAngleAdjustment(deg);
+    }
+
+    // i probably shouldnt do this but the previous solution is arguably worse    
+    public Command setHeadingRelative() {
+        return new Command() {
+            @Override 
+            public void initialize() {
+                zeroHeading();
+                resetOdometry(new Pose2d());
+                zeroHeading(); 
+            }
+        };
     }
 
     public Pose2d getPose() {

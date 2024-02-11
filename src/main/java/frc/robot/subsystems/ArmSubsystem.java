@@ -131,7 +131,6 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void sysIdWristMotorLog(SysIdRoutineLog log){
-        // Record a frame for the front left motors
          log.motor("wrist")
                     .voltage(
                         m_appliedVoltage.mut_replace(

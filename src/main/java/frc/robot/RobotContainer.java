@@ -63,6 +63,10 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
+        driverXbox.x().onTrue(swerveDriveSubsystem.setHeadingRelative());
+    }
+
+    public void configureTestBindings() {
         driverXbox.a().whileTrue(armSubsystem.wristQuasiCommand(SysIdRoutine.Direction.kForward));
         driverXbox.b().whileTrue(armSubsystem.wristQuasiCommand(SysIdRoutine.Direction.kReverse));
         driverXbox.x().whileTrue(armSubsystem.wristDynamicCommand(SysIdRoutine.Direction.kForward));
@@ -72,8 +76,9 @@ public class RobotContainer {
         driverXbox.button(15).whileTrue(armSubsystem.shoulderQuasiCommand(SysIdRoutine.Direction.kReverse));
         driverXbox.button(14).whileTrue(armSubsystem.shoulderDynamicCommand(SysIdRoutine.Direction.kForward));
         driverXbox.button(12).whileTrue(armSubsystem.shoulderDynamicCommand(SysIdRoutine.Direction.kReverse));
-    }
-
+ 
+   }
+   
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
