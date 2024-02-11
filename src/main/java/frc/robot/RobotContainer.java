@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -33,6 +34,7 @@ public class RobotContainer {
     private final SwerveSubsystem swerveDriveSubsystem = new SwerveSubsystem();
     private final LimeLightSubsystem limeLightSubsystem = new LimeLightSubsystem();
     private final ArmSubsystem armSubsystem = new ArmSubsystem();
+    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
 

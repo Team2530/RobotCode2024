@@ -132,7 +132,13 @@ public final class Constants {
     public static final int LIMIT_SWITCH_PORT = 3921032;
 
   }
-
+  public static class IntakeConstants {
+    public static final int SHOOTER_ID = 434520;
+    public static final boolean SHOOTER_REVERSED = false;
+    
+    public static final int INTAKE_ID = 132789;
+    public static final boolean INTAKE_REVERSED = false;
+  }
   public static class DriveConstants {
     public static final double MAX_MODULE_VELOCITY = 4.8;
     public static final double MAX_ROBOT_VELOCITY = 4.8;
