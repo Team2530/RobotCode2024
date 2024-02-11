@@ -64,6 +64,7 @@ public class RobotContainer {
      */
     private void configureBindings() {
         driverXbox.x().onTrue(swerveDriveSubsystem.setHeadingRelative());
+        operatorXbox.x().onTrue(armSubsystem.homeArmCommand());
     }
 
     public void configureTestBindings() {

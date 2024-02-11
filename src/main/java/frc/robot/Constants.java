@@ -88,10 +88,10 @@ public final class Constants {
     public static final int LEFT_FIRST_MOTOR_ID = 10;
     public static final int RIGHT_FIRST_MOTOR_ID = 11;
     public static final int FIRST_ABSOLUTE_ENCODER_PORT = 5;
-    public static final double FIRST_OFFSET_RADIANS = Units.rotationsToRadians(0);
+    public static final double FIRST_OFFSET_DEFAULT_RADIANS = Units.rotationsToRadians(0);
+    public static final String FIRST_OFFSET_KEY = "FIRST_OFFSET";
     public static final boolean FIRST_ABSOLUTE_ENCODER_REVERSED = false;
-    public static final boolean LEFT_FIRST_MOTOR_REVERSED = false;
-    public static final boolean RIGHT_FIRST_MOTOR_REVERSED = false;
+    public static final boolean FIRST_MOTORS_REVERSED = false;
 
     // PID
     public static final double SHOULDER_kP = 1.0;
@@ -108,7 +108,8 @@ public final class Constants {
     // --------- Second Joint -------- \\
     public static final int SECOND_MOTOR_ID = 12;
     public static final int SECOND_ABSOLUTE_ENCODER_PORT = 6;
-    public static final double SECOND_OFFSET_RADIANS = Units.rotationsToRadians(0);
+    public static final double SECOND_OFFSET_DEFAULT_RADIANS = Units.rotationsToRadians(0);
+    public static final String SECOND_OFFSET_KEY = "SECOND_OFFSET";
     public static final boolean SECOND_ABSOLUTE_ENCODER_REVERSED = false;
     public static final boolean SECOND_MOTOR_REVERSED = false;
 
@@ -126,6 +127,10 @@ public final class Constants {
 
     // Link lengths
     public static final double L0 = 13.6, L1 = 19.7, L2 = 12;
+
+    // ---------- Other -------------- \\
+    public static final int LIMIT_SWITCH_PORT = 3921032;
+
   }
 
   public static class DriveConstants {
