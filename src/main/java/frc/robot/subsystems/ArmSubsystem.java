@@ -8,6 +8,10 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.Velocity;
@@ -64,6 +68,11 @@ public class ArmSubsystem extends SubsystemBase {
         new SysIdRoutine.Mechanism((voltage) -> {secondJointMotor.setVoltage(voltage.magnitude());}, this::sysIdWristMotorLog, this)
     );
 
+    // -------- Smartdashboard ----- \\
+    Mechanism2d mech = new Mechanism2d(2, 2);
+    MechanismRoot2d arm = mech.getRoot("arm", 0, 0);
+    MechanismLigament2d shoulder = arm.append(new MechanismLigament2d("shoulder", 3, 90));
+    MechanismLigament2d wrist = shoulder.append(new MechanismLigament2d("wrist", 1, 0));
 
     public ArmSubsystem () {
         left_firstJointMotor.setInverted(LEFT_FIRST_MOTOR_REVERSED);
@@ -75,6 +84,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        shoulder.setAngle(firstJointEncoder.getPosition().getValue());
+        wrist.setAngle(secondJointEncoder.getPosition().getValue());
+        SmartDashboard.putData("Arm", mech); 
         // find target
         
 
