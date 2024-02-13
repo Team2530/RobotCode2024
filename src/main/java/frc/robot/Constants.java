@@ -1,8 +1,12 @@
 // Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
+// Open Source Software; you can modify and/or share it under the terms                                                                                                                                                                
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -45,7 +49,7 @@ public final class Constants {
     // public static final double MODULE_KD = 0.03;
 
     // NOTE: This may need additional tuning!
-    public static final double MODULE_KP = 0.5;// 0.75628;// 0.7491; //0.56368;
+    public static final double MODULE_KP = 0.56368;// 0.75628;// 0.7491; //.5;
     public static final double MODULE_KD = 0.0066806;// 0.0057682; //0.0076954;
 
     // --------- Front Left Module --------- \\
@@ -91,6 +95,7 @@ public final class Constants {
     public static final double TRACK_WIDTH = Units.inchesToMeters(19.75);
     public static final double WHEEL_BASE = Units.inchesToMeters(24.75);
     public static final Rotation2d NAVX_ANGLE_OFFSET = Rotation2d.fromDegrees(90);
+    public static final double DRIVE_BASE_RADIUS = Units.inchesToMeters(15);
 
     public static final class ModuleIndices {
       public static final int FRONT_LEFT = 0;
@@ -145,5 +150,18 @@ public final class Constants {
     public static final String[] RED_ALLIANCE_LEFT_OR_SINLGE_APRILTAGS = { "10", "4", "5", "11", "12", "13" };
      //Blue alliance right tags
     public static final String[] RED_ALLIANCE_RIGHT_APRILTAGS = { "9", "3" };
+  }
+
+    public static final class PathPlannerConstants {
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(1, 0, 0);
+    public static final PIDConstants ROTATION_PID = new PIDConstants(.3, 0, 0);
+
+    public static final HolonomicPathFollowerConfig HOLONOMIC_FOLLOWER_CONFIG = new HolonomicPathFollowerConfig(
+        TRANSLATION_PID,
+        ROTATION_PID,
+        DriveConstants.MAX_MODULE_VELOCITY,
+        DriveConstants.DRIVE_BASE_RADIUS,
+        new ReplanningConfig());
+
   }
 }

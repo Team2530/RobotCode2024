@@ -8,6 +8,9 @@ import frc.robot.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj2.command.*;
@@ -60,9 +63,6 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        // use b to chase April tag
-        driverXbox.b().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, false));
-        driverXbox.a().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, true));
     }
 
     /**
@@ -71,7 +71,10 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // TODO: Implement Auto Command
-        return null;
+        return new PathPlannerAuto("AMP");
+    }
+
+    public SwerveSubsystem getSwerveSubsystem() {
+        return swerveDriveSubsystem;
     }
 }
