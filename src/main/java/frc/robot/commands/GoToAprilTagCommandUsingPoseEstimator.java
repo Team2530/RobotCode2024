@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.VisionContsants;
 import frc.robot.AprilTag;
 import frc.robot.Constants;
-import frc.robot.KnownAprilTagDetail;
 import frc.robot.Constants.AprilTagPosition;
 import frc.robot.Constants.AprilTagType;
 import frc.robot.Constants.CommonConstants;
@@ -30,6 +29,9 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public class GoToAprilTagCommandUsingPoseEstimator extends Command {
+
+    private static final double TRANSLATION_TOLERANCE = 0.02;
+    private static final double THETA_TOLERANCE = Units.degreesToRadians(2.0);
     
     private final SwerveSubsystem swerveSubsystem;
     public final Supplier<Pose2d> robotPoseSupplier;
@@ -53,7 +55,7 @@ public class GoToAprilTagCommandUsingPoseEstimator extends Command {
         this.robotPoseSupplier = robotPoseSupplier;
         this.tagPosition = tagPosition;
         this.tagType = tagType;
-        this.tag = getAprilTag(tagPosition, tagType);
+        this.tag = swerveSubsystem.getAprilTag(tagPosition, tagType);
         addRequirements(swerveSubsystem);
     }
 
@@ -62,17 +64,23 @@ public class GoToAprilTagCommandUsingPoseEstimator extends Command {
     super.initialize();
     if(tag != null)
     {
-      Pose2d goalPose = tag.getPose2d();
+      Pose2d goalPose = tag.getTagPose2dInField();
       if(goalPose != null){
+        if(CommonConstants.LOG_INTO_FILE_ENABLED){
+        SmartDashboard.putNumber("GoalPoseX", goalPose.getX());
+        SmartDashboard.putNumber("GoalPoseY", goalPose.getY());
+        SmartDashboard.putNumber("GoalPoseRotation", goalPose.getRotation().getRadians());
+        
+      }
         resetPIDControllers();
-        pidControllerX.setGoal(Units.inchesToMeters(goalPose.getX())); // Move forward/backwork to keep 36 inches from the target
-        pidControllerX.setTolerance(Units.inchesToMeters(2.5));
+        pidControllerX.setGoal(goalPose.getX()); // Move forward/backwork to keep 36 inches from the target
+        pidControllerX.setTolerance(TRANSLATION_TOLERANCE);
 
         pidControllerY.setGoal(goalPose.getY()); // Move side to side to keep target centered
-        pidControllerY.setTolerance(Units.inchesToMeters(2.5));
+        pidControllerY.setTolerance(TRANSLATION_TOLERANCE);
 
-        pidControllerOmega.setGoal(Units.degreesToRadians(goalPose.getRotation().getRadians())); // Rotate the keep perpendicular with the target
-        pidControllerOmega.setTolerance(Units.degreesToRadians(1));
+        pidControllerOmega.setGoal(goalPose.getRotation().getRadians()); // Rotate the keep perpendicular with the target
+        pidControllerOmega.setTolerance(THETA_TOLERANCE);
 
         if(CommonConstants.LOG_INTO_FILE_ENABLED){
           /// Starts recording to data log
@@ -115,7 +123,7 @@ public class GoToAprilTagCommandUsingPoseEstimator extends Command {
           }
 
           // Handle rotation using target Yaw/Z rotation
-          var omegaSpeed = 0;//pidControllerOmega.calculate(robotPose.getRotation().getDegrees());
+          var omegaSpeed = 0;//pidControllerOmega.calculate(robotPose.getRotation().getRadians());
           if (pidControllerOmega.atSetpoint()) {
             omegaSpeed = 0;
           }
@@ -167,26 +175,4 @@ public class GoToAprilTagCommandUsingPoseEstimator extends Command {
     pidControllerX.reset(robotPose.getX());
     pidControllerY.reset(robotPose.getY());
   }
-
-  public AprilTag getAprilTag(AprilTagPosition tagPosition, AprilTagType tagType)
-  {
-      // if there is an alliance it gets the alliance (blue or red)
-      Optional<Alliance> alliance = DriverStation.getAlliance();
-      AprilTag returnValue = null;
-      // loops through the hashtable and finds the correct apriltag and returns the details
-      if(alliance.isPresent()){
-          Enumeration<String> e = Constants.AllAprilTags.keys();
-          AprilTag tag = null;
-          while(e.hasMoreElements()) {
-              String key = e.nextElement();
-              tag = Constants.AllAprilTags.get(key);
-              if(tag != null && tag.GetAlliance() == alliance.get() && tag.GetTagPosition() == tagPosition && tag.GetTagType() == tagType){
-                  returnValue = tag;
-                  break;
-              }
-          }
-      }
-      return returnValue;
-  }
-
 }

@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import java.util.Enumeration;
+import java.util.Optional;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -7,12 +10,14 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.AprilTag;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.*;
@@ -68,13 +73,13 @@ public class SwerveSubsystem extends SubsystemBase {
         odometry.update(getRotation2d(), getModulePositions());
         
         try{
-            double timestamp;
             var poseEntry = LimelightHelpers.getLimelightNTTableEntry("limelight", "botpose_wpiblue");
             var poseArray = poseEntry.getDoubleArray(new double[0]);
-            if(poseArray.length >= 7)
+            if(poseArray.length > 0)
             {
-                timestamp = poseEntry.getLastChange() / 1e6 - poseArray[6] / 1e3;
-                var pose = new Pose2d(
+                SmartDashboard.putNumber("I am here", poseArray.length);
+                double timestamp = poseEntry.getLastChange() / 1e6 - poseArray[6] / 1e3;
+                Pose2d pose = new Pose2d(
                 new Translation2d(poseArray[0], poseArray[1]),
                 new Rotation2d(Units.degreesToRadians(poseArray[5])));
 
@@ -175,14 +180,18 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void setXstance() {
-        frontLeft.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(45)));
-        frontRight.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(-45)));
-        backLeft.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(-45)));
-        backRight.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(45)));
+        // frontLeft.setModuleStateRaw(new SwerveModuleState(0,
+        // Rotation2d.fromDegrees(45)));
+        // frontRight.setModuleStateRaw(new SwerveModuleState(0,
+        // Rotation2d.fromDegrees(-45)));
+        // backLeft.setModuleStateRaw(new SwerveModuleState(0,
+        // Rotation2d.fromDegrees(-45)));
+        // backRight.setModuleStateRaw(new SwerveModuleState(0,
+        // Rotation2d.fromDegrees(45)));
+        frontLeft.setModuleStateRaw(new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)));
+        frontRight.setModuleStateRaw(new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)));
+        backLeft.setModuleStateRaw(new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)));
+        backRight.setModuleStateRaw(new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)));
     }
 
     public ChassisSpeeds getChassisSpeeds() {
@@ -215,7 +224,28 @@ public class SwerveSubsystem extends SubsystemBase {
         navxSim += 0.02 * lastChassisSpeeds.omegaRadiansPerSecond;
     }
 
-    public Pose2d getEstimatedPosition(){
-        return odometry.getEstimatedPosition();
-    }
+    public AprilTag getAprilTag(AprilTagPosition tagPosition, AprilTagType tagType)
+    {
+      // if there is an alliance it gets the alliance (blue or red)
+      Optional<Alliance> alliance = DriverStation.getAlliance();
+      AprilTag returnValue = null;
+      // loops through the hashtable and finds the correct apriltag and returns the details
+      if(alliance.isPresent()){
+          Enumeration<String> e = Constants.AllAprilTags.keys();
+          AprilTag tag = null;
+          while(e.hasMoreElements()) {
+              String key = e.nextElement();
+              tag = Constants.AllAprilTags.get(key);
+              if(tag != null && tag.GetAlliance() == alliance.get() && tag.GetTagPosition() == tagPosition && tag.GetTagType() == tagType){
+                  returnValue = tag;
+                  break;
+              }
+          }
+      }
+      return returnValue;
+  }
+
+  public AprilTag getAprilTagByID (String tagId){
+   return Constants.AllAprilTags.get(tagId);
+  }
 }
