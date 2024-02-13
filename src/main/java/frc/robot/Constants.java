@@ -1,5 +1,5 @@
 // Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
+// Open Source Software; you can modify and/or share it under the terms                                                                                                                                                                
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
@@ -49,7 +49,7 @@ public final class Constants {
     // public static final double MODULE_KD = 0.03;
 
     // NOTE: This may need additional tuning!
-    public static final double MODULE_KP = 0.5;// 0.75628;// 0.7491; //0.56368;
+    public static final double MODULE_KP = 0.56368;// 0.75628;// 0.7491; //.5;
     public static final double MODULE_KD = 0.0066806;// 0.0057682; //0.0076954;
 
     // --------- Front Left Module --------- \\
@@ -153,8 +153,8 @@ public final class Constants {
   }
 
     public static final class PathPlannerConstants {
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(5.0, 0, 0);
-    public static final PIDConstants ROTATION_PID = new PIDConstants(5.0, 0, 0);
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(1, 0, 0);
+    public static final PIDConstants ROTATION_PID = new PIDConstants(.3, 0, 0);
 
     public static final HolonomicPathFollowerConfig HOLONOMIC_FOLLOWER_CONFIG = new HolonomicPathFollowerConfig(
         TRANSLATION_PID,
