@@ -16,7 +16,7 @@ public class OperatorCommand extends Command {
         this.xbox = xbox;
     }
 
-    public double DeadBand(double input, double deadband) {
+    public double deadband(double input, double deadband) {
         return Math.abs(input) < deadband ? 0.0 : (input - Math.signum(input) * deadband) / (1.0 - deadband);
     }
 

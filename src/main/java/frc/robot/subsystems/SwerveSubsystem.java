@@ -234,10 +234,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void simulationPeriodic() {
-        frontLeft.simulate_step();
-        frontRight.simulate_step();
-        backLeft.simulate_step();
-        backRight.simulate_step();
+        frontLeft.simulateStep();
+        frontRight.simulateStep();
+        backLeft.simulateStep();
+        backRight.simulateStep();
         navxSim += 0.02 * lastChassisSpeeds.omegaRadiansPerSecond;
     }
 
