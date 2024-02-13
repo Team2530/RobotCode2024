@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "end-top"
+            "pathName": "4-top-end-top"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "home-top"
+            "pathName": "4-top-home-top"
           }
         },
         {
@@ -38,25 +38,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "middle-1"
+            "pathName": "4-top-middle-1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "home-top"
+            "pathName": "4-top-home-top"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "middle-2"
+            "pathName": "4-top-middle-2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "home-top"
+            "pathName": "4-top-home-top"
           }
         }
       ]
