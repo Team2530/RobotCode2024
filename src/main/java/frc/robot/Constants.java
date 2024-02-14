@@ -146,4 +146,23 @@ public final class Constants {
      //Blue alliance right tags
     public static final String[] RED_ALLIANCE_RIGHT_APRILTAGS = { "9", "3" };
   }
+
+  public static class ClimberConstants {
+    public static final int LEFT_CLIMBER_CANID = 20;
+    public static final int RIGHT_CLIMBER_CANID = 30;
+
+    public static final double ROLL_kP = 7.0f; // 1.0 is full side rotation;
+    public static final double GOOD_THRESHOLD = 10.0;// Degrees!
+
+    public static final boolean LEFT_CLIMBER_INVERTED = true;
+    public static final boolean RIGHT_CLIMBER_INVERTED = false;
+
+    public static final double CLIMBER_LENGTH = 20.0; // Inches-ish
+    public static final double SPOOL_RADIUS = 0.5; // CHECK WITH SPIRAL SPOOLING!
+    public static final double SPOOL_CIRC = 2*Math.PI*SPOOL_RADIUS;
+
+    public static final double CLIMBER_RATIO = 1.0/100.0;
+
+    public static final double CLIMBER_POS_CONV_FACTOR = SPOOL_CIRC * CLIMBER_RATIO;
+  }
 }

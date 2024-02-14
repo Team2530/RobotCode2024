@@ -47,7 +47,7 @@ public class SwerveSubsystem extends SubsystemBase {
             2, 3
     };
 
-    private final AHRS navX = new AHRS(SPI.Port.kMXP);
+    public final AHRS navX  = new AHRS(SPI.Port.kMXP);
     private double navxSim;
 
     private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();

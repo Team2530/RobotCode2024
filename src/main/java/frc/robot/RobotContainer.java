@@ -6,10 +6,15 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 
@@ -35,6 +40,10 @@ public class RobotContainer {
 
     private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID());
 
+    private final ClimberSubsystem climber = new ClimberSubsystem(swerveDriveSubsystem.navX);
+    private final ClimberCommand climberCommand = new ClimberCommand(climber, operatorXbox.getHID());
+
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -43,6 +52,7 @@ public class RobotContainer {
         configureBindings();
 
         swerveDriveSubsystem.setDefaultCommand(normalDrive);
+        climber.setDefaultCommand(climberCommand);
     }
 
     /**
