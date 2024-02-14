@@ -2,61 +2,131 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.1655527449819783,
-      "y": 6.855679590265431
+      "x": 0.7923005601022343,
+      "y": 6.673481498410659
     },
-    "rotation": -124.94122495531097
+    "rotation": 56.93815049450481
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 0.5
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.3
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Close"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "4-top-end-top"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4-top-end-top"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Pickup"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4-top-home-top"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Far"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "4-top-home-top"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4-top-middle-1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Pickup"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4-top-home-top"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot-far"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "4-top-middle-1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "4-top-home-top"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "4-top-middle-2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "4-top-home-top"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4-top-middle-2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Pickup"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4-top-home-top"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Far"
+                }
+              }
+            ]
           }
         }
       ]

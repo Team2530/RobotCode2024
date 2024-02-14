@@ -5,7 +5,8 @@
   "pathFolders": [
     "4-close",
     "4-top",
-    "Amp"
+    "Amp",
+    "4-bottom"
   ],
   "autoFolders": [],
   "defaultMaxVel": 4.0,

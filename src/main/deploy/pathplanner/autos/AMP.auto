@@ -2,19 +2,31 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4566929133858268,
-      "y": 5.561341122682245
+      "x": 1.377372910647826,
+      "y": 5.594754352092224
     },
-    "rotation": 179.99999999959616
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Close"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "AMP-Main-Route"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Amp"
           }
         }
       ]

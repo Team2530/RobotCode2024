@@ -9,6 +9,7 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -71,7 +72,11 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new PathPlannerAuto("AMP");
+        NamedCommands.registerCommand("Shoot Close", Commands.print("Implement actual comand here to make it shoot"));
+        NamedCommands.registerCommand("Shoot Far", Commands.print("Shoot from farther away look at (4-top)"));
+        NamedCommands.registerCommand("Pickup", Commands.print("Have continuous until picked up???"));
+        
+        return new PathPlannerAuto("4-close");
     }
 
     public SwerveSubsystem getSwerveSubsystem() {
