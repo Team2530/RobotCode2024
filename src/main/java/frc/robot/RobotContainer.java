@@ -65,20 +65,24 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        driverXbox.x().onTrue(swerveDriveSubsystem.setHeadingRelative());
-        operatorXbox.x().onTrue(armSubsystem.homeArmCommand());
+        driverXbox.x().onTrue(new InstantCommand(() -> {
+            swerveDriveSubsystem.setHeadingRelative();
+        }));
+        operatorXbox.x().onTrue(new InstantCommand(() -> {
+            armSubsystem.homeArm();
+        }));
     }
 
     public void configureTestBindings() {
-        driverXbox.a().whileTrue(armSubsystem.wristQuasiCommand(SysIdRoutine.Direction.kForward));
-        driverXbox.b().whileTrue(armSubsystem.wristQuasiCommand(SysIdRoutine.Direction.kReverse));
-        driverXbox.x().whileTrue(armSubsystem.wristDynamicCommand(SysIdRoutine.Direction.kForward));
-        driverXbox.y().whileTrue(armSubsystem.wristDynamicCommand(SysIdRoutine.Direction.kReverse));
+        driverXbox.a().whileTrue(armSubsystem.getWristQuasiCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.b().whileTrue(armSubsystem.getWristQuasiCommand(SysIdRoutine.Direction.kReverse));
+        driverXbox.x().whileTrue(armSubsystem.getWristDynamicCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.y().whileTrue(armSubsystem.getWristDynamicCommand(SysIdRoutine.Direction.kReverse));
     
-        driverXbox.button(13).whileTrue(armSubsystem.shoulderQuasiCommand(SysIdRoutine.Direction.kForward));
-        driverXbox.button(15).whileTrue(armSubsystem.shoulderQuasiCommand(SysIdRoutine.Direction.kReverse));
-        driverXbox.button(14).whileTrue(armSubsystem.shoulderDynamicCommand(SysIdRoutine.Direction.kForward));
-        driverXbox.button(12).whileTrue(armSubsystem.shoulderDynamicCommand(SysIdRoutine.Direction.kReverse));
+        driverXbox.button(13).whileTrue(armSubsystem.getShoulderQuasiCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.button(15).whileTrue(armSubsystem.getShoulderQuasiCommand(SysIdRoutine.Direction.kReverse));
+        driverXbox.button(14).whileTrue(armSubsystem.getShoulderDynamicCommand(SysIdRoutine.Direction.kForward));
+        driverXbox.button(12).whileTrue(armSubsystem.getShoulderDynamicCommand(SysIdRoutine.Direction.kReverse));
  
    }
    

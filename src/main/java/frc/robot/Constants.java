@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -12,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -84,59 +87,69 @@ public final class Constants {
   }
 
   public static class ArmConstants {
+    // --------- Measurements -------- \\
+    public static final double SHOUDER_LENGTH = 19.7;
+    public static final double WRIST_LENGTH = 12.0;
+
     // --------- First Joint --------- \\
-    public static final int LEFT_FIRST_MOTOR_ID = 10;
-    public static final int RIGHT_FIRST_MOTOR_ID = 11;
-    public static final int FIRST_ABSOLUTE_ENCODER_PORT = 5;
-    public static final double FIRST_OFFSET_DEFAULT_RADIANS = Units.rotationsToRadians(0);
-    public static final String FIRST_OFFSET_KEY = "FIRST_OFFSET";
-    public static final boolean FIRST_ABSOLUTE_ENCODER_REVERSED = false;
-    public static final boolean FIRST_MOTORS_REVERSED = false;
+    public static final int LEFT_SHOULDER_MOTOR_ID = 4;
+    public static final int RIGHT_SHOULDER_MOTOR_ID = 3;
+    public static final int SHOULDER_ABSOLUTE_ENCODER_PORT = 11;
+    public static final double SHOULDER_OFFSET_DEFAULT_RADIANS = Units.rotationsToRadians(0.018311);
+    public static final String SHOULDER_OFFSET_KEY = "SHOULDER_OFFSET_RADIANS";
+    public static final boolean SHOULDER_ABSOLUTE_ENCODER_REVERSED = false;
+    public static final boolean SHOULDER_LEADER_REVERSED = true;
+    public static final boolean SHOULDER_FOLLOWER_REVERSED = true;
 
     // PID
-    public static final double SHOULDER_kP = 1.0;
-    public static final double SHOULDER_kI = 0;
-    public static final double SHOULDER_kD = 0;
-    public static final Constraints SHOULDER_CONSTRAINTS = new Constraints(1, 1);
-    
+    public static final ProfiledPIDController SHOULDER_FEEDBACK = new ProfiledPIDController(
+      0.6, 
+      0.0, 
+      0.0, 
+      new Constraints(1, 1)
+    );
+ 
     // Feedforwad
-    public static final double SHOULDER_kS = 1;
-    public static final double SHOULDER_kG = 1;
-    public static final double SHOULDER_kV = 1;
-    public static final double SHOULDER_kA = 1;
+    public static final ArmFeedforward SHOULDER_FEEDFORWARD = new ArmFeedforward(
+      0.0,
+      0.42, 
+      2.07,
+      0.02
+    );    
 
     // --------- Second Joint -------- \\
-    public static final int SECOND_MOTOR_ID = 12;
-    public static final int SECOND_ABSOLUTE_ENCODER_PORT = 6;
-    public static final double SECOND_OFFSET_DEFAULT_RADIANS = Units.rotationsToRadians(0);
-    public static final String SECOND_OFFSET_KEY = "SECOND_OFFSET";
-    public static final boolean SECOND_ABSOLUTE_ENCODER_REVERSED = false;
-    public static final boolean SECOND_MOTOR_REVERSED = false;
+    public static final int WRIST_MOTOR_ID = 5;
+    public static final int WRIST_ABSOLUTE_ENCODER_PORT = 10;
+    public static final double WRIST_OFFSET_DEFAULT_RADIANS = Units.rotationsToRadians(-0.033936);
+    public static final String WRIST_OFFSET_KEY = "SHOULDER_OFFSET_RADIANS";
+    public static final boolean WRIST_ABSOLUTE_ENCODER_REVERSED = false;
+    public static final boolean WRIST_MOTOR_REVERSED = true;
 
     // PID
-    public static final double WRIST_kP = 1.0;
-    public static final double WRIST_kI = 0;
-    public static final double WRIST_kD = 0;
-    public static final Constraints WRIST_CONSTRAINTS = new Constraints(1, 1);
+    public static final ProfiledPIDController WRIST_FEEDBACK = new ProfiledPIDController(
+      0.2, 
+      0.0,
+      0.0, 
+      new Constraints(1, 1)
+    );
     
     // Feedforwad
-    public static final double WRIST_kS = 1;
-    public static final double WRIST_kG = 1;
-    public static final double WRIST_kV = 1;
-    public static final double WRIST_kA = 1;
+    public static final ArmFeedforward WRIST_FEEDFORWARD = new ArmFeedforward(
+      0.0,
+      0.26, 
+      1.19,
+      0.0
+    );
 
     // Link lengths
     public static final double L0 = 13.6, L1 = 19.7, L2 = 12;
 
-    // ---------- Other -------------- \\
-    public static final int LIMIT_SWITCH_PORT = 3921032;
-
   }
   public static class IntakeConstants {
-    public static final int SHOOTER_ID = 434520;
+    public static final int SHOOTER_ID = 2;
     public static final boolean SHOOTER_REVERSED = false;
     
-    public static final int INTAKE_ID = 132789;
+    public static final int INTAKE_ID = 1;
     public static final boolean INTAKE_REVERSED = false;
   }
   public static class DriveConstants {

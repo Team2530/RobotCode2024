@@ -36,24 +36,18 @@ import static frc.robot.Constants.ArmConstants.*;
 
 public class ArmSubsystem extends SubsystemBase {
     // -------- First Joint ------- \\
-    private final TalonFX firstJointMotor = new TalonFX(LEFT_FIRST_MOTOR_ID);
-    private final TalonFX firstJointMotor_follower = new TalonFX(RIGHT_FIRST_MOTOR_ID);
+    private final TalonFX shoulderMotor = new TalonFX(LEFT_SHOULDER_MOTOR_ID);
+    private final TalonFX shoulderMotor_follower = new TalonFX(RIGHT_SHOULDER_MOTOR_ID);
     
-    private final CANcoder firstJointEncoder = new CANcoder(FIRST_ABSOLUTE_ENCODER_PORT);
-
-    private final ArmFeedforward shoulderFeedforward = new ArmFeedforward(SHOULDER_kS, SHOULDER_kG, SHOULDER_kV, SHOULDER_kA);
-    private final ProfiledPIDController shoulderFeedback = new ProfiledPIDController(SHOULDER_kP, SHOULDER_kI, SHOULDER_kD, SHOULDER_CONSTRAINTS);
+    private final CANcoder shoulderEncoder = new CANcoder(SHOULDER_ABSOLUTE_ENCODER_PORT);
 
     private double shoulderSetpoint = 0;
     private double shoulderVelocity = 0;
 
     // -------- Second Joint ------ \\
-    private final TalonFX secondJointMotor = new TalonFX(SECOND_MOTOR_ID);
+    private final TalonFX wristMotor = new TalonFX(WRIST_MOTOR_ID);
 
-    private final CANcoder secondJointEncoder = new CANcoder(SECOND_ABSOLUTE_ENCODER_PORT);
-
-    private final ArmFeedforward wristFeedforward = new ArmFeedforward(WRIST_kS, WRIST_kG, WRIST_kV, WRIST_kA);
-    private final ProfiledPIDController wristFeedback = new ProfiledPIDController(WRIST_kP, WRIST_kI, WRIST_kD, WRIST_CONSTRAINTS);
+    private final CANcoder wristEncoder = new CANcoder(WRIST_ABSOLUTE_ENCODER_PORT);
 
     private double wristSetpoint = 0;
     private double wristVelocity = 0;
@@ -68,11 +62,11 @@ public class ArmSubsystem extends SubsystemBase {
 
     private SysIdRoutine SHOULDER_sysIdRoutine = new SysIdRoutine(
         new SysIdRoutine.Config(),
-        new SysIdRoutine.Mechanism((voltage) -> {firstJointMotor.setVoltage(voltage.magnitude());}, this::sysIdShoulderMotorLog, this)
+        new SysIdRoutine.Mechanism((voltage) -> {shoulderMotor.setVoltage(voltage.magnitude());}, this::sysIdShoulderMotorLog, this)
     );
     private SysIdRoutine WRIST_sysIdRoutine = new SysIdRoutine(
         new SysIdRoutine.Config(),
-        new SysIdRoutine.Mechanism((voltage) -> {secondJointMotor.setVoltage(voltage.magnitude());}, this::sysIdWristMotorLog, this)
+        new SysIdRoutine.Mechanism((voltage) -> {wristMotor.setVoltage(voltage.magnitude());}, this::sysIdWristMotorLog, this)
     );
 
     // -------- Smartdashboard ----- \\
@@ -81,9 +75,6 @@ public class ArmSubsystem extends SubsystemBase {
     MechanismLigament2d shoulder = arm.append(new MechanismLigament2d("shoulder", 3, 90));
     MechanismLigament2d wrist = shoulder.append(new MechanismLigament2d("wrist", 1, 0));
 
-    // -------- Other -------------- \\ 
-    private final DigitalInput limitSwitch = new DigitalInput(LIMIT_SWITCH_PORT);
-    
     public static enum ControlState {
         Human,
         Homing
@@ -95,20 +86,20 @@ public class ArmSubsystem extends SubsystemBase {
 
     public ArmSubsystem () {
         // persistant variables
-        Preferences.initDouble(FIRST_OFFSET_KEY, FIRST_OFFSET_DEFAULT_RADIANS);
-        Preferences.initDouble(SECOND_OFFSET_KEY, SECOND_OFFSET_DEFAULT_RADIANS);
+        Preferences.initDouble(SHOULDER_OFFSET_KEY, SHOULDER_OFFSET_DEFAULT_RADIANS);
+        Preferences.initDouble(WRIST_OFFSET_KEY, WRIST_OFFSET_DEFAULT_RADIANS);
 
         // motos n things        
-        firstJointMotor.setInverted(FIRST_MOTORS_REVERSED);
-        firstJointMotor_follower.setControl(new Follower(firstJointMotor.getDeviceID(), false));
+        shoulderMotor.setInverted(SHOULDER_LEADER_REVERSED);
+        shoulderMotor_follower.setControl(new Follower(shoulderMotor.getDeviceID(), SHOULDER_FOLLOWER_REVERSED));
 
-        secondJointMotor.setInverted(SECOND_MOTOR_REVERSED);
+        wristMotor.setInverted(WRIST_MOTOR_REVERSED);
     }
 
     @Override
     public void periodic() {
-        shoulder.setAngle(firstJointEncoder.getPosition().getValue());
-        wrist.setAngle(secondJointEncoder.getPosition().getValue());
+        shoulder.setAngle(shoulderEncoder.getPosition().getValue());
+        wrist.setAngle(wristEncoder.getPosition().getValue());
         SmartDashboard.putData("Arm", mech); 
 
         switch (controlState) {
@@ -120,21 +111,29 @@ public class ArmSubsystem extends SubsystemBase {
                 // yippee.mp4
                 break;
             case Homing:
-                if (limitSwitch.get()) {
-                    Preferences.setDouble(FIRST_OFFSET_KEY, firstJointEncoder.getPosition().getValue());
+                if (shoulderMotor.getReverseLimit().getValue().value == 1 || shoulderMotor_follower.getReverseLimit().getValue().value == 1) {
+                    Preferences.setDouble(SHOULDER_OFFSET_KEY, shoulderEncoder.getPosition().getValue());
                     controlState = ControlState.Human;
                 }
                 break;
         }
         // shoulder
-        firstJointMotor.setVoltage(
-            shoulderFeedback.calculate(firstJointEncoder.getPosition().getValue(), shoulderSetpoint + Preferences.getDouble(FIRST_OFFSET_KEY, SECOND_OFFSET_DEFAULT_RADIANS)) +
-            shoulderFeedforward.calculate(shoulderSetpoint, shoulderVelocity)
-        );
+        shoulderMotor.setVoltage(
+            SHOULDER_FEEDBACK.calculate(
+                (shoulderEncoder.getPosition().getValueAsDouble() 
+                    * (SHOULDER_ABSOLUTE_ENCODER_REVERSED ? -1 : 1)
+                    ) + Preferences.getDouble(SHOULDER_OFFSET_KEY, SHOULDER_OFFSET_DEFAULT_RADIANS), 
+                shoulderSetpoint
+            ) + SHOULDER_FEEDFORWARD.calculate(shoulderSetpoint, shoulderVelocity)
+        ); 
         // wrist
-        secondJointMotor.setVoltage(
-            wristFeedback.calculate(secondJointEncoder.getPosition().getValue(), wristSetpoint + Preferences.getDouble(SECOND_OFFSET_KEY, SECOND_OFFSET_DEFAULT_RADIANS)) +
-            wristFeedforward.calculate(wristSetpoint, wristVelocity)
+        wristMotor.setVoltage(
+            WRIST_FEEDBACK.calculate(
+                (wristEncoder.getPosition().getValueAsDouble() 
+                    * (WRIST_ABSOLUTE_ENCODER_REVERSED ? -1 : 1)
+                    ) + Preferences.getDouble(WRIST_OFFSET_KEY, WRIST_OFFSET_DEFAULT_RADIANS),
+                wristSetpoint
+            ) + WRIST_FEEDFORWARD.calculate(wristSetpoint, wristVelocity)
         );
     }
 
@@ -162,28 +161,23 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
 
-    public Command homeArmCommand() {
-        return new Command () {
-            @Override
-            public void initialize() {
-                controlState = ControlState.Homing;
-                shoulderSetpoint = 0;
-                wristSetpoint = 0;                       
-            } 
-        };
+    public void homeArm() {
+        controlState = ControlState.Homing;
+        shoulderSetpoint = 0;
+        wristSetpoint = 0;                       
     }
 
     
 
     public Translation2d getFirstLinkEndpoint() {
-        final double angle1 = firstJointEncoder.getPosition().getValueAsDouble();
+        final double angle1 = shoulderEncoder.getPosition().getValueAsDouble();
 
         return new Translation2d(sin(angle1), -cos(angle1)).times(L1);
     }
 
     public Translation2d getCurrentEndpoint() {
-        final double angle1 = firstJointEncoder.getPosition().getValueAsDouble();
-        final double angle2 = secondJointEncoder.getPosition().getValueAsDouble();
+        final double angle1 = shoulderEncoder.getPosition().getValueAsDouble();
+        final double angle2 = wristEncoder.getPosition().getValueAsDouble();
 
         final Translation2d a = new Translation2d(sin(angle1), -cos(angle1)).times(L1);
         final Translation2d b = new Translation2d(sin(angle1 + angle2), -cos(angle1 + angle2)).times(L2);
@@ -211,42 +205,42 @@ public class ArmSubsystem extends SubsystemBase {
          log.motor("shoulder-left")
                     .voltage(
                         m_appliedVoltage.mut_replace(
-                            firstJointMotor.getMotorVoltage().getValue() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(firstJointEncoder.getPosition().getValue(), Meters))
+                            shoulderMotor.getMotorVoltage().getValue() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(shoulderEncoder.getPosition().getValue(), Meters))
                     .linearVelocity(
-                        m_velocity.mut_replace(firstJointMotor.getVelocity().getValue(), MetersPerSecond));
+                        m_velocity.mut_replace(shoulderMotor.getVelocity().getValue(), MetersPerSecond));
         log.motor("shoulder-right")
                     .voltage(
                         m_appliedVoltage.mut_replace(
-                            firstJointMotor_follower.getMotorVoltage().getValue() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(firstJointMotor_follower.getPosition().getValue(), Meters))
+                            shoulderMotor_follower.getMotorVoltage().getValue() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(shoulderMotor_follower.getPosition().getValue(), Meters))
                     .linearVelocity(
-                        m_velocity.mut_replace(firstJointMotor_follower.getVelocity().getValue(), MetersPerSecond));
+                        m_velocity.mut_replace(shoulderMotor_follower.getVelocity().getValue(), MetersPerSecond));
     }
 
     public void sysIdWristMotorLog(SysIdRoutineLog log){
          log.motor("wrist")
                     .voltage(
                         m_appliedVoltage.mut_replace(
-                            secondJointMotor.getMotorVoltage().getValue() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(secondJointMotor.getPosition().getValue(), Meters))
+                            wristMotor.getMotorVoltage().getValue() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(wristMotor.getPosition().getValue(), Meters))
                     .linearVelocity(
-                        m_velocity.mut_replace(secondJointMotor.getVelocity().getValue(), MetersPerSecond));
+                        m_velocity.mut_replace(wristMotor.getVelocity().getValue(), MetersPerSecond));
     }
 
-    public Command shoulderQuasiCommand(Direction direction){
+    public Command getShoulderQuasiCommand(Direction direction){
         return SHOULDER_sysIdRoutine.quasistatic(direction);
     }
 
-    public Command shoulderDynamicCommand(Direction direction){
+    public Command getShoulderDynamicCommand(Direction direction){
         return SHOULDER_sysIdRoutine.dynamic(direction);
     }
 
-    public Command wristQuasiCommand(Direction direction){
+    public Command getWristQuasiCommand(Direction direction){
         return WRIST_sysIdRoutine.quasistatic(direction);
     }
     
-    public Command wristDynamicCommand(Direction direction){
+    public Command getWristDynamicCommand(Direction direction){
         return WRIST_sysIdRoutine.dynamic(direction);
     }
 }

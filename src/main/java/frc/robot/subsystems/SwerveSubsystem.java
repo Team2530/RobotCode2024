@@ -120,16 +120,10 @@ public class SwerveSubsystem extends SubsystemBase {
         navX.setAngleAdjustment(deg);
     }
 
-    // i probably shouldnt do this but the previous solution is arguably worse    
-    public Command setHeadingRelative() {
-        return new Command() {
-            @Override 
-            public void initialize() {
-                zeroHeading();
-                resetOdometry(new Pose2d());
-                zeroHeading(); 
-            }
-        };
+    public void setHeadingRelative(){
+        zeroHeading();
+        resetOdometry(new Pose2d());
+        zeroHeading(); 
     }
 
     public Pose2d getPose() {
