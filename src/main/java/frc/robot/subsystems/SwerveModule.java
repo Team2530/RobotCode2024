@@ -36,7 +36,7 @@ public class SwerveModule {
     SlewRateLimiter turnratelimiter = new SlewRateLimiter(4.d);
 
     public SwerveModule(int moduleNumber, int steerCanID, int driveCanID, int absoluteEncoderPort, double motorOffsetRadians,
-            boolean isAbsoluteEncoderReversed, boolean motorReversed) {
+                        boolean isAbsoluteEncoderReversed, boolean motorReversed) {
         this.moduleNumber = moduleNumber;
         driveMotor = new CANSparkMax(driveCanID, MotorType.kBrushless);
         driveMotor.setInverted(false);

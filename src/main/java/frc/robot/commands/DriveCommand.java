@@ -24,7 +24,9 @@ public class DriveCommand extends Command {
     private enum DriveState {
         Free,
         Locked
-    };
+    }
+
+    ;
 
     private DriveState state = DriveState.Free;
 
@@ -38,7 +40,7 @@ public class DriveCommand extends Command {
     }
 
     private double clamp(double v, double mi, double ma) {
-        return (v < mi) ? mi : (v > ma ? ma : v);
+        return (v < mi) ? mi : (Math.min(v, ma));
     }
 
     public Translation2d deadband(Translation2d input, double deadzone) {
@@ -108,23 +110,18 @@ public class DriveCommand extends Command {
 
         // State transition logic
         switch (state) {
-            case Free:
-                state = xbox.getRightBumper() ? DriveState.Locked : DriveState.Free;
-                break;
-            case Locked:
-                state = ((xyRaw.getNorm() > 0.15) && !xbox.getBButton()) ? DriveState.Free : DriveState.Locked;
-                break;
+            case Free -> state = xbox.getRightBumper() ? DriveState.Locked : DriveState.Free;
+            case Locked ->
+                    state = ((xyRaw.getNorm() > 0.15) && !xbox.getBButton()) ? DriveState.Free : DriveState.Locked;
         }
 
         // Drive execution logic
         switch (state) {
-            case Free:
+            case Free -> {
                 SwerveModuleState[] calculatedModuleStates = DriveConstants.KINEMATICS.toSwerveModuleStates(speeds);
                 swerveSubsystem.setModules(calculatedModuleStates);
-                break;
-            case Locked:
-                swerveSubsystem.setXstance();
-                break;
+            }
+            case Locked -> swerveSubsystem.setXstance();
         }
     }
 

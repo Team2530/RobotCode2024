@@ -33,22 +33,22 @@ import frc.robot.Robot;
 import frc.robot.Constants.*;
 
 public class SwerveSubsystem extends SubsystemBase {
-    SwerveModule frontLeft = new SwerveModule(SwerveModuleConstants.FL_STEER_ID, SwerveModuleConstants.FL_DRIVE_ID,
+    SwerveModule frontLeft = new SwerveModule(0, SwerveModuleConstants.FL_STEER_ID, SwerveModuleConstants.FL_DRIVE_ID,
             SwerveModuleConstants.FL_ABSOLUTE_ENCODER_PORT, SwerveModuleConstants.FL_OFFSET_RADIANS,
             SwerveModuleConstants.FL_ABSOLUTE_ENCODER_REVERSED,
             SwerveModuleConstants.FL_MOTOR_REVERSED);
 
-    SwerveModule frontRight = new SwerveModule(SwerveModuleConstants.FR_STEER_ID, SwerveModuleConstants.FR_DRIVE_ID,
+    SwerveModule frontRight = new SwerveModule(1, SwerveModuleConstants.FR_STEER_ID, SwerveModuleConstants.FR_DRIVE_ID,
             SwerveModuleConstants.FR_ABSOLUTE_ENCODER_PORT, SwerveModuleConstants.FR_OFFSET_RADIANS,
             SwerveModuleConstants.FR_ABSOLUTE_ENCODER_REVERSED,
             SwerveModuleConstants.FR_MOTOR_REVERSED);
 
-    SwerveModule backRight = new SwerveModule(SwerveModuleConstants.BR_STEER_ID, SwerveModuleConstants.BR_DRIVE_ID,
+    SwerveModule backRight = new SwerveModule(2, SwerveModuleConstants.BR_STEER_ID, SwerveModuleConstants.BR_DRIVE_ID,
             SwerveModuleConstants.BR_ABSOLUTE_ENCODER_PORT, SwerveModuleConstants.BR_OFFSET_RADIANS,
             SwerveModuleConstants.BR_ABSOLUTE_ENCODER_REVERSED,
             SwerveModuleConstants.BR_MOTOR_REVERSED);
 
-    SwerveModule backLeft = new SwerveModule(SwerveModuleConstants.BL_STEER_ID, SwerveModuleConstants.BL_DRIVE_ID,
+    SwerveModule backLeft = new SwerveModule(3, SwerveModuleConstants.BL_STEER_ID, SwerveModuleConstants.BL_DRIVE_ID,
             SwerveModuleConstants.BL_ABSOLUTE_ENCODER_PORT, SwerveModuleConstants.BL_OFFSET_RADIANS,
             SwerveModuleConstants.BL_ABSOLUTE_ENCODER_REVERSED,
             SwerveModuleConstants.BL_MOTOR_REVERSED);
@@ -66,7 +66,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();
 
-    private Field2d field = new Field2d();
+    private final Field2d field = new Field2d();
 
     // TODO: Properly set starting pose
     private final SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(DriveConstants.KINEMATICS,
@@ -91,10 +91,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
                     var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
+                    return alliance.filter(value -> value == Alliance.Red).isPresent();
                 },
                 this // Reference to this subsystem to set requirements
         );
@@ -113,14 +110,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
         if (DriverStation.getAlliance().isPresent()) {
             switch (DriverStation.getAlliance().get()) {
-                case Red:
-                    field.setRobotPose(new Pose2d(new Translation2d(16.5 - getPose().getX(), 8.02 - getPose().getY()),
-                            getPose().getRotation().rotateBy(Rotation2d.fromDegrees(180))));
-                    break;
-
-                case Blue:
-                    field.setRobotPose(getPose());
-                    break;
+                case Red ->
+                        field.setRobotPose(new Pose2d(new Translation2d(16.5 - getPose().getX(), 8.02 - getPose().getY()),
+                                getPose().getRotation().rotateBy(Rotation2d.fromDegrees(180))));
+                case Blue -> field.setRobotPose(getPose());
             }
         } else {
             // If no alliance provided, just go with blue
@@ -138,7 +131,7 @@ public class SwerveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("SwerveSubsystem Amps", swerveCurrent);
         SmartDashboard.putNumber("PDH Amps", pdh.getTotalCurrent());
 
-        SmartDashboard.putNumberArray("SwerveStates", new double[] {
+        SmartDashboard.putNumberArray("SwerveStates", new double[]{
                 frontLeft.getModuleState().angle.getDegrees() + 90, -frontLeft.getModuleState().speedMetersPerSecond,
                 frontRight.getModuleState().angle.getDegrees() + 90, -frontRight.getModuleState().speedMetersPerSecond,
                 backLeft.getModuleState().angle.getDegrees() + 90, -backLeft.getModuleState().speedMetersPerSecond,
@@ -159,8 +152,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public Pose2d getPose() {
-        Pose2d p = odometry.getEstimatedPosition();
-        return p;
+        return odometry.getEstimatedPosition();
     }
 
     public void resetOdometry(Pose2d pose) {
@@ -202,34 +194,30 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void setXstance() {
         frontLeft.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(45)));
+                Rotation2d.fromDegrees(45)));
         frontRight.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(-45)));
+                Rotation2d.fromDegrees(-45)));
         backLeft.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(-45)));
+                Rotation2d.fromDegrees(-45)));
         backRight.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(45)));
+                Rotation2d.fromDegrees(45)));
     }
 
     public ChassisSpeeds getChassisSpeeds() {
-        ChassisSpeeds speeds = DriveConstants.KINEMATICS.toChassisSpeeds(
+        return DriveConstants.KINEMATICS.toChassisSpeeds(
                 frontLeft.getModuleState(),
                 frontRight.getModuleState(),
                 backLeft.getModuleState(),
                 backRight.getModuleState());
-
-        return speeds;
     }
 
     public SwerveModulePosition[] getModulePositions() {
-        SwerveModulePosition[] states = {
+        return new SwerveModulePosition[]{
                 frontLeft.getModulePosition(),
                 frontRight.getModulePosition(),
                 backLeft.getModulePosition(),
                 backRight.getModulePosition()
         };
-
-        return states;
     }
 
     @Override
@@ -256,7 +244,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                 this::setChassisSpeedsAUTO, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
-                                                 // Constants class
+                        // Constants class
                         PathPlannerConstants.TRANSLATION_PID, // Translation PID constants
                         PathPlannerConstants.ROTATION_PID, // Rotation PID constants
                         DriveConstants.MAX_MODULE_VELOCITY, // Max module speed, in m/s
@@ -270,10 +258,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
                     var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
+                    return alliance.filter(value -> value == Alliance.Red).isPresent();
                 },
                 this // Reference to this subsystem to set requirements
         );
@@ -284,11 +269,11 @@ public class SwerveSubsystem extends SubsystemBase {
         PathPlannerPath path = new PathPlannerPath(
                 List.of(pathPoints),
                 new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI), // The constraints for this path. If using a
-                                                                         // differential drivetrain, the angular
-                                                                         // constraints have no effect.
+                // differential drivetrain, the angular
+                // constraints have no effect.
                 new GoalEndState(0.0, Rotation2d.fromDegrees(-90)) // Goal end state. You can set a holonomic rotation
-                                                                   // here. If using a differential drivetrain, the
-                                                                   // rotation will have no effect.
+                // here. If using a differential drivetrain, the
+                // rotation will have no effect.
         );
 
         // Prevent the path from being flipped if the coordinates are already correct
