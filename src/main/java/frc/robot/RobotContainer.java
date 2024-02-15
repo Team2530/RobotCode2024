@@ -6,19 +6,14 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
-<<<<<<< HEAD
-import frc.robot.subsystems.LimeLightSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-=======
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Arm.Presets;
 import frc.robot.subsystems.Intake.IntakeMode;
 import frc.robot.subsystems.Shooter.ShooterMode;
 
 import java.util.function.BooleanSupplier;
->>>>>>> intake-shooter
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
@@ -81,16 +76,53 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-<<<<<<< HEAD
-=======
+        // Stow intake/shooter
         operatorXbox.a().onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.STOW);
+        }));
+
+        // INtake/intake shooter
+        operatorXbox.b().onTrue(new InstantCommand(() -> {
             arm.setArmPreset(Presets.INTAKE);
         }));
 
-        operatorXbox.b().onTrue(new InstantCommand(() -> {
-            arm.setArmPreset(Presets.STOW);
-        }));
->>>>>>> intake-shooter
+        // intake
+        driverXbox.y().and(new BooleanSupplier() {
+            public boolean getAsBoolean() {
+                return !intake.getFrontLimitClosed();
+            }
+        }).onTrue(
+            new IntakeCommand(intake).raceWith(new WaitUntilCommand(driverXbox.x().negate()))
+        );
+
+        // Shoot
+        driverXbox.x().and(new BooleanSupplier() {
+            public boolean getAsBoolean() {
+                return !intake.getFrontLimitClosed();
+            }
+        }).onTrue(
+            new IntakeCommand(intake).raceWith(new WaitUntilCommand(driverXbox.x().negate()))
+        );
+
+        driverXbox.b().and(new BooleanSupplier() {
+            public boolean getAsBoolean() {
+                return intake.getReverseLimitClosed() || intake.getFrontLimitClosed();
+            }
+        }).onTrue(
+            new ParallelRaceGroup(
+                new WaitUntilCommand(driverXbox.b().negate()),
+                new SequentialCommandGroup(
+                    new AlignNoteCommand(intake, shooter),
+                    new PrintCommand("EEEEEEEEEEEEEEEE"),
+                    new PrepNoteCommand(shooter, intake),
+                    new PrepShooterCommand(intake, shooter, 1.0),
+                    new ShootCommand(shooter, intake)
+                    // new InstantCommand(() -> {
+                    //     shooter.coast();
+                    //     shooter.setMode(ShooterMode.STOPPED);
+                    // })
+            ))
+        );
     }
 
     /**
