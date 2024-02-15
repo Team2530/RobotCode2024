@@ -4,17 +4,24 @@
 
 package frc.robot;
 
+<<<<<<< HEAD
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+=======
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+>>>>>>> intake-shooter
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Unit;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -114,6 +121,7 @@ public final class Constants {
     public static final double Z_SPEED_LIMIT = 1.0;
   }
 
+<<<<<<< HEAD
   public static class CommonConstants {
     public static final boolean LOG_INTO_FILE_ENABLED = false;
   }
@@ -163,5 +171,67 @@ public final class Constants {
         DriveConstants.DRIVE_BASE_RADIUS,
         new ReplanningConfig());
 
+=======
+  public static final class ArmConstants {
+
+    public static final int STAGE_ONE_MOTOR_L = 4;    
+
+    public static final int STAGE_ONE_MOTOR_R = 3;
+
+    public static final int STAGE_TWO_MOTOR_PORT = 5;
+
+    public static final int STAGE_ONE_ENCODER_PORT = 11;
+
+    public static final int INTAKE_MOTOR_PORT = 1;
+
+    public static final int SHOOTER_MOTOR_PORT = 2;
+
+    public static final int STAGE_TWO_ENCODER_PORT = 10;
+    
+    // Link lengths in inches
+    public static final double STAGE_ONE_LENGTH = 19.7;
+    public static final double STAGE_TWO_LENGTH = 12.0;
+
+    public static final String STAGE_ONE_OFFSET_KEY = "STAGE_ONE_OFFSET";
+    public static final String STAGE_TWO_OFFSET_KEY = "STAGE_TWO_OFFSET";
+
+    public static final double STAGE_ONE_ENCODER_OFFSET = 0.0175;
+
+    public static final double STAGE_TWO_ENCODER_OFFSET = -0.394043 - 0.0527;
+
+    public static final double INTAKE_ENCODER_TO_ROT = 10.0 / 18.0;
+
+    public static final ProfiledPIDController STAGE_ONE_PROFILEDPID = new ProfiledPIDController(
+      3, 
+      0.0, 
+      0.0,
+      new Constraints(2, 1.5));
+
+      public static final ProfiledPIDController STAGE_TWO_PROFILEDPID = new ProfiledPIDController(
+      4,
+      0.0,
+      0.001,
+      new Constraints(3, 2));
+
+    public static final ArmFeedforward STAGE_ONE_FEEDFORWARD = new ArmFeedforward(
+      0.0,
+      0.18,
+      2.07,
+      0.02);
+
+    public static final ArmFeedforward STAGE_TWO_FEEDFORWARD = new ArmFeedforward(
+      0.0,
+      0.26, 
+      1.19,
+      0.0);
+
+    public static final boolean L_STAGE_ONE_ISREVERSED = true;
+    public static final boolean FOLLOWER_STAGE_ONE_ISREVERSED = true;
+    public static final boolean STAGE_TWO_ISREVERSED = true;
+
+    public static final boolean STAGE_ONE_ENCODER_ISREVERSED = true;
+
+    public static final boolean STAGE_TWO_ENCODER_ISREVERSED = false;
+>>>>>>> intake-shooter
   }
 }

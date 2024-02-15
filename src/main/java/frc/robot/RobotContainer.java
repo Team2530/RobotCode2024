@@ -6,10 +6,19 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
+<<<<<<< HEAD
 import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
+=======
+import frc.robot.subsystems.*;
+import frc.robot.subsystems.Arm.Presets;
+import frc.robot.subsystems.Intake.IntakeMode;
+import frc.robot.subsystems.Shooter.ShooterMode;
+
+import java.util.function.BooleanSupplier;
+>>>>>>> intake-shooter
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
@@ -34,9 +43,19 @@ public class RobotContainer {
     private final SwerveSubsystem swerveDriveSubsystem = new SwerveSubsystem();
     private final LimeLightSubsystem limeLightSubsystem = new LimeLightSubsystem();
 
+    private final StageOne stageOne = new StageOne();
+    private final StageTwo stageTwo = new StageTwo();
+    private final Arm arm = new Arm(stageOne, stageTwo);
+
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
 
-    private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID());
+    // TODO: Uncomment when ready to test DRIVE!
+    // private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID());
+
+    private final Intake intake = new Intake();
+    private final Shooter shooter = new Shooter();
+
+    // ----------- Commands ---------- \\
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -44,8 +63,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
-
-        swerveDriveSubsystem.setDefaultCommand(normalDrive);
+        // swerveDriveSubsystem.setDefaultCommand(normalDrive);
     }
 
     /**
@@ -63,6 +81,16 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
+<<<<<<< HEAD
+=======
+        operatorXbox.a().onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.INTAKE);
+        }));
+
+        operatorXbox.b().onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.STOW);
+        }));
+>>>>>>> intake-shooter
     }
 
     /**
