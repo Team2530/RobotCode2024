@@ -50,9 +50,7 @@ public class RobotContainer {
     private final Arm arm = new Arm(stageOne, stageTwo);
 
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
-
-    // TODO: Uncomment when ready to test DRIVE!
-    // private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID());
+    private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID());
 
     private final Intake intake = new Intake();
     private final Shooter shooter = new Shooter();
