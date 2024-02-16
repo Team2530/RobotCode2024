@@ -4,18 +4,17 @@
 
 package frc.robot;
 
-<<<<<<< HEAD
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-=======
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Hashtable;
 
->>>>>>> Vision
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -24,11 +23,8 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
-<<<<<<< HEAD
 import edu.wpi.first.units.Unit;
-=======
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
->>>>>>> Vision
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -285,5 +281,19 @@ public final class Constants {
     put("14.0", new AprilTag("14.0", AprilTagType.STAGE, AprilTagPosition.CENTER, Alliance.Blue, 209.48, 161.62, 52.00, 0.00, 16, 0, 0));
     put("15.0", new AprilTag("15.0", AprilTagType.STAGE, AprilTagPosition.LEFT, Alliance.Blue, 182.73, 177.10, 52.00, 120.00, 16, 0, 0));
     put("16.0", new AprilTag("16.0", AprilTagType.STAGE, AprilTagPosition.RIGHT, Alliance.Blue, 182.73, 146.19, 52.00, 240.00, 16, 0, 0));
+  }};
+
+  public static final HashMap<AprilTagType, Pose3d> AprilTagTargetsRed = new HashMap<>() {{
+    put(AprilTagType.AMP, null);
+    put(AprilTagType.SOURCE, null);
+    put(AprilTagType.SPEAKER, null);
+    put(AprilTagType.STAGE, null);
+  }};
+
+  public static final HashMap<AprilTagType, Pose3d> AprilTagTargetsBlue = new HashMap<>() {{
+    put(AprilTagType.AMP, null);
+    put(AprilTagType.SOURCE, null);
+    put(AprilTagType.SPEAKER, null);
+    put(AprilTagType.STAGE, null);
   }};
 }

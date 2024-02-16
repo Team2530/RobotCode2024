@@ -16,7 +16,8 @@ public class Arm extends SubsystemBase {
     INTAKE(-14.7, 42.7),
     AMP(100, 134),
     SHOOT_HIGH(22, 58),
-    STARTING_CONFIG(0, 90);
+    STARTING_CONFIG(0, 90),
+    DYNAMIC(0,0);
 
     private double s1angle;
     private double s2angle;
@@ -59,6 +60,13 @@ public class Arm extends SubsystemBase {
         stageTwo.enable();
       }
     }
+  }
+
+  public void setArmAngles(double shoulder, double wrist) {
+    stageOne.setGoalDegrees(shoulder);
+    stageTwo.setGoalDegrees(wrist);
+    currentPreset = Presets.DYNAMIC;
+    SmartDashboard.putString("Arm Preset", "Moving to DYNAMIC, 1: " + shoulder + " 2: " + wrist);
   }
 
 }

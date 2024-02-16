@@ -144,6 +144,28 @@ public class RobotContainer {
                         // shooter.setMode(ShooterMode.STOPPED);
                         // })
                         )));
+
+        // prep vision aiming
+        operatorXbox.leftTrigger().and(new BooleanSupplier() {
+            public boolean getAsBoolean() {
+                return intake.getReverseLimitClosed() || intake.getFrontLimitClosed();
+            }
+        }).whileTrue(new SequentialCommandGroup(
+                new AlignNoteCommand(intake, shooter),
+                new PrepNoteCommand(shooter, intake),
+                new PrepShooterCommand(intake, shooter, 0.4),
+                new AimByVisionCommand(swerveDriveSubsystem, arm, limeLightSubsystem)
+        ));
+        // shoot
+        driverXbox.leftTrigger().and(new BooleanSupplier() {
+            public boolean getAsBoolean() {
+                return intake.getReverseLimitClosed() || intake.getFrontLimitClosed();
+            }
+        }).and(new BooleanSupplier() {
+            public boolean getAsBoolean() {
+                return operatorXbox.leftTrigger().getAsBoolean();
+            }
+        }).onTrue(new ShootCommand(shooter, intake));
     }
 
     /**
