@@ -52,7 +52,7 @@ public class RobotContainer {
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
     private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID());
 
-    private final Intake intake = new Intake(driverXbox);
+    private final Intake intake = new Intake(driverXbox, operatorXbox);
     private final Shooter shooter = new Shooter();
 
     // ----------- Commands ---------- \\
@@ -137,13 +137,28 @@ public class RobotContainer {
                         new SequentialCommandGroup(
                                 new AlignNoteCommand(intake, shooter),
                                 new PrepNoteCommand(shooter, intake),
-                                new PrepShooterCommand(intake, shooter, 0.4),
-                                new ShootCommand(shooter, intake)
+                                new PrepShooterCommand(intake, shooter, 0.8)
                         // new InstantCommand(() -> {
                         // shooter.coast();
                         // shooter.setMode(ShooterMode.STOPPED);
                         // })
-                        )));
+                        ))).onFalse(new SequentialCommandGroup(
+                            new InstantCommand(() -> {
+                            shooter.setMode(ShooterMode.STOPPED);
+                        }),
+                        new AlignNoteCommand(intake, shooter)));
+
+        operatorXbox.button(8).onTrue(new InstantCommand(() -> {
+            climber.leftArm.is_calibrated = false;            
+            climber.rightArm.is_calibrated = false;
+        }));
+
+        driverXbox.leftTrigger().and(new BooleanSupplier() {
+            @Override
+            public boolean getAsBoolean() {
+                return driverXbox.getLeftTriggerAxis() > 0.75 && shooter.isUpToSpeed();
+            }
+        }).onTrue(new ShootCommand(shooter, intake));
     }
 
     /**

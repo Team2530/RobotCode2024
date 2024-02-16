@@ -47,14 +47,13 @@ public class Shooter extends SubsystemBase {
 
         SmartDashboard.putNumber("Shooter Percent", percent * 100);        
         SmartDashboard.putNumber("Shooter Real", shooterMotor.getRotorVelocity().getValueAsDouble());
+        SmartDashboard.putString("Shootake", "Shooter mode set to " + (shooterMode.name()));
 
     }
 
     public void setMode(ShooterMode mode) {
         shooterMode = mode;
         outputPercent = shooterMode.modeSpeed;
-
-         SmartDashboard.putString("Shootake", "Shooter mode set to " + (shooterMode.name()));
     }
 
     public void setCustomPercent(double percent) {

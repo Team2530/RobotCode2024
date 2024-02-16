@@ -57,8 +57,10 @@ public class Intake extends SubsystemBase {
     private final SlewRateLimiter intakeProfile = new SlewRateLimiter(5, -5, 0.0);
 
     private final CommandXboxController driverXboxController;
+    private final CommandXboxController operatorXboxController;
 
-    public Intake(CommandXboxController driverXboxController) {
+
+    public Intake(CommandXboxController driverXboxController, CommandXboxController operatXboxController) {
         limconf.ForwardLimitSource = ForwardLimitSourceValue.LimitSwitchPin;
         limconf.ReverseLimitSource = ReverseLimitSourceValue.LimitSwitchPin;
         limconf.ReverseLimitEnable = false;
@@ -69,6 +71,7 @@ public class Intake extends SubsystemBase {
         intakeMotor.setInverted(true);
 
         this.driverXboxController = driverXboxController;
+        this.operatorXboxController = operatXboxController;
     }
 
     @Override
@@ -84,9 +87,13 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putBoolean("Intake REV Limit", getReverseLimitClosed());
 
         if(getFrontLimitClosed()) {
-            driverXboxController.getHID().setRumble(RumbleType.kBothRumble, 1);
+            driverXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
+            operatorXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
+
         } else {
             driverXboxController.getHID().setRumble(RumbleType.kBothRumble, 0);
+            operatorXboxController.getHID().setRumble(RumbleType.kBothRumble, 0);
+
         }
 
     }

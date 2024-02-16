@@ -29,7 +29,7 @@ public class PrepShooterCommand extends Command {
         
         intake.coast();
         shooter.coast();
-        // shooter.setMode(ShooterMode.FULL);
+        shooter.setMode(ShooterMode.CUSTOM);
         shooter.setCustomPercent(speed);
         SmartDashboard.putString("Shootake", "Spooling Shooter");
     }
