@@ -12,16 +12,19 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.KnownAprilTag;
+import frc.robot.AprilTag;
+import frc.robot.Constants;
+import frc.robot.KnownAprilTagDetail;
 import frc.robot.LimelightHelpers;
-import frc.robot.Constants.AprilTags;
+import frc.robot.Constants.AprilTagPosition;
+import frc.robot.Constants.AprilTagType;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
 
 public class LimeLightSubsystem extends SubsystemBase {
     private Boolean hasAprilTag = false;
     private Boolean hasRetroTape = false;
-    Dictionary<String, KnownAprilTag> lastKnownAprilTags = new Hashtable<String, KnownAprilTag>();
+    Dictionary<String, KnownAprilTagDetail> lastKnownAprilTagDetails = new Hashtable<String, KnownAprilTagDetail>();
 
     public LimeLightSubsystem() {
     }
@@ -29,52 +32,60 @@ public class LimeLightSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         try{
-            KnownAprilTag aprilTag;
+            KnownAprilTagDetail aprilTagDetail;
+            AprilTag tag;
             LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults((LimelightConstants.limeLightName));
-            
             //If we see april tag(s), we update the dictionary if needed, with position, capture time, and tag ID
             if(results.targetingResults.targets_Fiducials.length > 0){
                 hasAprilTag = true;
                 for (LimelightTarget_Fiducial fd : results.targetingResults.targets_Fiducials){
-                    aprilTag = lastKnownAprilTags.get(fd.fiducialID);
+                    aprilTagDetail = lastKnownAprilTagDetails.get(fd.fiducialID);
+                    tag = Constants.AllAprilTags.get(Double.toString(fd.fiducialID));
+                    if(tag != null)
+                    {
+                        SmartDashboard.putString("Number of tags 1: ", tag.GetTagId());
+                    }
                     //If the april tag doesn't already exist in the dictionary, add it
-                    if(aprilTag == null){
-                        aprilTag = new KnownAprilTag(fd.fiducialID, LocalDateTime.now(), fd.getTargetPose_RobotSpace());
+                    if(aprilTagDetail == null && tag != null){
+                         aprilTagDetail = new KnownAprilTagDetail(tag, LocalDateTime.now(), fd.getTargetPose_RobotSpace());
                     }
-                    else{ //If it DOES exist, make sure it's up to date 
-                        aprilTag.SetTagCaptureTime(LocalDateTime.now());
-                        aprilTag.SetTagPose3d(fd.getTargetPose_RobotSpace());
+                    else if(aprilTagDetail != null){ //If it DOES exist, make sure it's up to date 
+                        aprilTagDetail.SetTagCaptureTime(LocalDateTime.now());
+                        aprilTagDetail.SetTargetPoseRobotSpace(fd.getTargetPose_RobotSpace());
                     }
-                    lastKnownAprilTags.put(String.valueOf(fd.fiducialID), aprilTag);
-                }
-                Enumeration<String> e = lastKnownAprilTags.keys();
-                //Loops through dictionary of april tags, and if it's been over a second from capture time, removes the tag
-                while(e.hasMoreElements()) {
-                    String key = e.nextElement();
-                    aprilTag = lastKnownAprilTags.get(key);
-                    Duration duration = Duration.between(LocalDateTime.now(), aprilTag.GetTagCaptureTime());
-                    if(duration.getSeconds() * 1000 >= 40){
-                        lastKnownAprilTags.remove(key);
-                    }
-                }
-                if(LimelightConstants.LOG_APRIL_TAGS_INTO_SMARTDASH_BOARD){
-                    e = lastKnownAprilTags.keys();
-                    //Loops through values of dictionary, for each april tag, prints ID as well as positioning/rotation
-                    while(e.hasMoreElements()) {
-                        String key = e.nextElement();
-                        aprilTag = lastKnownAprilTags.get(key);
-                        if(aprilTag != null){
-                            Pose3d pose3d = aprilTag.GetTagPose3d();
-                            SmartDashboard.putNumber("April Tag "+ aprilTag.GetTagId() + " X", pose3d.getZ());
-                            SmartDashboard.putNumber("April Tag "+ aprilTag.GetTagId() + " Y", pose3d.getX());
-                            SmartDashboard.putNumber("April Tag "+ aprilTag.GetTagId() +" Rotation", pose3d.getRotation().getY());
-                        }
+                    if(aprilTagDetail != null){
+                        lastKnownAprilTagDetails.put(String.valueOf(fd.fiducialID), aprilTagDetail);
                     }
                 }
             }
             else{
                 hasAprilTag = false;
             }
+            Enumeration<String> e = lastKnownAprilTagDetails.keys();
+                //Loops through dictionary of april tags, and if it's been over a second from capture time, removes the tag
+                while(e.hasMoreElements()) {
+                    String key = e.nextElement();
+                    aprilTagDetail = lastKnownAprilTagDetails.get(key);
+                    Duration duration = Duration.between(aprilTagDetail.GetTagCaptureTime(), LocalDateTime.now());
+                    if(duration.toMillis() >=  LimelightConstants.CLEAR_APRILTAG_INTERVAL){
+                        lastKnownAprilTagDetails.remove(key);
+                    }
+                }
+                if(LimelightConstants.LOG_APRIL_TAGS_INTO_SMARTDASH_BOARD){
+                    e = lastKnownAprilTagDetails.keys();
+                    //Loops through values of dictionary, for each april tag, prints ID as well as positioning/rotation
+                    while(e.hasMoreElements()) {
+                        String key = e.nextElement();
+                        aprilTagDetail = lastKnownAprilTagDetails.get(key);
+                        if(aprilTagDetail != null){
+                            Pose3d pose3d = aprilTagDetail.GetTargetPoseRobotSpace();
+                            SmartDashboard.putNumber("April Tag "+ aprilTagDetail.GetAprilTag().GetTagId() + " X", pose3d.getZ());
+                            SmartDashboard.putNumber("April Tag "+ aprilTagDetail.GetAprilTag().GetTagId() + " Y", pose3d.getX());
+                            SmartDashboard.putNumber("April Tag "+ aprilTagDetail.GetAprilTag().GetTagId() +" Rotation", pose3d.getRotation().getY());
+                        }
+                    }
+                    SmartDashboard.putNumber("April Tags Count", lastKnownAprilTagDetails.size());
+                }
         }
         catch(Exception e){
             SmartDashboard.putString("LimeLight Read error", e.getMessage());
@@ -89,37 +100,42 @@ public class LimeLightSubsystem extends SubsystemBase {
         return hasRetroTape;
     }
 
-    public KnownAprilTag getKnownAprilTag(boolean isItForRightSideAprilTag)
+    public KnownAprilTagDetail getKnownAprilTagDetail(AprilTagPosition tagPosition)
     {
-        String[] tagIdsForThisAction = {};
+        // if there is an alliance it gets the alliance (blue or red)
         Optional<Alliance> alliance = DriverStation.getAlliance();
-        KnownAprilTag aprilTag = null;
+        KnownAprilTagDetail returnValue = null;
+        // loops through the hashtable and finds the correct apriltag and returns the details
         if(alliance.isPresent()){
-            if(alliance.get() == Alliance.Blue){
-                if(isItForRightSideAprilTag){
-                    tagIdsForThisAction = AprilTags.BLUE_ALLIANCE_RIGHT_APRILTAGS;
-                }
-                else{
-                    tagIdsForThisAction = AprilTags.BLUE_ALLIANCE_LEFT_OR_SINGLE_APRILTAGS;
-                }
-            }
-            else if(alliance.get() == Alliance.Red){
-                if(isItForRightSideAprilTag){
-                    tagIdsForThisAction = AprilTags.RED_ALLIANCE_RIGHT_APRILTAGS;
-                }
-                else{
-                    tagIdsForThisAction = AprilTags.RED_ALLIANCE_LEFT_OR_SINLGE_APRILTAGS;
-                }
-            }
-            for (int i = 0; i < tagIdsForThisAction.length; i++) {
-                aprilTag = lastKnownAprilTags.get(tagIdsForThisAction[i]);
-                SmartDashboard.putString("I am inside 1 : ", tagIdsForThisAction[i]);
-                if(aprilTag != null){
-                    SmartDashboard.putString("Found aprilTag: ", "Id : " + aprilTag.GetTagId());
+            Enumeration<String> e = lastKnownAprilTagDetails.keys();
+            while(e.hasMoreElements()) {
+                String key = e.nextElement();
+                KnownAprilTagDetail aprilTagDetail = lastKnownAprilTagDetails.get(key);
+                if(aprilTagDetail != null && aprilTagDetail.GetAprilTag().GetAlliance() == alliance.get() && aprilTagDetail.GetAprilTag().GetTagPosition() == tagPosition){
+                    returnValue = aprilTagDetail;
                     break;
                 }
             }
         }
-        return aprilTag;
+        return returnValue;
     }
+
+    public KnownAprilTagDetail getKnownAprilTagDetailByType(AprilTagType tagType)
+    {
+        Optional<Alliance> alliance = DriverStation.getAlliance();
+        KnownAprilTagDetail returnValue = null;
+        if(alliance.isPresent()){
+            Enumeration<String> e = lastKnownAprilTagDetails.keys();
+            while(e.hasMoreElements()) {
+                String key = e.nextElement();
+                KnownAprilTagDetail aprilTagDetail = lastKnownAprilTagDetails.get(key);
+                if(aprilTagDetail != null && aprilTagDetail.GetAprilTag().GetAlliance() == alliance.get() && aprilTagDetail.GetAprilTag().GetTagType() == tagType){
+                    returnValue = aprilTagDetail;
+                    break;
+                }
+            }
+        }
+        return returnValue;
+    }
+
 }

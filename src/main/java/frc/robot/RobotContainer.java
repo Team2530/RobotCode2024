@@ -20,6 +20,7 @@ import frc.robot.subsystems.Shooter.ShooterMode;
 
 import java.util.function.BooleanSupplier;
 
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.SPI;
@@ -66,7 +67,6 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
-
         swerveDriveSubsystem.setDefaultCommand(normalDrive);
         climber.setDefaultCommand(climberCommand);
     }

@@ -4,12 +4,18 @@
 
 package frc.robot;
 
+<<<<<<< HEAD
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+=======
+import java.util.Dictionary;
+import java.util.Hashtable;
+
+>>>>>>> Vision
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -18,7 +24,11 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+<<<<<<< HEAD
 import edu.wpi.first.units.Unit;
+=======
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+>>>>>>> Vision
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -57,34 +67,34 @@ public final class Constants {
     public static final double MODULE_KD = 0.0066806;// 0.0057682; //0.0076954;
 
     // --------- Front Left Module --------- \\
-    public static final int FL_DRIVE_ID = 1;
-    public static final int FL_STEER_ID = 2;
+    public static final int FL_DRIVE_ID = 2;
+    public static final int FL_STEER_ID = 1;
     public static final int FL_ABSOLUTE_ENCODER_PORT = 1;
-    public static final double FL_OFFSET_RADIANS = Units.rotationsToRadians(0.213135) + Math.PI * 0.5 + Math.PI;
+    public static final double FL_OFFSET_RADIANS = Units.rotationsToRadians(0.074951) + Math.PI * 0.5;
     public static final boolean FL_ABSOLUTE_ENCODER_REVERSED = true;
     public static final boolean FL_MOTOR_REVERSED = false;
 
     // --------- Front Right Module --------- \\
-    public static final int FR_DRIVE_ID = 7;
-    public static final int FR_STEER_ID = 8;
-    public static final int FR_ABSOLUTE_ENCODER_PORT = 2;
-    public static final double FR_OFFSET_RADIANS = Units.rotationsToRadians(-0.305908) + Math.PI * 0.5 + Math.PI;
+    public static final int FR_DRIVE_ID = 4;
+    public static final int FR_STEER_ID = 3;
+    public static final int FR_ABSOLUTE_ENCODER_PORT = 4;
+    public static final double FR_OFFSET_RADIANS = Units.rotationsToRadians(-0.062256) + Math.PI * 0.5;
     public static final boolean FR_ABSOLUTE_ENCODER_REVERSED = true;
     public static final boolean FR_MOTOR_REVERSED = false;
 
     // --------- Back Right Module --------- \\
-    public static final int BR_DRIVE_ID = 5;
-    public static final int BR_STEER_ID = 6;
-    public static final int BR_ABSOLUTE_ENCODER_PORT = 3;
-    public static final double BR_OFFSET_RADIANS = Units.rotationsToRadians(0.230225) + Math.PI * 0.5 + Math.PI;
+    public static final int BR_DRIVE_ID = 6;
+    public static final int BR_STEER_ID = 5;
+    public static final int BR_ABSOLUTE_ENCODER_PORT = 2;
+    public static final double BR_OFFSET_RADIANS = Units.rotationsToRadians(0.152100) + Math.PI * 0.5;
     public static final boolean BR_ABSOLUTE_ENCODER_REVERSED = true;
     public static final boolean BR_MOTOR_REVERSED = false;
 
     // --------- Back Left Module --------- \\
-    public static final int BL_DRIVE_ID = 3;
-    public static final int BL_STEER_ID = 4;
-    public static final int BL_ABSOLUTE_ENCODER_PORT = 4;
-    public static final double BL_OFFSET_RADIANS = Units.rotationsToRadians(-0.077637) + Math.PI * 0.5 + Math.PI;
+    public static final int BL_DRIVE_ID = 8;
+    public static final int BL_STEER_ID = 7;
+    public static final int BL_ABSOLUTE_ENCODER_PORT = 3;
+    public static final double BL_OFFSET_RADIANS = Units.rotationsToRadians(-0.109131) + Math.PI * 0.5;
     public static final boolean BL_ABSOLUTE_ENCODER_REVERSED = true;
     public static final boolean BL_MOTOR_REVERSED = false;
 
@@ -96,8 +106,8 @@ public final class Constants {
     public static final double MAX_ROBOT_RAD_VELOCITY = 12.0; // Approx. Measured rads/sec
 
     // TODO: Change based on actual robot!
-    public static final double TRACK_WIDTH = Units.inchesToMeters(19.75);
-    public static final double WHEEL_BASE = Units.inchesToMeters(24.75);
+    public static final double TRACK_WIDTH = Units.inchesToMeters(18.75);
+    public static final double WHEEL_BASE = Units.inchesToMeters(18.75);
     public static final Rotation2d NAVX_ANGLE_OFFSET = Rotation2d.fromDegrees(90);
     public static final double DRIVE_BASE_RADIUS = Units.inchesToMeters(15);
 
@@ -119,7 +129,7 @@ public final class Constants {
   }
 
   public static class CommonConstants {
-    public static final boolean LOG_INTO_FILE_ENABLED = false;
+    public static final boolean LOG_INTO_FILE_ENABLED = true;
   }
 
   public static class VisionContsants {
@@ -143,17 +153,11 @@ public final class Constants {
         new Translation3d(0.06, -0.2, 0.2127),
         new Rotation3d(0.0, Units.degreesToRadians(-15.0), Units.degreesToRadians(3.0)));
     public static final boolean LOG_APRIL_TAGS_INTO_SMARTDASH_BOARD = true;
-  }
-
-  public static class AprilTags {
-    // Blue alliance left or single tags
-    public static final String[] BLUE_ALLIANCE_LEFT_OR_SINGLE_APRILTAGS = { "2", "8", "6", "14", "15", "16" };
-    // Blue alliance right tags
-    public static final String[] BLUE_ALLIANCE_RIGHT_APRILTAGS = { "1", "7" };
-    // Red alliance left or single tags
-    public static final String[] RED_ALLIANCE_LEFT_OR_SINLGE_APRILTAGS = { "10", "4", "5", "11", "12", "13" };
-    // Blue alliance right tags
-    public static final String[] RED_ALLIANCE_RIGHT_APRILTAGS = { "9", "3" };
+    public static final int CLEAR_APRILTAG_INTERVAL = 40; // in mili sec
+    public static final int APRILTAG_SEARCH_ROTATION = 40; // in degrees
+    public static Constraints pidXConstriants = new Constraints(5, 5);
+    public static Constraints pidYConstraints = new Constraints(5, 5);
+    public static Constraints pidOmegaConstraints = new Constraints(20, 20);
   }
 
   public static final class PathPlannerConstants {
@@ -248,4 +252,38 @@ public final class Constants {
 
     public static final double CLIMBER_POS_CONV_FACTOR = SPOOL_CIRC * CLIMBER_RATIO;
   }
+
+  public static enum AprilTagPosition {
+    LEFT,
+    RIGHT,
+    CENTER
+  }
+
+  public static enum AprilTagType {
+    SOURCE,
+    AMP,
+    SPEAKER,
+    STAGE,
+  }
+
+  public static Dictionary<String, AprilTag> AllAprilTags = new Hashtable<String, AprilTag>() {{
+    //Blue Alliance April tags 1, 2, 6, 7, 8, 14, 15, 16
+    //Red Alliance April tags 3, 4, 5, 9, 10, 11, 12, 13
+    put("1.0", new AprilTag("1.0", AprilTagType.SOURCE, AprilTagPosition.RIGHT, Alliance.Blue, 593.68, 9.68, 53.38, 120.00, 25.0, 0, 0));
+    put("2.0", new AprilTag("2.0", AprilTagType.SOURCE, AprilTagPosition.LEFT, Alliance.Blue, 637.21, 34.79, 53.38, 120.00, 25.0, 0, 0));
+    put("3.0", new AprilTag("3.0", AprilTagType.SPEAKER, AprilTagPosition.RIGHT, Alliance.Red, 652.73,196.17, 57.13, 180.00, 55.0, 0, -40));
+    put("4.0", new AprilTag("4.0", AprilTagType.SPEAKER, AprilTagPosition.LEFT, Alliance.Red, 652.73, 218.42, 57.13, 180.00, 55.0, 0, 0));
+    put("5.0", new AprilTag("5.0", AprilTagType.AMP, AprilTagPosition.CENTER, Alliance.Red, 578.77, 323.00, 53.38, 270.00, 20.0, 0, 0));
+    put("6.0", new AprilTag("6.0", AprilTagType.AMP, AprilTagPosition.CENTER, Alliance.Blue, 72.5, 323.00, 53.38, 270.00, 20, 0, 0));
+    put("7.0", new AprilTag("7.0", AprilTagType.SPEAKER, AprilTagPosition.RIGHT, Alliance.Blue, -1.50, 218.42, 57.13, 0.00, 55, 0, 40));
+    put("8.0", new AprilTag("8.0", AprilTagType.SPEAKER, AprilTagPosition.LEFT, Alliance.Blue, -1.50, 196.17, 57.13, 0.00, 55, 0, 0));
+    put("9.0", new AprilTag("9.0", AprilTagType.SOURCE, AprilTagPosition.RIGHT, Alliance.Red, 14.02, 34.79, 53.38, 60.00, 25, 0, 0));
+    put("10.0", new AprilTag("10.0", AprilTagType.SOURCE, AprilTagPosition.LEFT, Alliance.Red, 57.54, 9.68, 53.38, 60.00, 20, 0, 0));
+    put("11.0", new AprilTag("11.0", AprilTagType.STAGE, AprilTagPosition.LEFT, Alliance.Red, 468.69, 146.19, 52.00, 300.00, 16, 0, 0));
+    put("12.0", new AprilTag("12.0", AprilTagType.STAGE, AprilTagPosition.RIGHT, Alliance.Red, 468.69, 177.10, 52.00, 60.00, 16, 0, 0));
+    put("13.0", new AprilTag("13.0", AprilTagType.STAGE, AprilTagPosition.CENTER, Alliance.Red, 441.74, 161.62, 52.00, 180.00, 16, 0, 0));
+    put("14.0", new AprilTag("14.0", AprilTagType.STAGE, AprilTagPosition.CENTER, Alliance.Blue, 209.48, 161.62, 52.00, 0.00, 16, 0, 0));
+    put("15.0", new AprilTag("15.0", AprilTagType.STAGE, AprilTagPosition.LEFT, Alliance.Blue, 182.73, 177.10, 52.00, 120.00, 16, 0, 0));
+    put("16.0", new AprilTag("16.0", AprilTagType.STAGE, AprilTagPosition.RIGHT, Alliance.Blue, 182.73, 146.19, 52.00, 240.00, 16, 0, 0));
+  }};
 }
