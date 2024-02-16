@@ -11,6 +11,12 @@
         "x": 6.928705090669111,
         "y": 7.43179772166836
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.8061861077219181,
+        "y": 7.605056211786532
+>>>>>>> intake-shooter
+      },
       "isLocked": false,
       "linkedName": null
     },
@@ -28,6 +34,7 @@
       "linkedName": null
     }
   ],
+<<<<<<< HEAD
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
