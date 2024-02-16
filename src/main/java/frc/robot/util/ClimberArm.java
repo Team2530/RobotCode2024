@@ -34,6 +34,7 @@ public class ClimberArm {
             motor.getEncoder().setPosition(0.0);
             is_calibrated = true;
         } 
+        
         // TODO: For production bot
         if (is_calibrated) {
             motor.set(motlim.calculate(throttle));

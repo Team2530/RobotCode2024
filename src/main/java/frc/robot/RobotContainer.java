@@ -12,7 +12,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
 
-
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Arm.Presets;
@@ -24,6 +23,7 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 
@@ -52,14 +52,13 @@ public class RobotContainer {
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
     private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID());
 
-    private final Intake intake = new Intake();
+    private final Intake intake = new Intake(driverXbox);
     private final Shooter shooter = new Shooter();
 
     // ----------- Commands ---------- \\
 
     private final ClimberSubsystem climber = new ClimberSubsystem(swerveDriveSubsystem.navX);
     private final ClimberCommand climberCommand = new ClimberCommand(climber, operatorXbox.getHID());
-
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -88,52 +87,63 @@ public class RobotContainer {
      */
     private void configureBindings() {
         // Stow intake/shooter
-        operatorXbox.a().onTrue(new InstantCommand(() -> {
+        operatorXbox.b().onTrue(new InstantCommand(() -> {
             arm.setArmPreset(Presets.STOW);
         }));
 
         // INtake/intake shooter
-        operatorXbox.b().onTrue(new InstantCommand(() -> {
+        operatorXbox.a().onTrue(new InstantCommand(() -> {
             arm.setArmPreset(Presets.INTAKE);
         }));
 
-        // intake
-        driverXbox.y().and(new BooleanSupplier() {
-            public boolean getAsBoolean() {
-                return !intake.getFrontLimitClosed();
-            }
-        }).onTrue(
-            new IntakeCommand(intake).raceWith(new WaitUntilCommand(driverXbox.x().negate()))
-        );
+        operatorXbox.x().onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.SHOOT_HIGH);
+        }));
 
-        // Shoot
-        driverXbox.x().and(new BooleanSupplier() {
-            public boolean getAsBoolean() {
-                return !intake.getFrontLimitClosed();
-            }
-        }).onTrue(
-            new IntakeCommand(intake).raceWith(new WaitUntilCommand(driverXbox.x().negate()))
-        );
+        operatorXbox.y().onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.AMP);
+        }));
 
-        driverXbox.b().and(new BooleanSupplier() {
+        // ? old intake
+        // operatorXbox.y().and(new BooleanSupplier() {
+        // public boolean getAsBoolean() {
+        // return !intake.getFrontLimitClosed();
+        // }
+        // }).onTrue(
+        // new IntakeCommand(intake).raceWith(new
+        // WaitUntilCommand(operatorXbox.y().negate())));
+
+        // set arm to intake, once has happened, retract the arm and center the note
+        operatorXbox.leftBumper().onTrue(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> {
+                            arm.setArmPreset(Presets.INTAKE);
+                        })))
+                .whileTrue(new SequentialCommandGroup(
+                        new IntakeCommand(intake)).andThen(new ParallelCommandGroup(new InstantCommand(() -> {
+                            arm.setArmPreset(Presets.STOW);
+                        }),
+                                new AlignNoteCommand(intake, shooter))));
+
+        // shoot command
+        operatorXbox.rightBumper().and(new BooleanSupplier() {
             public boolean getAsBoolean() {
+                // note in shootake
                 return intake.getReverseLimitClosed() || intake.getFrontLimitClosed();
             }
         }).onTrue(
-            new ParallelRaceGroup(
-                new WaitUntilCommand(driverXbox.b().negate()),
-                new SequentialCommandGroup(
-                    new AlignNoteCommand(intake, shooter),
-                    new PrintCommand("EEEEEEEEEEEEEEEE"),
-                    new PrepNoteCommand(shooter, intake),
-                    new PrepShooterCommand(intake, shooter, 1.0),
-                    new ShootCommand(shooter, intake)
-                    // new InstantCommand(() -> {
-                    //     shooter.coast();
-                    //     shooter.setMode(ShooterMode.STOPPED);
-                    // })
-            ))
-        );
+                new ParallelRaceGroup(
+                        new WaitUntilCommand(operatorXbox.rightBumper().negate()),
+                        new SequentialCommandGroup(
+                                new AlignNoteCommand(intake, shooter),
+                                new PrepNoteCommand(shooter, intake),
+                                new PrepShooterCommand(intake, shooter, 0.4),
+                                new ShootCommand(shooter, intake)
+                        // new InstantCommand(() -> {
+                        // shooter.coast();
+                        // shooter.setMode(ShooterMode.STOPPED);
+                        // })
+                        )));
     }
 
     /**
@@ -147,5 +157,13 @@ public class RobotContainer {
 
     public SwerveSubsystem getSwerveSubsystem() {
         return swerveDriveSubsystem;
+    }
+
+    public CommandXboxController getDriverXbox() {
+        return driverXbox;
+    }
+
+    public CommandXboxController getOperatorXbox() {
+        return operatorXbox;
     }
 }

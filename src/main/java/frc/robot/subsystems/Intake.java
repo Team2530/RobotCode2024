@@ -16,8 +16,12 @@ import com.ctre.phoenix6.signals.ReverseLimitSourceValue;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.ArmConstants;
 
 public class Intake extends SubsystemBase {
@@ -41,7 +45,7 @@ public class Intake extends SubsystemBase {
 
     // Falcon 500 intake motor
     private final TalonFX intakeMotor = new TalonFX(ArmConstants.INTAKE_MOTOR_PORT);
-    HardwareLimitSwitchConfigs limconf =new HardwareLimitSwitchConfigs();
+    HardwareLimitSwitchConfigs limconf = new HardwareLimitSwitchConfigs();
 
 
     // desired custom motor output percent
@@ -52,7 +56,9 @@ public class Intake extends SubsystemBase {
     // allow motor to speed up quickly and slow down over a period of time
     private final SlewRateLimiter intakeProfile = new SlewRateLimiter(5, -5, 0.0);
 
-    public Intake() {
+    private final CommandXboxController driverXboxController;
+
+    public Intake(CommandXboxController driverXboxController) {
         limconf.ForwardLimitSource = ForwardLimitSourceValue.LimitSwitchPin;
         limconf.ReverseLimitSource = ReverseLimitSourceValue.LimitSwitchPin;
         limconf.ReverseLimitEnable = false;
@@ -61,6 +67,8 @@ public class Intake extends SubsystemBase {
     
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
         intakeMotor.setInverted(true);
+
+        this.driverXboxController = driverXboxController;
     }
 
     @Override
@@ -74,6 +82,12 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("Intake Percent", percent * 100);
         SmartDashboard.putBoolean("Intake FWD Limit", getFrontLimitClosed());
         SmartDashboard.putBoolean("Intake REV Limit", getReverseLimitClosed());
+
+        if(getFrontLimitClosed()) {
+            driverXboxController.getHID().setRumble(RumbleType.kBothRumble, 1);
+        } else {
+            driverXboxController.getHID().setRumble(RumbleType.kBothRumble, 0);
+        }
 
     }
 

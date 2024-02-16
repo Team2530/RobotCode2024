@@ -47,7 +47,6 @@ public class StageTwo extends ProfiledPIDSubsystem {
 
     public void setGoalDegrees(double degrees) {
         setGoal(Units.degreesToRadians(degrees));
-        enable();
     }
 
 

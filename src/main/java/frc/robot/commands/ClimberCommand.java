@@ -43,10 +43,10 @@ public class ClimberCommand extends Command {
         }
 
         // MANUAL OVERRIDE
-        if (xbox.getAButton()) {
-            climber.leftArm.motor.set(xbox.getLeftY());
-            climber.rightArm.motor.set(xbox.getRightY());
-        }
+        // if (xbox.getAButton()) {
+        //     climber.leftArm.motor.set(xbox.getLeftY());
+        //     climber.rightArm.motor.set(xbox.getRightY());
+        // }
 
         // if (command == ClimberState.Stow) {
         //     climber.stow();
@@ -65,11 +65,11 @@ public class ClimberCommand extends Command {
     }
 
     // HACK: Only leave this initialize() method if the climber needs to calibrate every time the bot enables...
-    @Override
-    public void initialize() {
-        climber.leftArm.is_calibrated = false;
-        climber.rightArm.is_calibrated = false;
-    }
+    // @Override
+    // public void initialize() {
+    //     climber.leftArm.is_calibrated = false;
+    //     climber.rightArm.is_calibrated = false;
+    // }
     
     @Override
     public void end(boolean interrupted) {}
