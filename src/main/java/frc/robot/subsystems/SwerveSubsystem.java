@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Optional;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -18,6 +20,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SPI;
@@ -28,9 +31,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.AprilTag;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.*;
+import frc.robot.LimelightHelpers;
 
 public class SwerveSubsystem extends SubsystemBase {
     SwerveModule frontLeft = new SwerveModule(SwerveModuleConstants.FL_STEER_ID, SwerveModuleConstants.FL_DRIVE_ID,
@@ -106,10 +111,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public void periodic() {
         odometry.update(getRotation2d(), getModulePositions());
 
-        // TODO: Test
-        // WARNING: REMOVE IF USING TAG FOLLOW!!!
-        // odometry.addVisionMeasurement(LimelightHelpers.getBotPose2d(null),
-        // Timer.getFPGATimestamp());
+        updateVisionOdometry();
 
         if (DriverStation.getAlliance().isPresent()) {
             switch (DriverStation.getAlliance().get()) {
@@ -296,4 +298,56 @@ public class SwerveSubsystem extends SubsystemBase {
 
         return path;
     }
+
+    /**
+     * Updates pose estimator based on what vision sees
+     */
+    public void updateVisionOdometry() {
+        // Update robot pose with Limelight vision
+       try{
+            var poseEntry = LimelightHelpers.getLimelightNTTableEntry("limelight", "botpose_wpiblue");
+            var poseArray = poseEntry.getDoubleArray(new double[0]);
+            if(poseArray.length > 0)
+            {
+                SmartDashboard.putNumber("I am here", poseArray.length);
+                double timestamp = poseEntry.getLastChange() / 1e6 - poseArray[6] / 1e3;
+                if(!(poseArray[0] == 0.0 && poseArray[1] == 0.0 && poseArray[5] == 0.0)){
+                    Pose2d pose = new Pose2d(
+                    new Translation2d(poseArray[0], poseArray[1]),
+                    new Rotation2d(Units.degreesToRadians(poseArray[5])));
+
+                    odometry.addVisionMeasurement(pose, timestamp);
+                }
+               
+            }
+        }
+        catch(Exception e){
+            SmartDashboard.putString("AddvisionError", e.getMessage());
+        }
+    }
+
+    public AprilTag getAprilTag(AprilTagPosition tagPosition, AprilTagType tagType)
+    {
+      // if there is an alliance it gets the alliance (blue or red)
+      Optional<Alliance> alliance = DriverStation.getAlliance();
+      AprilTag returnValue = null;
+      // loops through the hashtable and finds the correct apriltag and returns the details
+      if(alliance.isPresent()){
+          Enumeration<String> e = Constants.AllAprilTags.keys();
+          AprilTag tag = null;
+          while(e.hasMoreElements()) {
+              String key = e.nextElement();
+              tag = Constants.AllAprilTags.get(key);
+              if(tag != null && tag.GetAlliance() == alliance.get() && tag.GetTagPosition() == tagPosition && tag.GetTagType() == tagType){
+                  returnValue = tag;
+                  break;
+              }
+          }
+      }
+      return returnValue;
+  }
+
+  public AprilTag getAprilTagByID (String tagId){
+   return Constants.AllAprilTags.get(tagId);
+  }
 }
