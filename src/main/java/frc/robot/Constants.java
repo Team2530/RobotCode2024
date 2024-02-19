@@ -187,6 +187,8 @@ public final class Constants {
     // Link lengths in inches
     public static final double STAGE_ONE_LENGTH = 19.7;
     public static final double STAGE_TWO_LENGTH = 12.0;
+    public static final double MAST_HEIGHT = 24.0;
+    public static final double TARGET_ANGLE = -70.0;
 
     public static final String STAGE_ONE_OFFSET_KEY = "STAGE_ONE_OFFSET";
     public static final String STAGE_TWO_OFFSET_KEY = "STAGE_TWO_OFFSET";

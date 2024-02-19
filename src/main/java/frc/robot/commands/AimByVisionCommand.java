@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import static frc.robot.Constants.ArmConstants.*;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.Timer;
@@ -25,6 +27,9 @@ public class AimByVisionCommand extends Command {
     private KnownAprilTagDetail aprilTagDetail;
     private AprilTag aprilTag;
     private Pose3d targetPose;
+    private double relativeTargetHeight;
+    private double relativeTargetDistance;
+    private double targetAngle;
     private Pose2d robotPose;
 
     public AimByVisionCommand(SwerveSubsystem swerveSubsystem, Arm arm, LimeLightSubsystem limeLightSubsystem) {
@@ -49,13 +54,34 @@ public class AimByVisionCommand extends Command {
                     targetPose = Constants.AprilTagTargetsBlue.get(aprilTag.GetTagType());
                     break;
             }
-            
-            int shoulder = 0;
-            int wrist = 0;
+            relativeTargetDistance =  Math.sqrt(Math.pow(Math.abs(targetPose.getX() - robotPose.getX()),2)
+                + Math.pow(Math.abs(targetPose.getY() - robotPose.getY()), 2)
+            );
+            relativeTargetHeight = targetPose.getZ() - MAST_HEIGHT;  
+            targetAngle = targetPose.getRotation().getX() != 0.0
+                ? targetPose.getRotation().getX()
+                : targetPose.getRotation().getY(); 
+
+            double shoulder;
+            for (shoulder = 10; shoulder <= 90; shoulder += 5) { 
+                if (calculateWrist(shoulder)+shoulder-targetAngle > calculateWrist(-5)+shoulder-targetAngle) {
+                    break;
+                }                   
+            } 
+            double wrist = calculateWrist(shoulder);
+
             arm.setArmAngles(shoulder, wrist);
         } else if (Timer.getFPGATimestamp() - stallTimer > 1.5) {
             arm.setArmPreset(Presets.STOW);
         }
     }
-    
+
+    private double calculateWrist(double shoulder) { 
+        return Math.atan(
+                (relativeTargetHeight - STAGE_ONE_LENGTH * Math.sin(shoulder))
+                / (relativeTargetDistance - STAGE_ONE_LENGTH * Math.cos(shoulder))
+            ) - shoulder; 
+    }
+
+   
 }
