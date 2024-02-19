@@ -16,6 +16,7 @@ import com.ctre.phoenix6.signals.ReverseLimitSourceValue;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -86,7 +87,7 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putBoolean("Intake FWD Limit", getFrontLimitClosed());
         SmartDashboard.putBoolean("Intake REV Limit", getReverseLimitClosed());
 
-        if(getFrontLimitClosed()) {
+        if(getFrontLimitClosed() && DriverStation.isTeleop() == true && DriverStation.isDisabled() == false) {
             driverXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
             operatorXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
 

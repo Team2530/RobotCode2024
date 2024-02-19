@@ -252,7 +252,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
         return new FollowPathHolonomic(
                 path,
-                this::getPose, // Robot pose supplier
+                this::getPose,// Robot pose supplier
                 this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                 this::setChassisSpeedsAUTO, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
