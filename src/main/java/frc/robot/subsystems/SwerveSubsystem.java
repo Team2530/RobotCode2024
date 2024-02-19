@@ -315,7 +315,12 @@ public class SwerveSubsystem extends SubsystemBase {
                     Pose2d pose = new Pose2d(
                     new Translation2d(poseArray[0], poseArray[1]),
                     new Rotation2d(Units.degreesToRadians(poseArray[5])));
-
+                    SmartDashboard.putNumber("PoseX", poseArray[0]);
+                    SmartDashboard.putNumber("PoseY", poseArray[1]);
+                    SmartDashboard.putNumber("PoseZ", poseArray[2]);
+                    SmartDashboard.putNumber("PoseRX", poseArray[3]);
+                    SmartDashboard.putNumber("PoseRY", poseArray[4]);
+                    SmartDashboard.putNumber("PoseRZ", poseArray[5]);
                     odometry.addVisionMeasurement(pose, timestamp);
                 }
                
