@@ -46,7 +46,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-first-note"
+                        "pathName": "4-close  first-note"
                       }
                     }
                   ]
@@ -62,7 +62,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "4-close-middle-connector"
+                  "pathName": "4-close  middle-connector"
                 }
               },
               {
@@ -97,7 +97,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-top-note-path"
+                        "pathName": "4-close  top-note-path"
                       }
                     },
                     {
@@ -112,7 +112,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "4-close-middle-connector"
+                  "pathName": "4-close  middle-connector"
                 }
               },
               {
@@ -147,7 +147,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-bottom-note-path"
+                        "pathName": "4-close  bottom-note-path"
                       }
                     },
                     {
@@ -168,7 +168,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "4-close-middle-connector"
+                  "pathName": "4-close  middle-connector"
                 }
               }
             ]

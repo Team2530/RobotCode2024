@@ -157,7 +157,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot Far", Commands.print("Shoot from farther away look at (4-top)"));
         NamedCommands.registerCommand("Pickup", Commands.print("Have continuous until picked up???"));
         
-        return new PathPlannerAuto("4-close");
+        return new PathPlannerAuto("4-bottom");
     }
 
     public SwerveSubsystem getSwerveSubsystem() {

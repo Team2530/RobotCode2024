@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7648752936704096,
-      "y": 4.397184384569215
+      "x": 0.7626093884666401,
+      "y": 4.373613761472538
     },
     "rotation": -59.036243467926454
   },
@@ -18,19 +18,184 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Shoot Close"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "4-bottom-first-note"
+                  "name": "Set Arm Shoot Close"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Pickup"
+                  "name": "Shoot Close"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-bottom  first-note"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-bottom  main-grab"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Set Arm Shoot 4-bottom"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.3
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-bottom  middle-1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-bottom  main-grab"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Set Arm Shoot 4-bottom"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.3
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-bottom  middle-2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-bottom  main-grab"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Set Arm Shoot 4-bottom"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.3
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
                 }
               }
             ]

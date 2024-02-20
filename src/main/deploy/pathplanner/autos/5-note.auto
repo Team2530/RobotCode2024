@@ -2,31 +2,25 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.377372910647826,
-      "y": 5.594754352092224
+      "x": 0.78,
+      "y": 4.42
     },
-    "rotation": 0.0
+    "rotation": -60.200484698625274
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot Close"
+            "pathName": "5-note  pickup second note "
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "AMP  Main-Route"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Amp"
+            "pathName": "5-note  shoot second note"
           }
         }
       ]
