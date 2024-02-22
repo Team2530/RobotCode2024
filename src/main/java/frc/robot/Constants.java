@@ -201,13 +201,13 @@ public final class Constants {
         3,
         0.0,
         0.0,
-        new Constraints(2, 1.5));
+        new Constraints(3, 3));
 
     public static final ProfiledPIDController STAGE_TWO_PROFILEDPID = new ProfiledPIDController(
-        6,
+        12,
         0.0,
         0.001,
-        new Constraints(4, 3));
+        new Constraints(12, 12));
 
     public static final ArmFeedforward STAGE_ONE_FEEDFORWARD = new ArmFeedforward(
         0.0,
