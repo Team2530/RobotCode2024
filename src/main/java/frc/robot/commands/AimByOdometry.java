@@ -2,10 +2,13 @@ package frc.robot.commands;
 
 import static frc.robot.Constants.ArmConstants.*;
 
+import java.util.Dictionary;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.AprilTag;
@@ -18,13 +21,11 @@ import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Arm.Presets;    
 
 
-public class AimByVisionCommand extends Command {
+public class AimByOdometry extends Command {
 
     private SwerveSubsystem swerveSubsystem;
     private Arm arm;
-    private LimeLightSubsystem limeLightSubsystem;
-    
-    private double stallTimer;
+    private AprilTagType target;
 
     private KnownAprilTagDetail aprilTagDetail;
     private AprilTag aprilTag;
@@ -34,24 +35,28 @@ public class AimByVisionCommand extends Command {
     private double targetAngle;
     private Pose2d robotPose;
 
-    public AimByVisionCommand(SwerveSubsystem swerveSubsystem, Arm arm, LimeLightSubsystem limeLightSubsystem) {
+    public AimByOdometry(SwerveSubsystem swerveSubsystem, Arm arm, AprilTagType target) {
         this.swerveSubsystem = swerveSubsystem;
         this.arm = arm;
-        this.limeLightSubsystem = limeLightSubsystem;
+        this.target = target;
 
-        stallTimer = Timer.getFPGATimestamp();
+        for (AprilTag x : Constants.AllAprilTags.values()) {
+            if (x.GetTagType() == this.target && DriverStation.getAlliance().get() == x.GetAlliance()) {
+                this.aprilTag = x;
+                break;            
+            }
+        }
+        this.targetPose = aprilTag.getTagPose3dinField();
     }
 
     @Override 
     public void execute() {
-        if (limeLightSubsystem.isAprilTagFound()) {
-            aprilTagDetail = limeLightSubsystem.getKnownAprilTagDetail(AprilTagPosition.CENTER);
-            aprilTag = aprilTagDetail.GetAprilTag();
-            targetPose = aprilTagDetail.GetTargetPoseRobotSpace();
+        relativeTargetDistance =  Math.sqrt(Math.pow(targetPose.getX() - robotPose.getX(),2)
+                + Math.pow(targetPose.getY() - robotPose.getY(), 2)
+        );
+        if (relativeTargetDistance > 60) {
+            robotPose = swerveSubsystem.getPose();
 
-            relativeTargetDistance =  Math.sqrt(Math.pow(Math.abs(targetPose.getX()),2)
-                + Math.pow(Math.abs(targetPose.getY()), 2)
-            );
             relativeTargetHeight = targetPose.getZ() - MAST_HEIGHT;  
             targetAngle = targetPose.getRotation().getX() != 0.0
                 ? targetPose.getRotation().getX()
@@ -66,16 +71,13 @@ public class AimByVisionCommand extends Command {
             double wrist = calculateWrist(shoulder);
             arm.setArmAngles(shoulder, wrist);
 
-            double relativeTargetAngle = Math.atan2(targetPose.getX(), targetPose.getY());
+            double relativeTargetAngle = Math.atan2(targetPose.getX() - robotPose.getX(), targetPose.getY() - robotPose.getY());
             ChassisSpeeds prevSpeeds = swerveSubsystem.getChassisSpeeds();
             prevSpeeds.omegaRadiansPerSecond = DriveConstants.ORIENTED_PID.calculate(0, relativeTargetAngle);
 
             SwerveModuleState[] calculatedModuleStates = DriveConstants.KINEMATICS.toSwerveModuleStates(prevSpeeds);
             swerveSubsystem.setModules(calculatedModuleStates);
-            
-            
-
-        } else if (Timer.getFPGATimestamp() - stallTimer > 1.5) {
+        } else {
             arm.setArmPreset(Presets.STOW);
         }
     }

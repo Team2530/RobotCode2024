@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -122,6 +123,12 @@ public final class Constants {
 
     public static final double XY_SPEED_LIMIT = 1.0;
     public static final double Z_SPEED_LIMIT = 1.0;
+
+    public static final ProfiledPIDController ORIENTED_PID = new ProfiledPIDController(
+      0.03,
+      0,
+      0, 
+      new Constraints(2*Math.PI, 2*Math.PI));
   }
 
   public static class CommonConstants {
@@ -264,7 +271,7 @@ public final class Constants {
     STAGE,
   }
 
-  public static Dictionary<String, AprilTag> AllAprilTags = new Hashtable<String, AprilTag>() {{
+  public static Map<String, AprilTag> AllAprilTags = new Hashtable<String, AprilTag>() {{
     //Blue Alliance April tags 1, 2, 6, 7, 8, 14, 15, 16
     //Red Alliance April tags 3, 4, 5, 9, 10, 11, 12, 13
     put("1.0", new AprilTag("1.0", AprilTagType.SOURCE, AprilTagPosition.RIGHT, Alliance.Blue, 593.68, 9.68, 53.38, 120.00, 25.0, 0, 0));

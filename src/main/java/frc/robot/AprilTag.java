@@ -1,8 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants.AprilTagPosition;
@@ -62,7 +65,11 @@ public class AprilTag {
 
     public Pose2d getTagPose2dInFieldForGivenPreset(double presetX, double presetY, double presetRotation){
         return new Pose2d(new Translation2d(Units.inchesToMeters(_x - presetX), Units.inchesToMeters(_y - presetY)), new Rotation2d(Units.degreesToRadians(0)));
-    }    
+    }   
+    
+    public Pose3d getTagPose3dinField() {
+        return new Pose3d(new Translation3d(Units.inchesToMeters(_x), Units.inchesToMeters(_y), Units.inchesToMeters(_z)), new Rotation3d(0, 0, Units.degreesToRadians(_rotation)));
+    }
 
 
     public double getPresetX(){

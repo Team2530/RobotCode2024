@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.Enumeration;
 import java.util.Optional;
-
+import java.util.Set;
 import java.util.List;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -66,12 +66,19 @@ public class SwerveSubsystem extends SubsystemBase {
             2, 3
     };
 
+    enum RotationControl {
+        Free,
+        Locked
+    }
+
     public final AHRS navX  = new AHRS(SPI.Port.kMXP);
     private double navxSim;
 
     private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();
 
     private Field2d field = new Field2d();
+
+    private RotationControl rotaitonControl = RotationControl.Free;
 
     // TODO: Properly set starting pose
     private final SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(DriveConstants.KINEMATICS,
@@ -329,16 +336,16 @@ public class SwerveSubsystem extends SubsystemBase {
       AprilTag returnValue = null;
       // loops through the hashtable and finds the correct apriltag and returns the details
       if(alliance.isPresent()){
-          Enumeration<String> e = Constants.AllAprilTags.keys();
-          AprilTag tag = null;
-          while(e.hasMoreElements()) {
-              String key = e.nextElement();
-              tag = Constants.AllAprilTags.get(key);
-              if(tag != null && tag.GetAlliance() == alliance.get() && tag.GetTagPosition() == tagPosition && tag.GetTagType() == tagType){
-                  returnValue = tag;
-                  break;
-              }
-          }
+            Set<String> e = Constants.AllAprilTags.keySet();
+            AprilTag tag = null;
+
+            for (String key : e) {
+                tag = Constants.AllAprilTags.get(key);
+                if(tag != null && tag.GetAlliance() == alliance.get() && tag.GetTagPosition() == tagPosition && tag.GetTagType() == tagType){
+                    returnValue = tag;
+                    break;
+                }
+            }
       }
       return returnValue;
   }
