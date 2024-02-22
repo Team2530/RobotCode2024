@@ -8,7 +8,7 @@ import frc.robot.Constants.*;
 import frc.robot.commands.*;
 
 import com.kauailabs.navx.frc.AHRS;
-
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Arm.Presets;
@@ -122,6 +122,18 @@ public class RobotContainer {
                         }),
                                 new AlignNoteCommand(intake, shooter))));
 
+        operatorXbox.leftTrigger().and(new BooleanSupplier() {
+            public boolean getAsBoolean() {
+                return operatorXbox.getLeftTriggerAxis() > 0.1;
+            }
+        }).onTrue(new InstantCommand(() -> {
+            intake.setCustomPercent(-operatorXbox.getLeftTriggerAxis());
+            shooter.setCustomPercent(operatorXbox.getLeftTriggerAxis());
+        })).onFalse(new InstantCommand(() -> {
+            intake.setCustomPercent(0.0);
+            shooter.setCustomPercent(0.0);
+        }));
+
         // shoot command
         operatorXbox.rightBumper().and(new BooleanSupplier() {
             public boolean getAsBoolean() {
@@ -186,6 +198,28 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
+      /**  NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
+            new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
+            new WaitCommand(2),
+            new AlignNoteCommand(intake, shooter),
+            new PrepNoteCommand(shooter, intake),
+            new PrepShooterCommand(intake, shooter, 0.8),
+            new ShootCommand(shooter, intake)
+        )); */
+       /** NamedCommands.registerCommand("Pickup", new SequentialCommandGroup(
+            new InstantCommand(() -> {arm.setArmPreset(Presets.INTAKE);}),
+            new IntakeCommand(intake)));*/
+   //     return new PathPlannerAuto("Test Auto");
+        // return new SequentialCommandGroup(
+        //     new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
+        //     new WaitCommand(2),
+        //     new AlignNoteCommand(intake, shooter),
+        //     new PrepNoteCommand(shooter, intake),
+        //     new PrepShooterCommand(intake, shooter, 0.8),
+        //     new InstantCommand(() -> System.out.println("HELLLLLOOO")),
+        //     new ShootCommand(shooter, intake)
+        // );
+
         return new PathPlannerAuto("AMP");
     }
 

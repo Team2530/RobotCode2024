@@ -83,6 +83,6 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isUpToSpeed() {
-        return shooterMotor.getRotorVelocity().getValueAsDouble() > (outputPercent * 90.0);
+        return shooterMotor.getRotorVelocity().getValueAsDouble() > (outputPercent * 80.0);
     }
 }
