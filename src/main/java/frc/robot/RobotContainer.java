@@ -103,6 +103,15 @@ public class RobotContainer {
         operatorXbox.y().onTrue(new InstantCommand(() -> {
             arm.setArmPreset(Presets.AMP);
         }));
+        
+        // intake preset on climber start
+        operatorXbox.button(12).onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.INTAKE);
+        }));
+
+        operatorXbox.button(13).onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.INTAKE);
+        }));
 
         // ? old intake
         // operatorXbox.y().and(new BooleanSupplier() {
