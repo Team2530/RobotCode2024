@@ -191,15 +191,17 @@ public class RobotContainer {
             new InstantCommand(() -> {arm.setArmPreset(Presets.INTAKE);}),
             new IntakeCommand(intake)));*/
    //     return new PathPlannerAuto("Test Auto");
-        return new SequentialCommandGroup(
-            new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
-            new WaitCommand(2),
-            new AlignNoteCommand(intake, shooter),
-            new PrepNoteCommand(shooter, intake),
-            new PrepShooterCommand(intake, shooter, 0.8),
-            new InstantCommand(() -> System.out.println("HELLLLLOOO")),
-            new ShootCommand(shooter, intake)
-        );
+        // return new SequentialCommandGroup(
+        //     new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
+        //     new WaitCommand(2),
+        //     new AlignNoteCommand(intake, shooter),
+        //     new PrepNoteCommand(shooter, intake),
+        //     new PrepShooterCommand(intake, shooter, 0.8),
+        //     new InstantCommand(() -> System.out.println("HELLLLLOOO")),
+        //     new ShootCommand(shooter, intake)
+        // );
+
+        return new PathPlannerAuto("AMP");
     }
 
     public SwerveSubsystem getSwerveSubsystem() {
