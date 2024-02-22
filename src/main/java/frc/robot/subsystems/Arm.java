@@ -61,4 +61,18 @@ public class Arm extends SubsystemBase {
     }
   }
 
+  public double getPresetShooterSpeed() {
+    SmartDashboard.putNumber("Shoot Speed", 0.8);
+    switch (currentPreset) {
+      case SHOOT_HIGH:
+        return 0.8;
+      case SHOOT_LOW:
+        return 0.8;
+      case AMP:
+        return 0.4;
+      default:
+        return 0.0;
+    }
+  }
+
 }
