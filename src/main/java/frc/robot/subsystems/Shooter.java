@@ -61,7 +61,7 @@ public class Shooter extends SubsystemBase {
         // clamp between (-1, 1)
         outputPercent = Math.max(-1, Math.min(percent, 1));
 
-        SmartDashboard.putString("Shootake", "Shooter speed set to " + String.format("%.0f", percent * 100) + " percent");
+        SmartDashboard.putString("Shooter", "Shooter speed set to " + String.format("%.0f", percent * 100) + " percent");
     }
 
     public double getOutputPercent() {

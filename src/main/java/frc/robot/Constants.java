@@ -193,7 +193,7 @@ public final class Constants {
 
     public static final double STAGE_ONE_ENCODER_OFFSET = 0.0175;
 
-    public static final double STAGE_TWO_ENCODER_OFFSET = -0.394043 - 0.0527;
+    public static final double STAGE_TWO_ENCODER_OFFSET = -0.394043 - 0.066;
 
     public static final double INTAKE_ENCODER_TO_ROT = 10.0 / 18.0;
 

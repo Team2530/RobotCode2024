@@ -60,6 +60,9 @@ public class RobotContainer {
     private final ClimberSubsystem climber = new ClimberSubsystem(swerveDriveSubsystem.navX);
     private final ClimberCommand climberCommand = new ClimberCommand(climber, operatorXbox.getHID());
 
+    // Requested shooter output speed
+    private double shootSpeed = 0.0;
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -97,7 +100,7 @@ public class RobotContainer {
         }));
 
         operatorXbox.x().onTrue(new InstantCommand(() -> {
-            arm.setArmPreset(Presets.SHOOT_HIGH);
+            arm.setArmPreset(Presets.SHOOT_LOW);
         }));
 
         operatorXbox.y().onTrue(new InstantCommand(() -> {
@@ -158,7 +161,7 @@ public class RobotContainer {
                         new SequentialCommandGroup(
                                 new AlignNoteCommand(intake, shooter),
                                 new PrepNoteCommand(shooter, intake),
-                                new PrepShooterCommand(intake, shooter, 0.8)
+                                new PrepShooterCommand(intake, shooter, arm)
                         // new InstantCommand(() -> {
                         // shooter.coast();
                         // shooter.setMode(ShooterMode.STOPPED);

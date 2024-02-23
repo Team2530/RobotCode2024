@@ -32,6 +32,13 @@
       }
     }
   },
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "open": true
+      }
+    }
+  },
   "NetworkTables Info": {
     "Connections": {
       "open": true
