@@ -39,7 +39,7 @@ public class SwerveModule {
     public SwerveModule(int steerCanID, int driveCanID, int absoluteEncoderPort, double motorOffsetRadians,
             boolean isAbsoluteEncoderReversed, boolean motorReversed) {
         driveMotor = new CANSparkMax(driveCanID, MotorType.kBrushless);
-        driveMotor.setInverted(false);
+        driveMotor.setInverted(motorReversed);
         driveMotor.setIdleMode(IdleMode.kBrake);
         steerMotor = new CANSparkMax(steerCanID, MotorType.kBrushless);
         steerMotor.setIdleMode(IdleMode.kBrake);

@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,10 +14,10 @@ public class Arm extends SubsystemBase {
     // stage 2 angle is refrenced as zero relative to stage one, intake pointing
     // out the front when the arm is vertical, and the intake horizontal
     STOW(-0.37, 181),
-    SHOOT_LOW(0, -40.6),
-    INTAKE(-14.7, 42.7),
-    AMP(100, 134),
-    SHOOT_HIGH(22, 58),
+    SHOOT_LOW(19, 48),
+    INTAKE(-14.7, 37.2),
+    AMP(101, 125),
+    SHOOT_HIGH(19, 48),
     STARTING_CONFIG(0, 90);
 
     private double s1angle;
@@ -58,6 +60,19 @@ public class Arm extends SubsystemBase {
         stageOne.enable();
         stageTwo.enable();
       }
+    }
+  }
+
+  public double getPresetShooterSpeed() {
+    switch (currentPreset) {
+      case SHOOT_HIGH:
+        return 0.8;
+      case SHOOT_LOW:
+        return 0.8;
+      case AMP:
+        return 0.5;
+      default:
+        return 0.0;
     }
   }
 

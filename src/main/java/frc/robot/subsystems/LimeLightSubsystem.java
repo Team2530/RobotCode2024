@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,10 +25,12 @@ public class LimeLightSubsystem extends SubsystemBase {
     Dictionary<String, KnownAprilTag> lastKnownAprilTags = new Hashtable<String, KnownAprilTag>();
 
     public LimeLightSubsystem() {
+
     }
 
     @Override
     public void periodic() {
+        if(RobotBase.isReal()) {
         try{
             KnownAprilTag aprilTag;
             LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults((LimelightConstants.limeLightName));
@@ -79,6 +82,7 @@ public class LimeLightSubsystem extends SubsystemBase {
         catch(Exception e){
             SmartDashboard.putString("LimeLight Read error", e.getMessage());
         }
+    }
     }
 
     public Boolean isAprilTagFound() {

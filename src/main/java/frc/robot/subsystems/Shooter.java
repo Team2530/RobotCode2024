@@ -47,14 +47,13 @@ public class Shooter extends SubsystemBase {
 
         SmartDashboard.putNumber("Shooter Percent", percent * 100);        
         SmartDashboard.putNumber("Shooter Real", shooterMotor.getRotorVelocity().getValueAsDouble());
+        SmartDashboard.putString("Shootake", "Shooter mode set to " + (shooterMode.name()));
 
     }
 
     public void setMode(ShooterMode mode) {
         shooterMode = mode;
         outputPercent = shooterMode.modeSpeed;
-
-         SmartDashboard.putString("Shootake", "Shooter mode set to " + (shooterMode.name()));
     }
 
     public void setCustomPercent(double percent) {
@@ -62,7 +61,7 @@ public class Shooter extends SubsystemBase {
         // clamp between (-1, 1)
         outputPercent = Math.max(-1, Math.min(percent, 1));
 
-        SmartDashboard.putString("Shootake", "Shooter speed set to " + String.format("%.0f", percent * 100) + " percent");
+        SmartDashboard.putString("Shooter", "Shooter speed set to " + String.format("%.0f", percent * 100) + " percent");
     }
 
     public double getOutputPercent() {
@@ -84,6 +83,6 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isUpToSpeed() {
-        return shooterMotor.getRotorVelocity().getValueAsDouble() > (outputPercent * 90.0);
+        return shooterMotor.getRotorVelocity().getValueAsDouble() > (outputPercent * 80.0);
     }
 }

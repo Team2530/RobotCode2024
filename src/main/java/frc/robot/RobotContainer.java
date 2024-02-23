@@ -12,7 +12,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.kauailabs.navx.frc.AHRS;
-
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Arm.Presets;
@@ -53,13 +53,16 @@ public class RobotContainer {
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
     private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID());
 
-    private final Intake intake = new Intake(driverXbox);
+    private final Intake intake = new Intake(driverXbox, operatorXbox);
     private final Shooter shooter = new Shooter();
 
     // ----------- Commands ---------- \\
 
     private final ClimberSubsystem climber = new ClimberSubsystem(swerveDriveSubsystem.navX);
     private final ClimberCommand climberCommand = new ClimberCommand(climber, operatorXbox.getHID());
+
+    // Requested shooter output speed
+    private double shootSpeed = 0.0;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -98,11 +101,20 @@ public class RobotContainer {
         }));
 
         operatorXbox.x().onTrue(new InstantCommand(() -> {
-            arm.setArmPreset(Presets.SHOOT_HIGH);
+            arm.setArmPreset(Presets.SHOOT_LOW);
         }));
 
         operatorXbox.y().onTrue(new InstantCommand(() -> {
             arm.setArmPreset(Presets.AMP);
+        }));
+        
+        // intake preset on climber start
+        operatorXbox.button(12).onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.INTAKE);
+        }));
+
+        operatorXbox.button(13).onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.INTAKE);
         }));
 
         // ? old intake
@@ -126,6 +138,18 @@ public class RobotContainer {
                         }),
                                 new AlignNoteCommand(intake, shooter))));
 
+        operatorXbox.leftTrigger().and(new BooleanSupplier() {
+            public boolean getAsBoolean() {
+                return operatorXbox.getLeftTriggerAxis() > 0.1;
+            }
+        }).onTrue(new InstantCommand(() -> {
+            intake.setCustomPercent(-operatorXbox.getLeftTriggerAxis());
+            shooter.setCustomPercent(operatorXbox.getLeftTriggerAxis());
+        })).onFalse(new InstantCommand(() -> {
+            intake.setCustomPercent(0.0);
+            shooter.setCustomPercent(0.0);
+        }));
+
         // shoot command
         operatorXbox.rightBumper().and(new BooleanSupplier() {
             public boolean getAsBoolean() {
@@ -138,13 +162,28 @@ public class RobotContainer {
                         new SequentialCommandGroup(
                                 new AlignNoteCommand(intake, shooter),
                                 new PrepNoteCommand(shooter, intake),
-                                new PrepShooterCommand(intake, shooter, 0.4),
-                                new ShootCommand(shooter, intake)
+                                new PrepShooterCommand(intake, shooter, arm)
                         // new InstantCommand(() -> {
                         // shooter.coast();
                         // shooter.setMode(ShooterMode.STOPPED);
                         // })
-                        )));
+                        ))).onFalse(new SequentialCommandGroup(
+                            new InstantCommand(() -> {
+                            shooter.setMode(ShooterMode.STOPPED);
+                        }),
+                        new AlignNoteCommand(intake, shooter)));
+
+        operatorXbox.button(8).onTrue(new InstantCommand(() -> {
+            climber.leftArm.is_calibrated = false;            
+            climber.rightArm.is_calibrated = false;
+        }));
+
+        driverXbox.leftTrigger().and(new BooleanSupplier() {
+            @Override
+            public boolean getAsBoolean() {
+                return driverXbox.getLeftTriggerAxis() > 0.75 && shooter.isUpToSpeed();
+            }
+        }).onTrue(new ShootCommand(shooter, intake));
     }
 
     /**
@@ -153,6 +192,29 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
+      /**  NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
+            new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
+            new WaitCommand(2),
+            new AlignNoteCommand(intake, shooter),
+            new PrepNoteCommand(shooter, intake),
+            new PrepShooterCommand(intake, shooter, 0.8),
+            new ShootCommand(shooter, intake)
+        )); */
+       /** NamedCommands.registerCommand("Pickup", new SequentialCommandGroup(
+            new InstantCommand(() -> {arm.setArmPreset(Presets.INTAKE);}),
+            new IntakeCommand(intake)));*/
+   //     return new PathPlannerAuto("Test Auto");
+        // return new SequentialCommandGroup(
+        //     new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
+        //     new WaitCommand(2),
+        //     new AlignNoteCommand(intake, shooter),
+        //     new PrepNoteCommand(shooter, intake),
+        //     new PrepShooterCommand(intake, shooter, 0.8),
+        //     new InstantCommand(() -> System.out.println("HELLLLLOOO")),
+        //     new ShootCommand(shooter, intake)
+        // );
+
+        return new PathPlannerAuto("AMP");
         NamedCommands.registerCommand("Shoot Close", Commands.print("Implement actual comand here to make it shoot"));
         NamedCommands.registerCommand("Shoot Far", Commands.print("Shoot from farther away look at (4-top)"));
         NamedCommands.registerCommand("Pickup", Commands.print("Have continuous until picked up???"));
