@@ -60,9 +60,9 @@ public class GoToAprilTagCommandUsingPoseEstimator extends Command {
       Pose2d goalPose = tag.getTagPose2dInFieldWithPreset();
       if(goalPose != null){
         if(CommonConstants.LOG_INTO_FILE_ENABLED){
-        SmartDashboard.putNumber("GoalPoseX", goalPose.getX());
-        SmartDashboard.putNumber("GoalPoseY", goalPose.getY());
-        SmartDashboard.putNumber("GoalPoseRotation", goalPose.getRotation().getRadians());
+        SmartDashboard.putNumber("PE - GoalPoseX", goalPose.getX());
+        SmartDashboard.putNumber("PE - GoalPoseY", goalPose.getY());
+        SmartDashboard.putNumber("PE - GoalPoseRotation", goalPose.getRotation().getRadians());
         
       }
         resetPIDControllers();
@@ -100,9 +100,9 @@ public class GoToAprilTagCommandUsingPoseEstimator extends Command {
             SmartDashboard.putString("Current tagID", tag.GetTagId());
           }
            
-            SmartDashboard.putNumber("Current pose X", robotPose.getX());
-            SmartDashboard.putNumber("Current pose Y", robotPose.getY());
-            SmartDashboard.putNumber("Current pose Rotation", robotPose.getRotation().getRadians());
+            SmartDashboard.putNumber("PE - Current pose X", robotPose.getX());
+            SmartDashboard.putNumber("PE - Current pose Y", robotPose.getY());
+            SmartDashboard.putNumber("PE - Current pose Rotation", robotPose.getRotation().getRadians());
           }
           var xSpeed = pidControllerX.calculate(robotPose.getX());          
           if (pidControllerX.atSetpoint()) {
@@ -120,7 +120,7 @@ public class GoToAprilTagCommandUsingPoseEstimator extends Command {
           if (pidControllerOmega.atSetpoint()) {
             omegaSpeed = 0;
           }        
-          speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-ySpeed, -xSpeed, omegaSpeed, robotPose.getRotation());
+          speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-ySpeed, -xSpeed, -omegaSpeed, robotPose.getRotation());
 
           SwerveModuleState[] calculatedModuleStates = DriveConstants.KINEMATICS.toSwerveModuleStates(speeds);
           swerveSubsystem.setModules(calculatedModuleStates); 
