@@ -14,13 +14,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "5-note  pickup second note "
+            "pathName": "5-note  pickup 2 note "
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "5-note  shoot second note"
+            "pathName": "5-note  shoot 2 note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 note  pickup and shoot 3 note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 note  pickup and shoot 4 note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 note  pickup 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 note  shoot 5"
           }
         }
       ]
