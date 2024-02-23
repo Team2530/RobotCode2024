@@ -10,7 +10,6 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
-import com.pathplanner.lib.auto.NamedCommands;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -192,18 +191,20 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-      /**  NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
+        /* 
+        NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
             new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
             new WaitCommand(2),
             new AlignNoteCommand(intake, shooter),
             new PrepNoteCommand(shooter, intake),
             new PrepShooterCommand(intake, shooter, 0.8),
             new ShootCommand(shooter, intake)
-        )); */
-       /** NamedCommands.registerCommand("Pickup", new SequentialCommandGroup(
+        ));
+        NamedCommands.registerCommand("Pickup", new SequentialCommandGroup(
             new InstantCommand(() -> {arm.setArmPreset(Presets.INTAKE);}),
-            new IntakeCommand(intake)));*/
-   //     return new PathPlannerAuto("Test Auto");
+            new IntakeCommand(intake)));
+            */
+        // Test Auto Week 0 
         // return new SequentialCommandGroup(
         //     new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
         //     new WaitCommand(2),
@@ -213,13 +214,8 @@ public class RobotContainer {
         //     new InstantCommand(() -> System.out.println("HELLLLLOOO")),
         //     new ShootCommand(shooter, intake)
         // );
+        return new PathPlannerAuto("4-close");
 
-        return new PathPlannerAuto("AMP");
-        NamedCommands.registerCommand("Shoot Close", Commands.print("Implement actual comand here to make it shoot"));
-        NamedCommands.registerCommand("Shoot Far", Commands.print("Shoot from farther away look at (4-top)"));
-        NamedCommands.registerCommand("Pickup", Commands.print("Have continuous until picked up???"));
-        
-        return new PathPlannerAuto("4-bottom");
     }
 
     public SwerveSubsystem getSwerveSubsystem() {

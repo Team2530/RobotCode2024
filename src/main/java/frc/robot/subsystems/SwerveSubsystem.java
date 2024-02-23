@@ -89,8 +89,13 @@ public class SwerveSubsystem extends SubsystemBase {
                     // alliance
                     // This will flip the path being followed to the red side of the field.
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
 
                     return false;
+
                 },
                 this // Reference to this subsystem to set requirements
         );
@@ -107,21 +112,21 @@ public class SwerveSubsystem extends SubsystemBase {
         // odometry.addVisionMeasurement(LimelightHelpers.getBotPose2d(null),
         // Timer.getFPGATimestamp());
 
-        // if (DriverStation.getAlliance().isPresent()) {
-        //     switch (DriverStation.getAlliance().get()) {
-        //         case Red:
-        //             field.setRobotPose(new Pose2d(new Translation2d(16.5 - getPose().getX(),  getPose().getY()),
-        //                     getPose().getRotation()));
-        //             break;
+         if (DriverStation.getAlliance().isPresent()) {
+             switch (DriverStation.getAlliance().get()) {
+                 case Red:
+                     field.setRobotPose(new Pose2d(new Translation2d(16.5 - getPose().getX(),  getPose().getY()),
+                             getPose().getRotation()));
+                     break;
 
-        //         case Blue:
-        //             field.setRobotPose(getPose());
-        //             break;
-        //     }
-        // } else {
-        //     // If no alliance provided, just go with blue
+                 case Blue:
+                     field.setRobotPose(getPose());
+                     break;
+             }
+        } else {
+            // If no alliance provided, just go with blue
             field.setRobotPose(getPose());
-        // }
+        }
 
         SmartDashboard.putData("Field", field);
 
