@@ -16,12 +16,6 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.2
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "Shoot Close"
@@ -30,7 +24,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.5
+                  "waitTime": 1.0
                 }
               },
               {
@@ -60,21 +54,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "4-close  middle-connector"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.2
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "Shoot Close"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4-close  middle-connector"
                 }
               },
               {
@@ -95,36 +83,30 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
-                      "data": {
-                        "pathName": "4-close  top-note-path"
-                      }
-                    },
-                    {
                       "type": "named",
                       "data": {
                         "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-close  top-note-path"
                       }
                     }
                   ]
                 }
               },
               {
-                "type": "path",
-                "data": {
-                  "pathName": "4-close  middle-connector"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.2
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "Shoot Close"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4-close  middle-connector"
                 }
               },
               {
@@ -157,6 +139,12 @@
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Close"
                 }
               },
               {

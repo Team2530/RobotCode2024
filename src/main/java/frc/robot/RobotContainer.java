@@ -6,9 +6,6 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
-import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.LimeLightSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -202,7 +199,24 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        /* 
+        NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
+            new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_LOW);}
+        )));
+        NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
+            new AlignNoteCommand(intake, shooter),
+            new PrepNoteCommand(shooter, intake),
+            new PrepShooterCommand(intake, shooter, 0.8),
+            new ShootCommand(shooter, intake)
+        ));
+        NamedCommands.registerCommand("Intaking", new SequentialCommandGroup(
+            new IntakeCommand(intake)
+        ));
+        NamedCommands.registerCommand("Pickup", 
+            new InstantCommand(() -> {arm.setArmPreset(Presets.INTAKE);}));
+        NamedCommands.registerCommand("Stow", new SequentialCommandGroup(
+            new InstantCommand(() -> {arm.setArmPreset(Presets.STOW);}
+        )));
+         /* 
         NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
             new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
             new WaitCommand(2),

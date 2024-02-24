@@ -157,8 +157,8 @@ public final class Constants {
   }
 
   public static final class PathPlannerConstants {
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(1, 0, 0);
-    public static final PIDConstants ROTATION_PID = new PIDConstants(.3, 0, 0);
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(5, 0, 0.2);
+    public static final PIDConstants ROTATION_PID = new PIDConstants(5, 0, 0.2);
 
     public static final HolonomicPathFollowerConfig HOLONOMIC_FOLLOWER_CONFIG = new HolonomicPathFollowerConfig(
         TRANSLATION_PID,
