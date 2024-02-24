@@ -9,6 +9,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -229,7 +230,13 @@ public final class Constants {
 
     public static final boolean STAGE_TWO_ENCODER_ISREVERSED = false;
 
-    public static final double HUMAN_ARM_INPUT_P = 0.02;
+    public static final double HUMAN_ARM_INPUT_P = 0.1;
+
+    public static final double MAX_SHOOTER_RPM = 95.0;
+
+    public static final double SHOOTER_INTEGRAL = 0.01;
+
+    public static final double SHOOTER_P = 0.03;
   }
 
   public static class ClimberConstants {
