@@ -187,7 +187,7 @@ public class RobotContainer {
         driverXbox.y().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.LEFT, AprilTagType.SPEAKER));
         //driverXbox.a().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.RIGHT, AprilTagType.SOURCE));
         //driverXbox.b().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.CENTER, AprilTagType.AMP));
-        //driverXbox.povRight().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.RIGHT, AprilTagType.STAGE));
+        driverXbox.povRight().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.RIGHT, AprilTagType.STAGE));
         //driverXbox.povUp().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.CENTER, AprilTagType.STAGE));
         //driverXbox.povLeft().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.LEFT, AprilTagType.STAGE));
     }

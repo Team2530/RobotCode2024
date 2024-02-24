@@ -285,7 +285,7 @@ public final class Constants {
     put("9.0", new AprilTag("9.0", AprilTagType.SOURCE, AprilTagPosition.RIGHT, Alliance.Red, 14.02, 34.79, 53.38, 60.00, 25, 0, 0));
     put("10.0", new AprilTag("10.0", AprilTagType.SOURCE, AprilTagPosition.LEFT, Alliance.Red, 57.54, 9.68, 53.38, 60.00, 20, 0, 0));
     put("11.0", new AprilTag("11.0", AprilTagType.STAGE, AprilTagPosition.LEFT, Alliance.Red, 468.69, 146.19, 52.00, 300.00, 16, 0, 0));
-    put("12.0", new AprilTag("12.0", AprilTagType.STAGE, AprilTagPosition.RIGHT, Alliance.Red, 468.69, 177.10, 52.00, 60.00, 16, 0, 0));
+    put("12.0", new AprilTag("12.0", AprilTagType.STAGE, AprilTagPosition.RIGHT, Alliance.Red, 468.69, 177.10, 52.00, 60.00, 0, 25.0, 0));
     put("13.0", new AprilTag("13.0", AprilTagType.STAGE, AprilTagPosition.CENTER, Alliance.Red, 441.74, 161.62, 52.00, 180.00, 16, 0, 0));
     put("14.0", new AprilTag("14.0", AprilTagType.STAGE, AprilTagPosition.CENTER, Alliance.Blue, 209.48, 161.62, 52.00, 0.00, 16, 0, 0));
     put("15.0", new AprilTag("15.0", AprilTagType.STAGE, AprilTagPosition.LEFT, Alliance.Blue, 182.73, 177.10, 52.00, 120.00, 16, 0, 0));

@@ -24,7 +24,7 @@ import java.util.function.Supplier;
 
 public class GoToAprilTagCommandUsingPoseEstimator extends Command {
 
-    private static final double TRANSLATION_TOLERANCE = 0.02;
+    private static final double TRANSLATION_TOLERANCE = 2.5;
     private static final double THETA_TOLERANCE = Units.degreesToRadians(2.0);
     
     private final SwerveSubsystem swerveSubsystem;
