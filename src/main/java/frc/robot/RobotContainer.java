@@ -205,7 +205,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
             new AlignNoteCommand(intake, shooter),
             new PrepNoteCommand(shooter, intake),
-            new PrepShooterCommand(intake, shooter, 0.8),
+            new PrepShooterCommand(intake, shooter, 0.7),
             new ShootCommand(shooter, intake)
         ));
         NamedCommands.registerCommand("Intaking", new SequentialCommandGroup(

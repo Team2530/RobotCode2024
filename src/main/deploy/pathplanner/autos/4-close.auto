@@ -22,6 +22,12 @@
                 }
               },
               {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              },
+              {
                 "type": "wait",
                 "data": {
                   "waitTime": 1.0
@@ -42,33 +48,14 @@
                       "data": {
                         "pathName": "4-close  first-note"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
                     }
                   ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Close"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "4-close  middle-connector"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
                 }
               }
             ]
@@ -85,6 +72,50 @@
                     {
                       "type": "named",
                       "data": {
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-close  middle-connector"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
                         "name": "Pickup"
                       }
                     },
@@ -93,20 +124,45 @@
                       "data": {
                         "pathName": "4-close  top-note-path"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
                     }
                   ]
                 }
               },
               {
-                "type": "named",
+                "type": "parallel",
                 "data": {
-                  "name": "Shoot Close"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-close  middle-connector"
+                      }
+                    }
+                  ]
                 }
               },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "4-close  middle-connector"
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
                 }
               },
               {
@@ -137,14 +193,33 @@
                       "data": {
                         "name": "Pickup"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
                     }
                   ]
                 }
               },
               {
-                "type": "named",
+                "type": "parallel",
                 "data": {
-                  "name": "Shoot Close"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-close  middle-connector"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -154,9 +229,9 @@
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "4-close  middle-connector"
+                  "name": "Shoot"
                 }
               }
             ]
