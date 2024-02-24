@@ -59,7 +59,6 @@ public class Shooter extends SubsystemBase {
     public void setMode(ShooterMode mode) {
         shooterMode = mode;
         targetRPM = shooterMode.modeSpeed * ArmConstants.MAX_SHOOTER_RPM;
-        shooterProfile.setSetpoint(targetRPM);
     }
 
     public void setCustomPercent(double percent) {
@@ -69,7 +68,6 @@ public class Shooter extends SubsystemBase {
         targetRPM = Math.max(-1, Math.min(percent, 1));
 
         targetRPM = targetRPM * ArmConstants.MAX_SHOOTER_RPM;
-        shooterProfile.setSetpoint(targetRPM);
 
         SmartDashboard.putString("Shootake", "Shooter speed set to " + String.format("%.0f", percent * 100) + " percent");
     }
