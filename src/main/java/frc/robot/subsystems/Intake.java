@@ -87,7 +87,7 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putBoolean("Intake FWD Limit", getFrontLimitClosed());
         SmartDashboard.putBoolean("Intake REV Limit", getReverseLimitClosed());
 
-        if(getFrontLimitClosed() && DriverStation.isTeleop() == true && DriverStation.isDisabled() == false) {
+        if(getReverseLimitClosed() && DriverStation.isTeleop() == true && DriverStation.isDisabled() == false) {
             driverXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
             operatorXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
 

@@ -228,6 +228,8 @@ public final class Constants {
     public static final boolean STAGE_ONE_ENCODER_ISREVERSED = true;
 
     public static final boolean STAGE_TWO_ENCODER_ISREVERSED = false;
+
+    public static final double HUMAN_ARM_INPUT_P = 0.02;
   }
 
   public static class ClimberConstants {
@@ -240,7 +242,7 @@ public final class Constants {
     public static final boolean LEFT_CLIMBER_INVERTED = false;
     public static final boolean RIGHT_CLIMBER_INVERTED = true;
 
-    public static final double CLIMBER_LENGTH = 13.5; // Inches-ish
+    public static final double CLIMBER_LENGTH = 11.2; // Inches-ish
     public static final double SPOOL_RADIUS = 0.5; // CHECK WITH SPIRAL SPOOLING!
     public static final double SPOOL_CIRC = 2*Math.PI*SPOOL_RADIUS;
 
