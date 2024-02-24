@@ -99,7 +99,7 @@ public class DriveCommand extends Command {
                     new Rotation2d(
                             -swerveSubsystem.getRotation2d().rotateBy(DriveConstants.NAVX_ANGLE_OFFSET).getRadians()));
         } else {
-            speeds = new ChassisSpeeds(xSpeed, ySpeed, -zSpeed);
+            speeds = new ChassisSpeeds(-xSpeed, -ySpeed, zSpeed);
         }
 
         // State transition logic

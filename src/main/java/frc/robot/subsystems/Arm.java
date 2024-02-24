@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
-
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,8 +16,9 @@ public class Arm extends SubsystemBase {
     SHOOT_LOW(19, 48),
     INTAKE(-14.7, 37.2),
     AMP(101, 125),
-    SHOOT_HIGH(19, 48),
-    STARTING_CONFIG(0, 90);
+    SHOOT_HIGH(90, 40),
+    STARTING_CONFIG(0, 90),
+    CUSTOM(0, 0);
 
     private double s1angle;
     private double s2angle;
@@ -63,6 +63,19 @@ public class Arm extends SubsystemBase {
     }
   }
 
+  /**
+   * Sets the arm to a custom goal for stage 1 and stage 2
+   * @param stageOneDegrees (shoulder) degrees
+   * @param stageTwoDegrees (wrist) degrees
+   */
+  public void setCustomGoal(double stageOneDegrees, double stageTwoDegrees) {
+    stageOneDegrees = MathUtil.clamp(stageOneDegrees, Presets.INTAKE.s1angle, Presets.AMP.s1angle);
+    stageTwoDegrees = MathUtil.clamp(stageTwoDegrees, Presets.INTAKE.s2angle, Presets.STOW.s2angle);
+    stageOne.setGoalDegrees(stageOneDegrees);
+    stageTwo.setGoalDegrees(stageTwoDegrees);
+
+  }
+
   public double getPresetShooterSpeed() {
     switch (currentPreset) {
       case SHOOT_HIGH:
@@ -72,8 +85,16 @@ public class Arm extends SubsystemBase {
       case AMP:
         return 0.5;
       default:
-        return 0.0;
+        return 0.8;
     }
+  }
+
+  public double getStageOneDegrees() {
+    return stageOne.getMeasurement();
+  }
+
+  public double getStageTwoDegrees() {
+    return stageTwo.getMeasurement();
   }
 
 }
