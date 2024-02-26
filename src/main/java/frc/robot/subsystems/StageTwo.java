@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.math.util.Units;
@@ -23,6 +24,7 @@ public class StageTwo extends ProfiledPIDSubsystem {
 
         stageTwoMotor.setInverted(ArmConstants.STAGE_TWO_ISREVERSED);
         stageTwoMotor.setSafetyEnabled(false);
+        stageTwoMotor.setNeutralMode(NeutralModeValue.Brake);
 
         setGoalDegrees(getMeasurement());
     }
@@ -47,6 +49,10 @@ public class StageTwo extends ProfiledPIDSubsystem {
 
     public void setGoalDegrees(double degrees) {
         setGoal(Units.degreesToRadians(degrees));
+    }
+
+    public double getGoal() {
+        return m_controller.getGoal().position;
     }
 
 

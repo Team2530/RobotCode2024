@@ -7,11 +7,13 @@ package frc.robot;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import com.pathplanner.lib.util.GeometryUtil;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -22,7 +24,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Unit;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -40,6 +44,17 @@ public final class Constants {
   public static class ControllerConstants {
     public static final int DRIVER_CONTROLLER_PORT = 1;
     public static final int OPERATOR_CONTROLLER_PORT = 2;
+  }
+
+  public static final class FieldConstants {
+    public static final double GRAVITY = 9.81;
+    public static final double SPEAKER_HEIGHT = 2.05; // Meters
+
+    public static Translation2d getSpeakerPosition() {
+      Translation2d speakerBlue = new Translation2d(0.0, 5.55);
+      speakerBlue = DriverStation.getAlliance().get() == Alliance.Blue ? speakerBlue : GeometryUtil.flipFieldPosition(speakerBlue);
+      return speakerBlue; 
+    }
   }
 
   public static class SwerveModuleConstants {
@@ -202,7 +217,7 @@ public final class Constants {
 
     public static final double STAGE_ONE_ENCODER_OFFSET = 0.0175;
 
-    public static final double STAGE_TWO_ENCODER_OFFSET = -0.394043 - 0.0527;
+    public static final double STAGE_TWO_ENCODER_OFFSET = -0.394043 - 0.066;
 
     public static final double INTAKE_ENCODER_TO_ROT = 10.0 / 18.0;
 
@@ -210,13 +225,13 @@ public final class Constants {
         3,
         0.0,
         0.0,
-        new Constraints(2, 1.5));
+        new Constraints(3, 3));
 
     public static final ProfiledPIDController STAGE_TWO_PROFILEDPID = new ProfiledPIDController(
-        6,
+        12,
         0.0,
         0.001,
-        new Constraints(4, 3));
+        new Constraints(12, 12));
 
     public static final ArmFeedforward STAGE_ONE_FEEDFORWARD = new ArmFeedforward(
         0.0,
@@ -237,6 +252,24 @@ public final class Constants {
     public static final boolean STAGE_ONE_ENCODER_ISREVERSED = true;
 
     public static final boolean STAGE_TWO_ENCODER_ISREVERSED = false;
+
+    public static final double HUMAN_ARM_INPUT_P = 0.0001;
+
+    public static final double MAX_SHOOTER_RPM = 95.0;
+
+    public static final double SHOOTER_INTEGRAL = 0.01;
+
+    public static final double SHOOTER_P = 0.03;
+
+    public static final double SHOOTER_LOW_HEIGHT = 0.7;
+    public static final double SHOOTER_LOW_X_OFFSET = 0.36;
+
+    public static final double SHOOTER_HIGH_HEIGHT = 0.96;
+    public static final double SHOOTER_HIGH_X_OFFSET = -0.25;
+
+    public static final double MAX_SHOOTER_VELOCITY = 15.0;
+
+
   }
 
   public static class ClimberConstants {
@@ -249,7 +282,7 @@ public final class Constants {
     public static final boolean LEFT_CLIMBER_INVERTED = false;
     public static final boolean RIGHT_CLIMBER_INVERTED = true;
 
-    public static final double CLIMBER_LENGTH = 13.5; // Inches-ish
+    public static final double CLIMBER_LENGTH = 11.2; // Inches-ish
     public static final double SPOOL_RADIUS = 0.5; // CHECK WITH SPIRAL SPOOLING!
     public static final double SPOOL_CIRC = 2*Math.PI*SPOOL_RADIUS;
 
@@ -292,4 +325,13 @@ public final class Constants {
     put("16.0", new AprilTag("16.0", AprilTagType.STAGE, AprilTagPosition.RIGHT, Alliance.Blue, 182.73, 146.19, 52.00, 240.00, 16, 0, 0));
   }};
   
+  public static final class PoseConstants {
+
+    public static final double kPositionStdDevX = 0.1;
+    public static final double kPositionStdDevY = 0.1;
+    public static final double kPositionStdDevTheta = 10;
+    public static final double kVisionStdDevY = 5;
+    public static final double kVisionStdDevX = 5;
+    public static final double kVisionStdDevTheta = 500;
+  }
 }

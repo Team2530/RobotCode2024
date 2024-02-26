@@ -16,14 +16,18 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -33,6 +37,7 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.AprilTag;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.Constants.*;
 import frc.robot.LimelightHelpers;
@@ -66,6 +71,13 @@ public class SwerveSubsystem extends SubsystemBase {
             2, 3
     };
 
+    public enum RotationStyle {
+        Driver,
+        Auto
+    }
+
+    private RotationStyle rotationStyle = RotationStyle.Driver;
+
     public final AHRS navX  = new AHRS(SPI.Port.kMXP);
     private double navxSim;
 
@@ -73,10 +85,19 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private Field2d field = new Field2d();
 
+
+
     // TODO: Properly set starting pose
     private final SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(DriveConstants.KINEMATICS,
             getRotation2d(),
-            getModulePositions(), new Pose2d());
+            getModulePositions(), new Pose2d(), createStateStdDevs(
+                PoseConstants.kPositionStdDevX,
+                PoseConstants.kPositionStdDevY,
+                PoseConstants.kPositionStdDevTheta),
+                createVisionMeasurementStdDevs(
+                PoseConstants.kVisionStdDevX,
+                PoseConstants.kVisionStdDevY,
+                PoseConstants.kVisionStdDevTheta));
 
     public SwerveSubsystem() {
         zeroHeading();
@@ -105,10 +126,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        odometry.update(getRotation2d(), getModulePositions());
-
+        // TODO: Test
+        // WARNING: REMOVE IF USING TAG FOLLOW!!!
         updateVisionOdometry();
-
+        odometry.update(getRotation2d(), getModulePositions());
         // if (DriverStation.getAlliance().isPresent()) {
         //     switch (DriverStation.getAlliance().get()) {
         //         case Red:
@@ -124,6 +145,7 @@ public class SwerveSubsystem extends SubsystemBase {
         //     // If no alliance provided, just go with blue
             field.setRobotPose(getPose());
         // }
+
 
         SmartDashboard.putData("Field", field);
 
@@ -239,6 +261,14 @@ public class SwerveSubsystem extends SubsystemBase {
         navxSim += 0.02 * lastChassisSpeeds.omegaRadiansPerSecond;
     }
 
+    public RotationStyle getRotationStyle() {
+        return rotationStyle;
+    }
+
+    public void setRotationStyle(RotationStyle style) {
+        rotationStyle = style;
+    }
+
     // ---------- Path Planner Methods ---------- \\
 
     public Command loadPath(String name) {
@@ -295,60 +325,28 @@ public class SwerveSubsystem extends SubsystemBase {
         return path;
     }
 
-    /**
-     * Updates pose estimator based on what vision sees
-     */
     public void updateVisionOdometry() {
         // Update robot pose with Limelight vision
-       try{
-            var poseEntry = LimelightHelpers.getLimelightNTTableEntry("limelight", "botpose_wpiblue");
-            var poseArray = poseEntry.getDoubleArray(new double[0]);
-            if(poseArray.length > 0)
-            {
-                SmartDashboard.putNumber("I am here", poseArray.length);
-                double timestamp = poseEntry.getLastChange() / 1e6 - poseArray[6] / 1e3;
-                if(!(poseArray[0] == 0.0 && poseArray[1] == 0.0 && poseArray[5] == 0.0)){
-                    Pose2d pose = new Pose2d(
-                    new Translation2d(poseArray[0], poseArray[1]),
-                    new Rotation2d(Units.degreesToRadians(poseArray[5])));
-                    SmartDashboard.putNumber("PoseX", poseArray[0]);
-                    SmartDashboard.putNumber("PoseY", poseArray[1]);
-                    SmartDashboard.putNumber("PoseZ", poseArray[2]);
-                    SmartDashboard.putNumber("PoseRX", poseArray[3]);
-                    SmartDashboard.putNumber("PoseRY", poseArray[4]);
-                    SmartDashboard.putNumber("PoseRZ", poseArray[5]);
-                    odometry.addVisionMeasurement(pose, timestamp);
-                }
-               
-            }
-        }
-        catch(Exception e){
-            SmartDashboard.putString("AddvisionError", e.getMessage());
+        NetworkTableEntry poseEntry = LimelightHelpers.getLimelightNTTableEntry("limelight", "botpose_wpiblue");
+        double[] poseArray = poseEntry.getDoubleArray(new double[0]);
+
+        if(LimelightHelpers.getLatestResults(null).targetingResults.targets_Fiducials.length > 0) {
+            double timestamp = poseEntry.getLastChange() / 1e6 - poseArray[6] / 1e3;
+
+            Pose2d visionPose = new Pose2d(
+                new Translation2d(poseArray[0], poseArray[1]),
+                new Rotation2d(Units.degreesToRadians(poseArray[5]))
+            );
+
+            odometry.addVisionMeasurement(visionPose, timestamp);
         }
     }
 
-    public AprilTag getAprilTag(AprilTagPosition tagPosition, AprilTagType tagType)
-    {
-      // if there is an alliance it gets the alliance (blue or red)
-      Optional<Alliance> alliance = DriverStation.getAlliance();
-      AprilTag returnValue = null;
-      // loops through the hashtable and finds the correct apriltag and returns the details
-      if(alliance.isPresent()){
-          Enumeration<String> e = Constants.AllAprilTags.keys();
-          AprilTag tag = null;
-          while(e.hasMoreElements()) {
-              String key = e.nextElement();
-              tag = Constants.AllAprilTags.get(key);
-              if(tag != null && tag.GetAlliance() == alliance.get() && tag.GetTagPosition() == tagPosition && tag.GetTagType() == tagType){
-                  returnValue = tag;
-                  break;
-              }
-          }
-      }
-      return returnValue;
+    public Vector<N3> createStateStdDevs(double x, double y, double theta) {
+    return VecBuilder.fill(x, y, Units.degreesToRadians(theta));
   }
 
-  public AprilTag getAprilTagByID (String tagId){
-   return Constants.AllAprilTags.get(tagId);
+  public Vector<N3> createVisionMeasurementStdDevs(double x, double y, double theta) {
+    return VecBuilder.fill(x, y, Units.degreesToRadians(theta));
   }
 }

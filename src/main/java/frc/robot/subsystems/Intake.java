@@ -30,7 +30,7 @@ public class Intake extends SubsystemBase {
     public enum IntakeMode {
          IDLE(0.2),
          STOPPED(0.0),
-         INTAKING(0.5),
+         INTAKING(0.8),
          REVERSE(-0.1),
          CUSTOM(1.5);
 
@@ -87,7 +87,7 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putBoolean("Intake FWD Limit", getFrontLimitClosed());
         SmartDashboard.putBoolean("Intake REV Limit", getReverseLimitClosed());
 
-        if(getFrontLimitClosed() && DriverStation.isTeleop() == true && DriverStation.isDisabled() == false) {
+        if(getReverseLimitClosed() && DriverStation.isTeleop() == true && DriverStation.isDisabled() == false) {
             driverXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
             operatorXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
 
