@@ -349,4 +349,25 @@ public class SwerveSubsystem extends SubsystemBase {
   public Vector<N3> createVisionMeasurementStdDevs(double x, double y, double theta) {
     return VecBuilder.fill(x, y, Units.degreesToRadians(theta));
   }
+
+  public AprilTag getAprilTag(AprilTagPosition tagPosition, AprilTagType tagType)
+    {
+      // if there is an alliance it gets the alliance (blue or red)
+      Optional<Alliance> alliance = DriverStation.getAlliance();
+      AprilTag returnValue = null;
+      // loops through the hashtable and finds the correct apriltag and returns the details
+      if(alliance.isPresent()){
+          Enumeration<String> e = Constants.AllAprilTags.keys();
+          AprilTag tag = null;
+          while(e.hasMoreElements()) {
+              String key = e.nextElement();
+              tag = Constants.AllAprilTags.get(key);
+              if(tag != null && tag.GetAlliance() == alliance.get() && tag.GetTagPosition() == tagPosition && tag.GetTagType() == tagType){
+                  returnValue = tag;
+                  break;
+              }
+          }
+      }
+      return returnValue;
+    }
 }
