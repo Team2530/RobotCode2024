@@ -110,13 +110,13 @@ public class GoToAprilTagCommandUsingPoseEstimator extends Command {
           }
 
           // Handle alignment side-to-side
-          var ySpeed = pidControllerY.calculate(robotPose.getY());
+          var ySpeed = 0;//pidControllerY.calculate(robotPose.getY());
           if (pidControllerY.atSetpoint()) {
             ySpeed = 0;
           }
 
           // Handle rotation using target Yaw/Z rotation
-          var omegaSpeed = pidControllerOmega.calculate(robotPose.getRotation().getRadians());
+          var omegaSpeed = 0;//pidControllerOmega.calculate(robotPose.getRotation().getRadians());
           if (pidControllerOmega.atSetpoint()) {
             omegaSpeed = 0;
           }        

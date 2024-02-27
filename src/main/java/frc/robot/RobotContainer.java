@@ -205,12 +205,14 @@ public class RobotContainer {
         // driverXbox.povUp().whileTrue(new GoToAprilTagCommand(swerveDriveSubsystem, limeLightSubsystem, null, AprilTagType.STAGE));
 
         //Vision version v2 button bindings
-        driverXbox.y().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.LEFT, AprilTagType.SPEAKER));
+        //driverXbox.y().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.LEFT, AprilTagType.SPEAKER));
         //driverXbox.a().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.RIGHT, AprilTagType.SOURCE));
         //driverXbox.b().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.CENTER, AprilTagType.AMP));
+        /* We are going to use vision only for stage tags */
         driverXbox.povRight().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.RIGHT, AprilTagType.STAGE));
-        //driverXbox.povUp().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.CENTER, AprilTagType.STAGE));
-        //driverXbox.povLeft().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.LEFT, AprilTagType.STAGE));
+        driverXbox.povUp().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.CENTER, AprilTagType.STAGE));
+        driverXbox.povLeft().whileTrue(new GoToAprilTagCommandUsingPoseEstimator(swerveDriveSubsystem, swerveDriveSubsystem::getPose, AprilTagPosition.LEFT, AprilTagType.STAGE));
+        
         driverXbox.a().onTrue(new InstantCommand(() -> {
             swerveDriveSubsystem.setRotationStyle(RotationStyle.Auto);
         })).onFalse(new InstantCommand(() -> {

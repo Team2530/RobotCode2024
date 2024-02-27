@@ -57,6 +57,9 @@ public class AprilTag {
     }
 
     public Pose2d getTagPose2dInFieldWithPreset(){
+        // double rotation = _rotation + 180;
+        // //rotation = rotation > 360 ? rotation - 360: rotation;
+        // rotation = rotation % 360;
         return new Pose2d(new Translation2d(Units.inchesToMeters(_x - _presetX), Units.inchesToMeters(_y - _presetY)), new Rotation2d(Units.degreesToRadians(0)));
     }    
 
