@@ -317,6 +317,7 @@ public final class Constants {
     put("8.0", new AprilTag("8.0", AprilTagType.SPEAKER, AprilTagPosition.LEFT, Alliance.Blue, -1.50, 196.17, 57.13, 0.00, 55, 0, 0));
     put("9.0", new AprilTag("9.0", AprilTagType.SOURCE, AprilTagPosition.RIGHT, Alliance.Red, 14.02, 34.79, 53.38, 60.00, 25, 0, 0));
     put("10.0", new AprilTag("10.0", AprilTagType.SOURCE, AprilTagPosition.LEFT, Alliance.Red, 57.54, 9.68, 53.38, 60.00, 20, 0, 0));
+    //The below six April tags only we are going to use it for 2024 compeition.
     put("11.0", new AprilTag("11.0", AprilTagType.STAGE, AprilTagPosition.LEFT, Alliance.Red, 468.69, 146.19, 52.00, 300.00, 16, 0, 0));
     put("12.0", new AprilTag("12.0", AprilTagType.STAGE, AprilTagPosition.RIGHT, Alliance.Red, 468.69, 177.10, 52.00, 60.00, 0, 25.0, 0));
     put("13.0", new AprilTag("13.0", AprilTagType.STAGE, AprilTagPosition.CENTER, Alliance.Red, 441.74, 161.62, 52.00, 180.00, 16, 0, 0));
