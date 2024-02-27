@@ -6,9 +6,6 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
-import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.LimeLightSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -26,6 +23,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.subsystems.LEDstripOne;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -37,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.button.*;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+    
     private final CommandXboxController driverXbox = new CommandXboxController(
             ControllerConstants.DRIVER_CONTROLLER_PORT);
     private final CommandXboxController operatorXbox = new CommandXboxController(
@@ -54,6 +53,10 @@ public class RobotContainer {
 
     private final Intake intake = new Intake(driverXbox, operatorXbox);
     private final Shooter shooter = new Shooter();
+    //LEDstripOne m_stripOne = new LEDstripOne(9, intake);
+
+
+    
 
     // ----------- Commands ---------- \\
 

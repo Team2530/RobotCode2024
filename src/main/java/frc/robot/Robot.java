@@ -22,12 +22,13 @@ import frc.robot.subsystems.LEDstripOne;
  * project.
  */
 public class Robot extends TimedRobot {
-  LEDstripOne m_stripOne = new LEDstripOne(9);
+  
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
   public static SendableChooser<String> autoChooser = new SendableChooser<>();
+  LEDstripOne m_stripOne = new LEDstripOne(9);
 
   /**
    * This function is run when the robot is first started up and should be used
