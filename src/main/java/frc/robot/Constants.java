@@ -48,7 +48,7 @@ public final class Constants {
     public static final double SPEAKER_HEIGHT = 2.05; // Meters
 
     public static Translation2d getSpeakerPosition() {
-      Translation2d speakerBlue = new Translation2d(0.0, 5.55);
+      Translation2d speakerBlue = new Translation2d(0.022, 5.55);
       speakerBlue = DriverStation.getAlliance().get() == Alliance.Blue ? speakerBlue : GeometryUtil.flipFieldPosition(speakerBlue);
       return speakerBlue; 
     }
@@ -145,7 +145,7 @@ public final class Constants {
     public static final double THETA_kD = 0.08;
 
     public static final double X_kP = 1.0;
-    public static final double X_kI = 0.0;
+    public static final double X_kI = 0.0;  
     public static final double X_kD = 0.02;
 
     public static final double Y_kP = 1.5;
@@ -260,8 +260,6 @@ public final class Constants {
     public static final double SHOOTER_HIGH_X_OFFSET = -0.25;
 
     public static final double MAX_SHOOTER_VELOCITY = 15.0;
-
-
   }
 
   public static class ClimberConstants {

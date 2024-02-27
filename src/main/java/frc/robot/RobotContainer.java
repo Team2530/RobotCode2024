@@ -44,14 +44,16 @@ public class RobotContainer {
             ControllerConstants.OPERATOR_CONTROLLER_PORT);
 
     private final SwerveSubsystem swerveDriveSubsystem = new SwerveSubsystem();
-    private final LimeLightSubsystem limeLightSubsystem = new LimeLightSubsystem();
+    // private final LimeLightSubsystem limeLightSubsystem = new LimeLightSubsystem();
+
+    private final Targeting targeting = new Targeting(swerveDriveSubsystem);
 
     private final StageOne stageOne = new StageOne();
     private final StageTwo stageTwo = new StageTwo();
-    private final Arm arm = new Arm(stageOne, stageTwo,swerveDriveSubsystem, operatorXbox.getHID());
+    private final Arm arm = new Arm(stageOne, stageTwo,targeting, operatorXbox.getHID());
 
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
-    private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID());
+    private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID(), targeting, arm);
 
     private final Intake intake = new Intake(driverXbox, operatorXbox);
     private final Shooter shooter = new Shooter();
