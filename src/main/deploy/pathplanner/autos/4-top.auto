@@ -12,26 +12,13 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.3
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Close"
-                }
-              }
-            ]
+            "name": "Shoot Close"
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -45,7 +32,20 @@
                 "data": {
                   "name": "Pickup"
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
               {
                 "type": "path",
                 "data": {
@@ -53,22 +53,16 @@
                 }
               },
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.25
-                }
-              },
-              {
                 "type": "named",
                 "data": {
-                  "name": "Shoot Far"
+                  "name": "Shoot TM"
                 }
               }
             ]
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -82,7 +76,14 @@
                 "data": {
                   "name": "Pickup"
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
               {
                 "type": "path",
                 "data": {
@@ -92,14 +93,14 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Shoot-far"
+                  "name": "Shoot TM"
                 }
               }
             ]
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -113,7 +114,14 @@
                 "data": {
                   "name": "Pickup"
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
               {
                 "type": "path",
                 "data": {
@@ -123,7 +131,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Shoot Far"
+                  "name": "Shoot TM"
                 }
               }
             ]

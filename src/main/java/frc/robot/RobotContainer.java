@@ -202,6 +202,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
             new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_LOW);}
         )));
+        NamedCommands.registerCommand("Shoot TM", new SequentialCommandGroup(
+            new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_TM);}
+        )));
         NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
             new AlignNoteCommand(intake, shooter),
             new PrepNoteCommand(shooter, intake),
@@ -239,7 +242,7 @@ public class RobotContainer {
         //     new InstantCommand(() -> System.out.println("HELLLLLOOO")),
         //     new ShootCommand(shooter, intake)
         // );
-        return new PathPlannerAuto("4-close");
+        return new PathPlannerAuto("4-top   ");
 
     }
 
