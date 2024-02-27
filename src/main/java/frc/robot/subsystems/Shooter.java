@@ -5,9 +5,13 @@ import java.text.DecimalFormat;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
 public class Shooter extends SubsystemBase {
@@ -31,10 +35,7 @@ public class Shooter extends SubsystemBase {
     // Falcon 500 shooter motor
     private final TalonFX shooterMotor = new TalonFX(ArmConstants.SHOOTER_MOTOR_PORT);
 
-    private double outputPercent = 0.0;
-
-    //TODO: TUNE! allow shooter to spool in 1/3 sec and stop in 1/2.
-    private final SlewRateLimiter shooterProfile = new SlewRateLimiter(5, -5, 0.0);
+    private double targetRPM = 0.0;
 
     public Shooter() {
         shooterMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -42,30 +43,49 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        double percent = shooterProfile.calculate(outputPercent);
+        double percent = (targetRPM) / ArmConstants.MAX_SHOOTER_RPM;
         shooterMotor.set(percent);
 
-        SmartDashboard.putNumber("Shooter Percent", percent * 100);        
+        SmartDashboard.putNumber("Shooter Percent", targetRPM);    
         SmartDashboard.putNumber("Shooter Real", shooterMotor.getRotorVelocity().getValueAsDouble());
         SmartDashboard.putString("Shootake", "Shooter mode set to " + (shooterMode.name()));
 
     }
 
+    /**
+     * Sets shooter RPM based on percent from Mode speed
+     * @param mode
+     */
     public void setMode(ShooterMode mode) {
         shooterMode = mode;
-        outputPercent = shooterMode.modeSpeed;
+        targetRPM = shooterMode.modeSpeed * ArmConstants.MAX_SHOOTER_RPM;
     }
 
     public void setCustomPercent(double percent) {
         shooterMode = ShooterMode.CUSTOM;
         // clamp between (-1, 1)
-        outputPercent = Math.max(-1, Math.min(percent, 1));
 
-        SmartDashboard.putString("Shooter", "Shooter speed set to " + String.format("%.0f", percent * 100) + " percent");
+        targetRPM = Math.max(-1, Math.min(percent, 1));
+
+        targetRPM = targetRPM * ArmConstants.MAX_SHOOTER_RPM;
+
+        SmartDashboard.putString("Shootake", "Shooter speed set to " + String.format("%.0f", percent * 100) + " percent");
     }
 
-    public double getOutputPercent() {
-        return outputPercent;
+    /**
+     * Gets output percent of shooter, <em>not RPM!</em>
+     * @return output percent
+     */
+    public double getTargetRPM() {
+        return targetRPM;
+    }
+
+    /**
+     * Gets the output RPM of the motor
+     * @return
+     */
+    public double getOutputRPM() {
+        return targetRPM * ArmConstants.MAX_SHOOTER_RPM;
     }
 
     /**
@@ -83,6 +103,6 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isUpToSpeed() {
-        return shooterMotor.getRotorVelocity().getValueAsDouble() > (outputPercent * 80.0);
+        return shooterMotor.getRotorVelocity().getValueAsDouble() > (targetRPM * .9);
     }
 }

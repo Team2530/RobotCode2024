@@ -69,4 +69,8 @@ public class StageOne extends ProfiledPIDSubsystem {
         setGoal(Units.degreesToRadians(degrees));
     }
 
+    public double getGoal() {
+        return this.m_controller.getGoal().position;
+    }
+
 }
