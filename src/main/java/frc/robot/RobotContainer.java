@@ -228,7 +228,7 @@ public class RobotContainer {
             new ShootCommand(shooter, intake)
         ));
         NamedCommands.registerCommand("Intaking", new SequentialCommandGroup(
-            new IntakeCommand(intake)
+            new AutoIntakeCommand(intake, 3)
         ));
         NamedCommands.registerCommand("Pickup", 
             new InstantCommand(() -> {arm.setArmPreset(Presets.INTAKE);}));
@@ -258,7 +258,7 @@ public class RobotContainer {
         //     new InstantCommand(() -> System.out.println("HELLLLLOOO")),
         //     new ShootCommand(shooter, intake)
         // );
-        return new PathPlannerAuto("4-top   ");
+        return new PathPlannerAuto("4-top");
 
     }
 
