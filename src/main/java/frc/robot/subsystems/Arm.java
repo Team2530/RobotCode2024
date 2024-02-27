@@ -26,6 +26,7 @@ public class Arm extends SubsystemBase {
     SHOOT_HIGH(90, 40),
     STARTING_CONFIG(0, 90),
     SOURCE(42, 132),
+    TRAP(33, 47),
     CUSTOM(0, 0);
 
     private double s1angle;
@@ -102,6 +103,8 @@ public class Arm extends SubsystemBase {
         return 1;
       case AMP:
         return 0.5;
+      case TRAP:
+        return 0.65;
       default:
         return 0.8;
     }

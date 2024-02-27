@@ -259,7 +259,7 @@ public final class Constants {
     public static final double SHOOTER_HIGH_HEIGHT = 0.96;
     public static final double SHOOTER_HIGH_X_OFFSET = -0.25;
 
-    public static final double MAX_SHOOTER_VELOCITY = 15.0;
+    public static final double MAX_SHOOTER_VELOCITY = 16.6;
   }
 
   public static class ClimberConstants {

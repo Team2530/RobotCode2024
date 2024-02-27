@@ -104,6 +104,10 @@ public class RobotContainer {
             arm.setArmPreset(Presets.SHOOT_LOW);
         }));
 
+        operatorXbox.povLeft().onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.TRAP);
+        }));
+
         // Amp preset
         operatorXbox.y().onTrue(new InstantCommand(() -> {
             arm.setArmPreset(Presets.AMP);
