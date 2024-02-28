@@ -16,27 +16,53 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "parallel",
                 "data": {
-                  "name": "Set Arm Shoot Close"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
+                    }
+                  ]
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.2
+                  "waitTime": 0.15
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Shoot Close"
+                  "name": "Shoot"
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
               {
                 "type": "parallel",
                 "data": {
                   "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "3-middle  through speaker"
+                      }
+                    },
                     {
                       "type": "named",
                       "data": {
@@ -44,18 +70,31 @@
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "3-middle  through speaker"
+                        "name": "Intaking"
                       }
                     }
                   ]
                 }
               },
               {
-                "type": "path",
+                "type": "parallel",
                 "data": {
-                  "pathName": "3-middle  first note home1"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "3-middle  first note home1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stow"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -71,7 +110,19 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Set Arm Shoot 4-bottom"
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.15
                       }
                     }
                   ]
@@ -91,15 +142,65 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "parallel",
                 "data": {
-                  "pathName": "4-bottom  middle-1"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-bottom  middle-1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
+                    }
+                  ]
                 }
               },
               {
-                "type": "path",
+                "type": "parallel",
                 "data": {
-                  "pathName": "4-bottom  main-grab"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-bottom  main-grab"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
                 }
               }
             ]

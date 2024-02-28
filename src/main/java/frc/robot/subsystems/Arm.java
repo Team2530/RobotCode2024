@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.lang.annotation.Target;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
@@ -7,6 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Targeting;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.FieldConstants;
 
@@ -24,6 +27,7 @@ public class Arm extends SubsystemBase {
     SHOOT_HIGH(90, 40),
     STARTING_CONFIG(0, 90),
     SOURCE(42, 132),
+    TRAP(33, 47),
     CUSTOM(0, 0);
 
     private double s1angle;
@@ -39,15 +43,15 @@ public class Arm extends SubsystemBase {
   private final StageOne stageOne;
   private final StageTwo stageTwo;
   private final XboxController operatorXbox;
-  private final SwerveSubsystem swerveSubsystem;
+  private Targeting targeting;
 
   private Presets currentPreset = Presets.STARTING_CONFIG;
 
-  public Arm(StageOne stageOne, StageTwo stageTwo, SwerveSubsystem swerveSubsystem, XboxController operatorXbox) {
+  public Arm(StageOne stageOne, StageTwo stageTwo, Targeting targeting, XboxController operatorXbox) {
     this.stageOne = stageOne;
     this.stageTwo = stageTwo;
     this.operatorXbox = operatorXbox;
-    this.swerveSubsystem = swerveSubsystem;
+    this.targeting = targeting;
   }
 
   @Override
@@ -57,12 +61,10 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("Stage One Encoder", Units.radiansToDegrees(stageOne.getMeasurement()));
     SmartDashboard.putNumber("Stage Two Encoder", Units.radiansToDegrees(stageTwo.getMeasurement()));
 
-    SmartDashboard.putNumber("Shoot optimal angle", getAngleToTarget(ArmConstants.SHOOTER_LOW_X_OFFSET, ArmConstants.SHOOTER_LOW_HEIGHT));
-
     if(currentPreset == Presets.SHOOT_LOW) {
-      stageTwo.setGoalDegrees(getAngleToTarget(ArmConstants.SHOOTER_LOW_X_OFFSET, ArmConstants.SHOOTER_LOW_HEIGHT));
+      stageTwo.setGoalDegrees(targeting.getTheta(ArmConstants.SHOOTER_LOW_X_OFFSET, ArmConstants.SHOOTER_LOW_HEIGHT));
     } else if(currentPreset == Presets.SHOOT_HIGH) {
-      stageTwo.setGoalDegrees(getAngleToTarget(ArmConstants.SHOOTER_HIGH_X_OFFSET, ArmConstants.SHOOTER_HIGH_HEIGHT));
+      stageTwo.setGoalDegrees(targeting.getTheta(ArmConstants.SHOOTER_HIGH_X_OFFSET, ArmConstants.SHOOTER_HIGH_HEIGHT));
     }
   }
 
@@ -102,6 +104,8 @@ public class Arm extends SubsystemBase {
         return 1;
       case AMP:
         return 0.5;
+      case TRAP:
+        return 0.65;
       default:
         return 0.8;
     }
@@ -111,23 +115,17 @@ public class Arm extends SubsystemBase {
     return stageOne.getMeasurement();
   }
 
+  public double getHorizOffset() {
+    if(currentPreset == Presets.SHOOT_LOW) {
+      return ArmConstants.SHOOTER_LOW_X_OFFSET;
+    } else if(currentPreset == Presets.SHOOT_HIGH) {
+      return ArmConstants.SHOOTER_HIGH_X_OFFSET;
+    } else {
+      return 0.0;
+    }
+  }
+
   public double getStageTwoDegrees() {
     return stageTwo.getMeasurement();
   }
-
-  private double getDistanceToTarget() {
-    return swerveSubsystem.getPose().getTranslation().getDistance(FieldConstants.getSpeakerPosition());
-  }
-
-  private double getAngleToTarget(double shooterHorizontal, double shooterVertical) {
-    double x = getDistanceToTarget() + shooterHorizontal;
-    double y = FieldConstants.SPEAKER_HEIGHT - shooterVertical;
-    double g = FieldConstants.GRAVITY;
-    double vs2 = ArmConstants.MAX_SHOOTER_VELOCITY*ArmConstants.MAX_SHOOTER_VELOCITY;
-    double angle = Math.atan2(vs2 - Math.sqrt(vs2*vs2 - 2*vs2*y*g - x*x*g*g), (x*g));
-
-    SmartDashboard.putNumberArray("xyangle", new double[] {x, y, vs2, angle});
-    return 90.0 - Units.radiansToDegrees(angle);
-  }
-
 }

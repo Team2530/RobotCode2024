@@ -13,13 +13,18 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Targeting;
 import frc.robot.Constants.*;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Arm.Presets;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.SwerveSubsystem.RotationStyle;
 
 public class DriveCommand extends Command {
     private final SwerveSubsystem swerveSubsystem;
+    private final Targeting targeting;
     private final XboxController xbox;
+    private final Arm arm;
 
     private SlewRateLimiter dsratelimiter = new SlewRateLimiter(4);
 
@@ -37,9 +42,11 @@ public class DriveCommand extends Command {
     private DriveState state = DriveState.Free;
     
 
-    public DriveCommand(SwerveSubsystem swerveSubsystem, XboxController xbox) {
+    public DriveCommand(SwerveSubsystem swerveSubsystem, XboxController xbox, Targeting targeting, Arm arm) {
         this.swerveSubsystem = swerveSubsystem;
         this.xbox = xbox;
+        this.targeting = targeting;
+        this.arm = arm;
 
         rotationController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -113,14 +120,12 @@ public class DriveCommand extends Command {
                 // do nothing special
                 break;
             case Auto:
-                Rotation2d r = swerveSubsystem.getPose().getTranslation().minus(FieldConstants.getSpeakerPosition()).getAngle();
-                if (DriverStation.getAlliance().get() == Alliance.Red)
-                    r = r.rotateBy(new Rotation2d(Math.PI));
-                double calculatedAngle = r.getRadians();
+                // Rotation2d r = swerveSubsystem.getPose().getTranslation().minus(FieldConstants.getSpeakerPosition()).getAngle();
+                // if (DriverStation.getAlliance().get() == Alliance.Red)
+                //     r = r.rotateBy(new Rotation2d(Math.PI));
+                double calculatedAngle = targeting.getPhi(arm.getHorizOffset());
                 SmartDashboard.putNumber("Wanted Heading", calculatedAngle);
                 zSpeed = MathUtil.clamp(-rotationController.calculate(swerveSubsystem.getHeading(), calculatedAngle), -0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY, 0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY);
-                
-                SmartDashboard.putNumber("Z coanteo", zSpeed);
                 break;
         }
 
@@ -155,6 +160,8 @@ public class DriveCommand extends Command {
                 swerveSubsystem.setXstance();
                 break;
         }
+
+        SmartDashboard.putString("Chassis eeeeeeeeeds", targeting.getBotVelocity().toString());
     }
 
     @Override

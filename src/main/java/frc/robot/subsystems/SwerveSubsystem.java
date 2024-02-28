@@ -138,21 +138,20 @@ public class SwerveSubsystem extends SubsystemBase {
         //                     getPose().getRotation()));
         //             break;
 
-                 case Blue:
-                     field.setRobotPose(getPose());
-                     break;
-             }
-        } else {
-            // If no alliance provided, just go with blue
+        //         case Blue:
+        //             field.setRobotPose(getPose());
+        //             break;
+        //     }
+        // } else {
+        //     // If no alliance provided, just go with blue
             field.setRobotPose(getPose());
-        }
+        // }
 
 
         SmartDashboard.putData("Field", field);
 
         SmartDashboard.putString("Robot Pose",
                 getPose().toString());
-
         double swerveCurrent = 0;
         for (int chan : pdh_channels)
             swerveCurrent += pdh.getCurrent(chan);

@@ -41,14 +41,16 @@ public class RobotContainer {
             ControllerConstants.OPERATOR_CONTROLLER_PORT);
 
     private final SwerveSubsystem swerveDriveSubsystem = new SwerveSubsystem();
-    private final LimeLightSubsystem limeLightSubsystem = new LimeLightSubsystem();
+    // private final LimeLightSubsystem limeLightSubsystem = new LimeLightSubsystem();
+
+    private final Targeting targeting = new Targeting(swerveDriveSubsystem);
 
     private final StageOne stageOne = new StageOne();
     private final StageTwo stageTwo = new StageTwo();
-    private final Arm arm = new Arm(stageOne, stageTwo,swerveDriveSubsystem, operatorXbox.getHID());
+    private final Arm arm = new Arm(stageOne, stageTwo,targeting, operatorXbox.getHID());
 
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
-    private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID());
+    private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID(), targeting, arm);
 
     private final Intake intake = new Intake(driverXbox, operatorXbox);
     private final Shooter shooter = new Shooter();
@@ -97,6 +99,10 @@ public class RobotContainer {
         // Low shoot preset
         operatorXbox.x().onTrue(new InstantCommand(() -> {
             arm.setArmPreset(Presets.SHOOT_LOW);
+        }));
+
+        operatorXbox.povLeft().onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.TRAP);
         }));
 
         // Amp preset
@@ -216,7 +222,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
-            new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_LOW);}
+            new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_LOW);}  
         )));
         NamedCommands.registerCommand("Shoot TM", new SequentialCommandGroup(
             new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_TM);}
@@ -224,8 +230,13 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
             new AlignNoteCommand(intake, shooter),
             new PrepNoteCommand(shooter, intake),
-            new PrepShooterCommand(intake, shooter, 0.7),
+            new PrepShooterCommand(intake, shooter, 0.8),
             new ShootCommand(shooter, intake)
+        ));
+        NamedCommands.registerCommand("Spool", new SequentialCommandGroup(
+            new AlignNoteCommand(intake, shooter),
+            new PrepNoteCommand(shooter, intake),
+            new PrepShooterCommand(intake, shooter, 0.8)
         ));
         NamedCommands.registerCommand("Intaking", new SequentialCommandGroup(
             new AutoIntakeCommand(intake, 3)
