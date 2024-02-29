@@ -6,9 +6,6 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
-import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.LimeLightSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -126,7 +123,7 @@ public class RobotContainer {
         
         // intake preset on climber start
         operatorXbox.povUp().onTrue(new InstantCommand(() -> {
-            arm.setArmPreset(Presets.INTAKE);
+            arm.setArmPreset(Presets.CLIMB);
         }));
 
         // set arm to intake, once has happened, retract the arm and center the note

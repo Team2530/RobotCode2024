@@ -38,7 +38,7 @@ public class Targeting {
 
   public Translation2d getBotVelocity() {
     // TODO: Check that this is in the right orientation!!!
-    return new Translation2d(swerveSubsystem.getChassisSpeeds().vxMetersPerSecond, -swerveSubsystem.getChassisSpeeds().vyMetersPerSecond).rotateBy(swerveSubsystem.getRotation2d());
+    return new Translation2d(swerveSubsystem.getChassisSpeeds().vyMetersPerSecond, -swerveSubsystem.getChassisSpeeds().vxMetersPerSecond).rotateBy(swerveSubsystem.getRotation2d());
   }
 
   public double getTargetTangentialVelocity() {
@@ -54,7 +54,7 @@ public class Targeting {
 
     Translation2d bot_velocity = getBotVelocity();
 
-    return dotProd(D_tangent, bot_velocity);
+    return -dotProd(D_tangent, bot_velocity);
   }
 
   public double getTargetNormalVelocity() {
@@ -65,7 +65,7 @@ public class Targeting {
     Translation2d D_normal = T.minus(R);
     D_normal = D_normal.div(D_normal.getNorm());
 
-    Translation2d bot_velocity =getBotVelocity();
+    Translation2d bot_velocity = getBotVelocity();
     return dotProd(D_normal, bot_velocity);
   }
 
@@ -77,36 +77,38 @@ public class Targeting {
 
     double phi = angle_tgt.getRadians();
 
-    SmartDashboard.putNumberArray("Chassis Speeds", new double[] {
-        swerveSubsystem.getChassisSpeeds().vxMetersPerSecond,        
-        swerveSubsystem.getChassisSpeeds().vyMetersPerSecond,        
-        swerveSubsystem.getChassisSpeeds().omegaRadiansPerSecond
-    }); 
+    // SmartDashboard.putNumberArray("Chassis Speeds", new double[] {
+    //     swerveSubsystem.getChassisSpeeds().vxMetersPerSecond,        
+    //     swerveSubsystem.getChassisSpeeds().vyMetersPerSecond,        
+    //     swerveSubsystem.getChassisSpeeds().omegaRadiansPerSecond
+    // }); 
 
-    // TODO: VELOCITY COMPENSATION
-    double X2 = getDistanceToTarget() + armHorizOffset;
+    // // TODO: VELOCITY COMPENSATION
+    // double X2 = getDistanceToTarget() + armHorizOffset;
 
-    // Bot pos
-    Translation2d R = swerveSubsystem.getPose().getTranslation();
-    // Target pos
-    Translation2d T = FieldConstants.getSpeakerPosition();
+    // // Bot pos
+    // Translation2d R = swerveSubsystem.getPose().getTranslation();
+    // // Target pos
+    // Translation2d T = FieldConstants.getSpeakerPosition();
 
-    Translation2d V = getBotVelocity();
-    double tshotapprox = X2 / ArmConstants.MAX_SHOOTER_VELOCITY;
+    // Translation2d V = getBotVelocity();
+    // SmartDashboard.putNumberArray("Bot velocity", new double[] {V.getX(), V.getY()});
+    // double tshotapprox = X2 / ArmConstants.MAX_SHOOTER_VELOCITY;
 
-    Translation2d proj_shot_offset = T.plus(V.times(tshotapprox));
-    double phi_correction = Math.atan(dotProd(normalize(proj_shot_offset.minus(R)), normalize(T.minus(R)))) 
-        * 1.25 * Math.signum(getTargetTangentialVelocity())
-        * (getTargetNormalVelocity() > 0.0 ? 0.75 : 1.0f);
+    // Translation2d proj_shot_offset = T.plus(V.times(tshotapprox));
+    // double phi_correction = Math.acos(dotProd(normalize(proj_shot_offset.minus(R)), normalize(T.minus(R)))) 
+    //     * 1.25 * Math.signum(getTargetTangentialVelocity());
 
-    return phi; //+ phi_correction;
+    // SmartDashboard.putNumber("Phi compensation", phi_correction);
+
+    return phi;
   }
 
   public double getTheta(double shooterHorizontal, double shooterVertical) {
     double x = getDistanceToTarget() + shooterHorizontal;
 
     // VELOCITY COMPENSATION
-    double tshotapprox = x / ArmConstants.MAX_SHOOTER_VELOCITY;
+    // double tshotapprox = x / ArmConstants.MAX_SHOOTER_VELOCITY;
     // x -= tshotapprox * getTargetNormalVelocity();
 
     double y = FieldConstants.SPEAKER_HEIGHT - shooterVertical;
@@ -117,7 +119,7 @@ public class Targeting {
     SmartDashboard.putNumberArray("xyangle", new double[] {x, y, vs2, angle});
 
     double res = 90.0 - Units.radiansToDegrees(angle);    
-    SmartDashboard.putNumber("Targeting Shooter Angle", res);
+    // SmartDashboard.putNumber("Targeting Shooter Angle", res);
 
     return res;
   }

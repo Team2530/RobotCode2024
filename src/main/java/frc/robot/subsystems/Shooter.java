@@ -44,12 +44,11 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         double percent = (targetRPM) / ArmConstants.MAX_SHOOTER_RPM;
-        shooterMotor.set(percent);
+        shooterMotor.setVoltage(percent * 12.0);
 
         SmartDashboard.putNumber("Shooter Percent", targetRPM);    
         SmartDashboard.putNumber("Shooter Real", shooterMotor.getRotorVelocity().getValueAsDouble());
         SmartDashboard.putString("Shootake", "Shooter mode set to " + (shooterMode.name()));
-
     }
 
     /**

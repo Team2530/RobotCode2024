@@ -250,8 +250,8 @@ public final class Constants {
     public static final double MAX_SHOOTER_RPM = 95.0;
 
     public static final double SHOOTER_INTEGRAL = 0.01;
-
     public static final double SHOOTER_P = 0.03;
+    public static final double SHOOTER_MAX_VOLTAGE = 11.5;
 
     public static final double SHOOTER_LOW_HEIGHT = 0.7;
     public static final double SHOOTER_LOW_X_OFFSET = 0.36;
