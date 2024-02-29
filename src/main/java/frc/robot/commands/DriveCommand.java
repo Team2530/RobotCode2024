@@ -28,7 +28,7 @@ public class DriveCommand extends Command {
     private double DRIVE_MULT = 1.0;
     private final double SLOWMODE_MULT = 0.25;
     
-    private final ProfiledPIDController ORIENTED_ROTATION_PID = new ProfiledPIDController(DriveConstants.ORIENTED_ROTATION_P, DriveConstants.ORIENTED_ROTATION_I, DriveConstants.ORIENTED_ROTATION_D, new Constraints(DriveConstants.ORIENTED_ROTATION_MAX_VELOCITY, DriveConstants.ORINETED_ROTATION_MAX_ACCELERATION));
+    
     private double ORIENTATION = 0;
 
     private enum StanceState {
@@ -50,7 +50,7 @@ public class DriveCommand extends Command {
 
         dsratelimiter.reset(SLOWMODE_MULT);
 
-        ORIENTED_ROTATION_PID.enableContinuousInput(-180, 180);
+        DriveConstants.ORIENTED_ROTATION_PID.enableContinuousInput(-180, 180);
 
         addRequirements(swerveSubsystem);
     }
@@ -121,7 +121,7 @@ public class DriveCommand extends Command {
         // Rotation state execution logic 
         switch(rotationState){
             case Oriented:
-                zSpeed = ORIENTED_ROTATION_PID.calculate(-Units.radiansToDegrees(swerveSubsystem.getHeading()), this.ORIENTATION);
+                zSpeed = DriveConstants.ORIENTED_ROTATION_PID.calculate(-Units.radiansToDegrees(swerveSubsystem.getHeading()), this.ORIENTATION);
                 break;
             case Free: default: 
                 zSpeed = DeadBand(xbox.getRightX(), 0.1); 
