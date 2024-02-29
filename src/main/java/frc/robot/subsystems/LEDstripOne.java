@@ -107,6 +107,9 @@ public class LEDstripOne extends SubsystemBase {
         double ltmult = ctime / 20.0;
 
         double mtime = DriverStation.getMatchTime();
+        if(DriverStation.isAutonomousEnabled()){
+            rainbow();
+        }
         if (DriverStation.isTeleopEnabled() && mtime <= ctime) {
             for (int i = 0; i < 20; i++) {
                 // Countdown
