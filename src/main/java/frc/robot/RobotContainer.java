@@ -228,9 +228,13 @@ public class RobotContainer {
             new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_TM);}
         )));
         NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
-            new AlignNoteCommand(intake, shooter),
-            new PrepNoteCommand(shooter, intake),
-            new PrepShooterCommand(intake, shooter, 0.8),
+            new WaitUntilCommand(new BooleanSupplier() {
+                @Override
+                public boolean getAsBoolean() {
+                    // TODO Auto-generated method stub
+                    return shooter.isUpToSpeed();
+                }
+            }),
             new ShootCommand(shooter, intake)
         ));
         NamedCommands.registerCommand("Spool", new SequentialCommandGroup(
@@ -269,7 +273,7 @@ public class RobotContainer {
         //     new InstantCommand(() -> System.out.println("HELLLLLOOO")),
         //     new ShootCommand(shooter, intake)
         // );
-        return new PathPlannerAuto("4-top");
+        return new PathPlannerAuto("4-close");
 
     }
 

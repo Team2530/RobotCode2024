@@ -45,7 +45,14 @@
                 "data": {
                   "name": "Shoot"
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
               {
                 "type": "parallel",
                 "data": {
@@ -70,18 +77,17 @@
                     }
                   ]
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "parallel",
                 "data": {
                   "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-close  middle-connector"
+                      }
+                    },
                     {
                       "type": "named",
                       "data": {
@@ -89,9 +95,9 @@
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "4-close  middle-connector"
+                        "name": "Spool"
                       }
                     }
                   ]
@@ -100,7 +106,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.5
+                  "waitTime": 0.15
                 }
               },
               {
@@ -117,25 +123,19 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              },
-              {
                 "type": "parallel",
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
-                      "data": {
-                        "name": "Pickup"
-                      }
-                    },
-                    {
                       "type": "path",
                       "data": {
                         "pathName": "4-close  top-note-path"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
                       }
                     },
                     {
@@ -152,15 +152,21 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-close  middle-connector"
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "4-close  middle-connector"
+                        "name": "Spool"
                       }
                     }
                   ]
@@ -169,19 +175,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
+                  "waitTime": 0.15
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "Shoot"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
                 }
               }
             ]
@@ -221,15 +221,21 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-close  middle-connector"
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "4-close  middle-connector"
+                        "name": "Spool"
                       }
                     }
                   ]
@@ -238,7 +244,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.2
+                  "waitTime": 0.15
                 }
               },
               {

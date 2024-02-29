@@ -16,15 +16,34 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "parallel",
                 "data": {
-                  "name": "Set Arm Shoot Close"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Shoot Close"
+                  "name": "Shoot"
                 }
               }
             ]
@@ -49,6 +68,12 @@
                       "data": {
                         "name": "Pickup"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
                     }
                   ]
                 }
@@ -66,7 +91,13 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Set Arm Shoot 4-bottom"
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
                       }
                     }
                   ]
@@ -75,7 +106,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.3
+                  "waitTime": 0.15
                 }
               },
               {
@@ -106,6 +137,12 @@
                       "data": {
                         "name": "Pickup"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
                     }
                   ]
                 }
@@ -123,7 +160,13 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Set Arm Shoot 4-bottom"
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
                       }
                     }
                   ]
@@ -132,7 +175,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.3
+                  "waitTime": 0.15
                 }
               },
               {
@@ -163,6 +206,12 @@
                       "data": {
                         "name": "Pickup"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
                     }
                   ]
                 }
@@ -180,7 +229,13 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Set Arm Shoot 4-bottom"
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
                       }
                     }
                   ]
@@ -189,7 +244,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.3
+                  "waitTime": 0.15
                 }
               },
               {
