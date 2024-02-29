@@ -28,6 +28,7 @@ public class Arm extends SubsystemBase {
     STARTING_CONFIG(0, 90),
     SOURCE(42, 132),
     TRAP(33, 47),
+    CLIMB(-14.7, 74),
     CUSTOM(0, 0);
 
     private double s1angle;
