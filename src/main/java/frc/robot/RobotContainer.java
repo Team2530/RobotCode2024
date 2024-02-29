@@ -53,7 +53,7 @@ public class RobotContainer {
 
     private final Intake intake = new Intake(driverXbox, operatorXbox);
     private final Shooter shooter = new Shooter();
-    LEDstripOne m_stripOne = new LEDstripOne(9, 2, intake);
+    LEDstripOne m_stripOne = new LEDstripOne(9, intake);
     
 
 

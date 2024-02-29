@@ -13,7 +13,7 @@ public class LEDstripOne extends SubsystemBase {
     int m_rainbowFirstPixelHue = 0;
     public Intake intake;
 //Intake intake
-    public LEDstripOne(int portPWM, int portPWM2, Intake intake) {
+    public LEDstripOne(int portPWM, Intake intake) {
         this.intake = intake;
         // Must be a PWM header, not MXP or DIO
        m_led = new AddressableLED(8);
