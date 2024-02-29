@@ -30,7 +30,7 @@ public class LimeLightSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if(RobotBase.isReal()) {
+        if(RobotBase.isReal() && false) {
         try{
             KnownAprilTag aprilTag;
             LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults((LimelightConstants.limeLightName));

@@ -14,13 +14,18 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -29,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.Constants.*;
 
@@ -61,6 +67,13 @@ public class SwerveSubsystem extends SubsystemBase {
             2, 3
     };
 
+    public enum RotationStyle {
+        Driver,
+        Auto
+    }
+
+    private RotationStyle rotationStyle = RotationStyle.Driver;
+
     public final AHRS navX  = new AHRS(SPI.Port.kMXP);
     private double navxSim;
 
@@ -68,10 +81,19 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private Field2d field = new Field2d();
 
+
+
     // TODO: Properly set starting pose
     private final SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(DriveConstants.KINEMATICS,
             getRotation2d(),
-            getModulePositions(), new Pose2d());
+            getModulePositions(), new Pose2d(), createStateStdDevs(
+                PoseConstants.kPositionStdDevX,
+                PoseConstants.kPositionStdDevY,
+                PoseConstants.kPositionStdDevTheta),
+                createVisionMeasurementStdDevs(
+                PoseConstants.kVisionStdDevX,
+                PoseConstants.kVisionStdDevY,
+                PoseConstants.kVisionStdDevTheta));
 
     public SwerveSubsystem() {
         zeroHeading();
@@ -100,13 +122,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        odometry.update(getRotation2d(), getModulePositions());
-
         // TODO: Test
         // WARNING: REMOVE IF USING TAG FOLLOW!!!
-        // odometry.addVisionMeasurement(LimelightHelpers.getBotPose2d(null),
-        // Timer.getFPGATimestamp());
-
+        updateVisionOdometry();
+        odometry.update(getRotation2d(), getModulePositions());
         // if (DriverStation.getAlliance().isPresent()) {
         //     switch (DriverStation.getAlliance().get()) {
         //         case Red:
@@ -122,6 +141,7 @@ public class SwerveSubsystem extends SubsystemBase {
         //     // If no alliance provided, just go with blue
             field.setRobotPose(getPose());
         // }
+
 
         SmartDashboard.putData("Field", field);
 
@@ -164,7 +184,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public double getHeading() {
-        return Robot.isSimulation() ? navxSim : Units.degreesToRadians(Math.IEEEremainder(-navX.getAngle(), 360));
+        return Robot.isSimulation() ? -navxSim : Units.degreesToRadians(Math.IEEEremainder(-navX.getAngle(), 360));
     }
 
     public Rotation2d getRotation2d() {
@@ -214,7 +234,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 backLeft.getModuleState(),
                 backRight.getModuleState());
 
-        return speeds;
+        return Robot.isSimulation() ? lastChassisSpeeds : speeds;
     }
 
     public SwerveModulePosition[] getModulePositions() {
@@ -235,6 +255,14 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft.simulate_step();
         backRight.simulate_step();
         navxSim += 0.02 * lastChassisSpeeds.omegaRadiansPerSecond;
+    }
+
+    public RotationStyle getRotationStyle() {
+        return rotationStyle;
+    }
+
+    public void setRotationStyle(RotationStyle style) {
+        rotationStyle = style;
     }
 
     // ---------- Path Planner Methods ---------- \\
@@ -292,4 +320,29 @@ public class SwerveSubsystem extends SubsystemBase {
 
         return path;
     }
+
+    public void updateVisionOdometry() {
+        // Update robot pose with Limelight vision
+        NetworkTableEntry poseEntry = LimelightHelpers.getLimelightNTTableEntry("limelight", "botpose_wpiblue");
+        double[] poseArray = poseEntry.getDoubleArray(new double[0]);
+
+        if(LimelightHelpers.getLatestResults(null).targetingResults.targets_Fiducials.length > 0) {
+            double timestamp = poseEntry.getLastChange() / 1e6 - poseArray[6] / 1e3;
+
+            Pose2d visionPose = new Pose2d(
+                new Translation2d(poseArray[0], poseArray[1]),
+                new Rotation2d(Units.degreesToRadians(poseArray[5]))
+            );
+
+            odometry.addVisionMeasurement(visionPose, timestamp);
+        }
+    }
+
+    public Vector<N3> createStateStdDevs(double x, double y, double theta) {
+    return VecBuilder.fill(x, y, Units.degreesToRadians(theta));
+  }
+
+  public Vector<N3> createVisionMeasurementStdDevs(double x, double y, double theta) {
+    return VecBuilder.fill(x, y, Units.degreesToRadians(theta));
+  }
 }

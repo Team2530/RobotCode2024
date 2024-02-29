@@ -33,9 +33,10 @@ public class ClimberCommand extends Command {
                 break;
                 
             case 0:
-                double tilt_angle = climber.navX.getRoll();
-                double roll_compensation = (-tilt_angle / 90.0f) * ClimberConstants.ROLL_kP;
-                climber.climb_tilt(-1.0, roll_compensation);
+                // double tilt_angle = climber.navX.getRoll();
+                // double roll_compensation = (-tilt_angle / 90.0f) * ClimberConstants.ROLL_kP;
+                // climber.climb_tilt(-1.0, roll_compensation);        
+                climber.climb(-1.0);
                 break;
             default:
                 climber.idle();

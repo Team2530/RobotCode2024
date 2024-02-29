@@ -33,7 +33,7 @@ public class PrepNoteCommand extends Command {
     @Override
     public boolean isFinished() {
         // note is clear of shooter and it may start to be spooled
-        return (intake.getIntakePosition() <= (startpos - 0.5)); //!intake.getReverseLimitClosed();
+        return (intake.getIntakePosition() <= (startpos - 0.3)); //!intake.getReverseLimitClosed();
     }
 
 }

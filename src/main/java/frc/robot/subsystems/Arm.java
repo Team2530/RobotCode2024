@@ -1,11 +1,17 @@
 package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
+import java.lang.annotation.Target;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Targeting;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.FieldConstants;
 
 public class Arm extends SubsystemBase {
 
@@ -17,8 +23,11 @@ public class Arm extends SubsystemBase {
     SHOOT_LOW(19, 48),
     INTAKE(-14.7, 37.2),
     AMP(101, 125),
-    SHOOT_HIGH(19, 48),
-    STARTING_CONFIG(0, 90);
+    SHOOT_HIGH(90, 40),
+    STARTING_CONFIG(0, 90),
+    SOURCE(42, 132),
+    TRAP(33, 47),
+    CUSTOM(0, 0);
 
     private double s1angle;
     private double s2angle;
@@ -32,12 +41,16 @@ public class Arm extends SubsystemBase {
 
   private final StageOne stageOne;
   private final StageTwo stageTwo;
+  private final XboxController operatorXbox;
+  private Targeting targeting;
 
   private Presets currentPreset = Presets.STARTING_CONFIG;
 
-  public Arm(StageOne stageOne, StageTwo stageTwo) {
+  public Arm(StageOne stageOne, StageTwo stageTwo, Targeting targeting, XboxController operatorXbox) {
     this.stageOne = stageOne;
     this.stageTwo = stageTwo;
+    this.operatorXbox = operatorXbox;
+    this.targeting = targeting;
   }
 
   @Override
@@ -46,6 +59,12 @@ public class Arm extends SubsystemBase {
 
     SmartDashboard.putNumber("Stage One Encoder", Units.radiansToDegrees(stageOne.getMeasurement()));
     SmartDashboard.putNumber("Stage Two Encoder", Units.radiansToDegrees(stageTwo.getMeasurement()));
+
+    if(currentPreset == Presets.SHOOT_LOW) {
+      stageTwo.setGoalDegrees(targeting.getTheta(ArmConstants.SHOOTER_LOW_X_OFFSET, ArmConstants.SHOOTER_LOW_HEIGHT));
+    } else if(currentPreset == Presets.SHOOT_HIGH) {
+      stageTwo.setGoalDegrees(targeting.getTheta(ArmConstants.SHOOTER_HIGH_X_OFFSET, ArmConstants.SHOOTER_HIGH_HEIGHT));
+    }
   }
 
   public void setArmPreset(Presets preset) {
@@ -63,17 +82,49 @@ public class Arm extends SubsystemBase {
     }
   }
 
+  /**
+   * Sets the arm to a custom goal for stage 1 and stage 2
+   * @param stageOneDegrees (shoulder) degrees
+   * @param stageTwoDegrees (wrist) degrees
+   */
+  public void setCustomGoal(double stageOneDegrees, double stageTwoDegrees) {
+    stageOneDegrees = MathUtil.clamp(stageOneDegrees, Presets.INTAKE.s1angle, Presets.AMP.s1angle);
+    stageTwoDegrees = MathUtil.clamp(stageTwoDegrees, Presets.INTAKE.s2angle, Presets.STOW.s2angle);
+    stageOne.setGoalDegrees(stageOneDegrees);
+    stageTwo.setGoalDegrees(stageTwoDegrees);
+
+  }
+
   public double getPresetShooterSpeed() {
     switch (currentPreset) {
       case SHOOT_HIGH:
         return 0.8;
       case SHOOT_LOW:
-        return 0.8;
+        return 1;
       case AMP:
         return 0.5;
+      case TRAP:
+        return 0.65;
       default:
-        return 0.0;
+        return 0.8;
     }
   }
 
+  public double getStageOneDegrees() {
+    return stageOne.getMeasurement();
+  }
+
+  public double getHorizOffset() {
+    if(currentPreset == Presets.SHOOT_LOW) {
+      return ArmConstants.SHOOTER_LOW_X_OFFSET;
+    } else if(currentPreset == Presets.SHOOT_HIGH) {
+      return ArmConstants.SHOOTER_HIGH_X_OFFSET;
+    } else {
+      return 0.0;
+    }
+  }
+
+  public double getStageTwoDegrees() {
+    return stageTwo.getMeasurement();
+  }
 }

@@ -1,32 +1,54 @@
 package frc.robot.commands;
 
+import com.pathplanner.lib.util.GeometryUtil;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Targeting;
 import frc.robot.Constants.*;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Arm.Presets;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.SwerveSubsystem.RotationStyle;
 
 public class DriveCommand extends Command {
     private final SwerveSubsystem swerveSubsystem;
+    private final Targeting targeting;
     private final XboxController xbox;
+    private final Arm arm;
 
     private SlewRateLimiter dsratelimiter = new SlewRateLimiter(4);
+
+    // Auto rotation pid/rate limiter
+    private PIDController rotationController = new PIDController(5, 0.0, 0.001);
 
     private double DRIVE_MULT = 1.0;
     private final double SLOWMODE_MULT = 0.25;
 
     private enum DriveState {
         Free,
-        Locked
+        Locked,
     };
 
     private DriveState state = DriveState.Free;
+    
 
-    public DriveCommand(SwerveSubsystem swerveSubsystem, XboxController xbox) {
+    public DriveCommand(SwerveSubsystem swerveSubsystem, XboxController xbox, Targeting targeting, Arm arm) {
         this.swerveSubsystem = swerveSubsystem;
         this.xbox = xbox;
+        this.targeting = targeting;
+        this.arm = arm;
+
+        rotationController.enableContinuousInput(-Math.PI, Math.PI);
 
         dsratelimiter.reset(SLOWMODE_MULT);
 
@@ -87,11 +109,25 @@ public class DriveCommand extends Command {
 
         if (xbox.getXButton()) {
             swerveSubsystem.zeroHeading();
-            swerveSubsystem.resetOdometry(new Pose2d());
+            swerveSubsystem.resetOdometry(new Pose2d(1.38 , 5.55, new Rotation2d()));
             swerveSubsystem.zeroHeading();
         }
 
         ChassisSpeeds speeds;
+
+        switch (swerveSubsystem.getRotationStyle()) {
+            case Driver:
+                // do nothing special
+                break;
+            case Auto:
+                // Rotation2d r = swerveSubsystem.getPose().getTranslation().minus(FieldConstants.getSpeakerPosition()).getAngle();
+                // if (DriverStation.getAlliance().get() == Alliance.Red)
+                //     r = r.rotateBy(new Rotation2d(Math.PI));
+                double calculatedAngle = targeting.getPhi(arm.getHorizOffset());
+                SmartDashboard.putNumber("Wanted Heading", calculatedAngle);
+                zSpeed = MathUtil.clamp(-rotationController.calculate(swerveSubsystem.getHeading(), calculatedAngle), -0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY, 0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY);
+                break;
+        }
 
         // Drive Non Field Oriented
         if (!xbox.getLeftBumper()) {
@@ -99,7 +135,7 @@ public class DriveCommand extends Command {
                     new Rotation2d(
                             -swerveSubsystem.getRotation2d().rotateBy(DriveConstants.NAVX_ANGLE_OFFSET).getRadians()));
         } else {
-            speeds = new ChassisSpeeds(xSpeed, ySpeed, -zSpeed);
+            speeds = new ChassisSpeeds(-xSpeed, -ySpeed, zSpeed);
         }
 
         // State transition logic
@@ -112,6 +148,8 @@ public class DriveCommand extends Command {
                 break;
         }
 
+
+
         // Drive execution logic
         switch (state) {
             case Free:
@@ -122,6 +160,8 @@ public class DriveCommand extends Command {
                 swerveSubsystem.setXstance();
                 break;
         }
+
+        SmartDashboard.putString("Chassis eeeeeeeeeds", targeting.getBotVelocity().toString());
     }
 
     @Override
