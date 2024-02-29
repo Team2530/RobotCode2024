@@ -188,7 +188,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public double getHeading() {
-        return Robot.isSimulation() ? navxSim : Units.degreesToRadians(Math.IEEEremainder(-navX.getAngle(), 360));
+        return Robot.isSimulation() ? -navxSim : Units.degreesToRadians(Math.IEEEremainder(-navX.getAngle(), 360));
     }
 
     public Rotation2d getRotation2d() {
@@ -240,7 +240,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 backLeft.getModuleState(),
                 backRight.getModuleState());
 
-        return speeds;
+        return Robot.isSimulation() ? lastChassisSpeeds : speeds;
     }
 
     public SwerveModulePosition[] getModulePositions() {

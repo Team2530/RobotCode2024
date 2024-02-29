@@ -123,7 +123,7 @@ public class RobotContainer {
         
         // intake preset on climber start
         operatorXbox.povUp().onTrue(new InstantCommand(() -> {
-            arm.setArmPreset(Presets.INTAKE);
+            arm.setArmPreset(Presets.CLIMB);
         }));
 
         // set arm to intake, once has happened, retract the arm and center the note

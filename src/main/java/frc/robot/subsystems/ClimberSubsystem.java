@@ -45,10 +45,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
     /// Tilt positive rolls clockwise
     public void climb_tilt(double climb, double tilt) {
-        if (leftArm.isRetracted() && rightArm.isRetracted()) {
-            stop();
-            return;
-        }
+        // if (leftArm.isRetracted() && rightArm.isRetracted()) {
+        //     stop();
+        //     return;
+        // }
         leftArm.set(climb + tilt);
         rightArm.set(climb - tilt);
     }
