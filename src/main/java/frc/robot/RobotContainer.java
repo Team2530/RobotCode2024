@@ -36,31 +36,29 @@ import frc.robot.subsystems.LEDstripOne;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-    
+
     private final CommandXboxController driverXbox = new CommandXboxController(
             ControllerConstants.DRIVER_CONTROLLER_PORT);
     private final CommandXboxController operatorXbox = new CommandXboxController(
             ControllerConstants.OPERATOR_CONTROLLER_PORT);
 
     private final SwerveSubsystem swerveDriveSubsystem = new SwerveSubsystem();
-    // private final LimeLightSubsystem limeLightSubsystem = new LimeLightSubsystem();
+    // private final LimeLightSubsystem limeLightSubsystem = new
+    // LimeLightSubsystem();
 
     private final Targeting targeting = new Targeting(swerveDriveSubsystem);
 
     private final StageOne stageOne = new StageOne();
     private final StageTwo stageTwo = new StageTwo();
-    private final Arm arm = new Arm(stageOne, stageTwo,targeting, operatorXbox.getHID());
+    private final Arm arm = new Arm(stageOne, stageTwo, targeting, operatorXbox.getHID());
 
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
-    private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID(), targeting, arm);
+    private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID(), targeting,
+            arm);
 
     private final Intake intake = new Intake(driverXbox, operatorXbox);
     private final Shooter shooter = new Shooter();
-    LEDstripOne m_stripOne = new LEDstripOne(9, intake);
-    
-
-
-    
+    LEDstripOne m_stripOne = new LEDstripOne(9, intake, shooter, arm, swerveDriveSubsystem);
 
     // ----------- Commands ---------- \\
 
@@ -119,20 +117,20 @@ public class RobotContainer {
 
         // High shoot preset
         operatorXbox.rightTrigger().and(new BooleanSupplier() {
-        @Override
-        public boolean getAsBoolean() {
-            // TODO Auto-generated method stub
-            return operatorXbox.getRightTriggerAxis() > 0.1;
-        } 
+            @Override
+            public boolean getAsBoolean() {
+                // TODO Auto-generated method stub
+                return operatorXbox.getRightTriggerAxis() > 0.1;
+            }
         }).onTrue(new InstantCommand(() -> {
             arm.setArmPreset(Presets.SHOOT_HIGH);
         }));
-        /* 
-        // intake preset on climber start
-        operatorXbox.povUp().onTrue(new InstantCommand(() -> {
-            arm.setArmPreset(Presets.CLIMB);
-        }));
-*/
+        /*
+         * // intake preset on climber start
+         * operatorXbox.povUp().onTrue(new InstantCommand(() -> {
+         * arm.setArmPreset(Presets.CLIMB);
+         * }));
+         */
         // set arm to intake, once has happened, retract the arm and center the note
         operatorXbox.leftBumper().onTrue(
                 new SequentialCommandGroup(
@@ -160,9 +158,9 @@ public class RobotContainer {
 
         // source intake
         operatorXbox.button(7).onTrue(new SequentialCommandGroup(
-                        new InstantCommand(() -> {
-                            arm.setArmPreset(Presets.SOURCE);
-                        })))
+                new InstantCommand(() -> {
+                    arm.setArmPreset(Presets.SOURCE);
+                })))
                 .whileTrue(new SequentialCommandGroup(
                         new IntakeCommand(intake)).andThen(new ParallelCommandGroup(new InstantCommand(() -> {
                             arm.setArmPreset(Presets.STOW);
@@ -181,17 +179,17 @@ public class RobotContainer {
                         new SequentialCommandGroup(
                                 new AlignNoteCommand(intake, shooter),
                                 new PrepNoteCommand(shooter, intake),
-                                new PrepShooterCommand(intake, shooter, arm)
-                        ))).onFalse(new SequentialCommandGroup(
-                            new InstantCommand(() -> {
+                                new PrepShooterCommand(intake, shooter, arm))))
+                .onFalse(new SequentialCommandGroup(
+                        new InstantCommand(() -> {
                             shooter.setMode(ShooterMode.STOPPED);
                         }),
                         new AlignNoteCommand(intake, shooter)));
-                        ;
+        ;
 
-        // Recal climber               
+        // Recal climber
         operatorXbox.button(8).onTrue(new InstantCommand(() -> {
-            climber.leftArm.is_calibrated = false;            
+            climber.leftArm.is_calibrated = false;
             climber.rightArm.is_calibrated = false;
         }));
 
@@ -213,12 +211,13 @@ public class RobotContainer {
 
         // // Fine tune stage 1
         // operatorXbox.leftStick().and(new BooleanSupplier() {
-        //     @Override
-        //     public boolean getAsBoolean() {
-        //         return Math.abs(operatorXbox.getLeftY()) > 0.2;
-        //     }
+        // @Override
+        // public boolean getAsBoolean() {
+        // return Math.abs(operatorXbox.getLeftY()) > 0.2;
+        // }
         // }).whileTrue(new InstantCommand(() -> {
-        //     arm.setCustomGoal(arm.getStageOneDegrees(), arm.getStageTwoDegrees() + (operatorXbox.getLeftY() * ArmConstants.HUMAN_ARM_INPUT_P));
+        // arm.setCustomGoal(arm.getStageOneDegrees(), arm.getStageTwoDegrees() +
+        // (operatorXbox.getLeftY() * ArmConstants.HUMAN_ARM_INPUT_P));
         // }));
     }
 
@@ -228,26 +227,30 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-      /**  NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
-            new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
-            new WaitCommand(2),
-            new AlignNoteCommand(intake, shooter),
-            new PrepNoteCommand(shooter, intake),
-            new PrepShooterCommand(intake, shooter, 0.8),
-            new ShootCommand(shooter, intake)
-        )); */
-       /** NamedCommands.registerCommand("Pickup", new SequentialCommandGroup(
-            new InstantCommand(() -> {arm.setArmPreset(Presets.INTAKE);}),
-            new IntakeCommand(intake)));*/
-   //     return new PathPlannerAuto("Test Auto");
+        /**
+         * NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
+         * new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
+         * new WaitCommand(2),
+         * new AlignNoteCommand(intake, shooter),
+         * new PrepNoteCommand(shooter, intake),
+         * new PrepShooterCommand(intake, shooter, 0.8),
+         * new ShootCommand(shooter, intake)
+         * ));
+         */
+        /**
+         * NamedCommands.registerCommand("Pickup", new SequentialCommandGroup(
+         * new InstantCommand(() -> {arm.setArmPreset(Presets.INTAKE);}),
+         * new IntakeCommand(intake)));
+         */
+        // return new PathPlannerAuto("Test Auto");
         // return new SequentialCommandGroup(
-        //     new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
-        //     new WaitCommand(2),
-        //     new AlignNoteCommand(intake, shooter),
-        //     new PrepNoteCommand(shooter, intake),
-        //     new PrepShooterCommand(intake, shooter, 0.8),
-        //     new InstantCommand(() -> System.out.println("HELLLLLOOO")),
-        //     new ShootCommand(shooter, intake)
+        // new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
+        // new WaitCommand(2),
+        // new AlignNoteCommand(intake, shooter),
+        // new PrepNoteCommand(shooter, intake),
+        // new PrepShooterCommand(intake, shooter, 0.8),
+        // new InstantCommand(() -> System.out.println("HELLLLLOOO")),
+        // new ShootCommand(shooter, intake)
         // );
 
         return new PathPlannerAuto("AMP");
