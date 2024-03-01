@@ -137,8 +137,8 @@ public class Intake extends SubsystemBase {
     public void brake() {
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
     }
-
-    public boolean getFrontLimitClosed() {
+//Has note in trap
+    public boolean getFrontLimitClosed() { 
         return intakeMotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround;
     }
 
