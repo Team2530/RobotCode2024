@@ -121,7 +121,7 @@ public class Targeting {
     double vs2 = ArmConstants.MAX_SHOOTER_VELOCITY * ArmConstants.MAX_SHOOTER_VELOCITY;
     double angle = Math.atan2(vs2 - Math.sqrt(vs2 * vs2 - 2 * vs2 * y * g - x * x * g * g), (x * g));
 
-    SmartDashboard.putNumberArray("xyangle", new double[] { x, y, vs2, angle });
+    SmartDashboard.putNumber("Target Distance (to shooter)", x);
 
     double res = 90.0 - Units.radiansToDegrees(angle);
     // SmartDashboard.putNumber("Targeting Shooter Angle", res);

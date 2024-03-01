@@ -99,9 +99,9 @@ public class Arm extends SubsystemBase {
   public double getPresetShooterSpeed() {
     switch (currentPreset) {
       case SHOOT_HIGH:
-        return 0.8;
+        return 0.85; // 80%!!!
       case SHOOT_LOW:
-        return 1;
+        return 0.85; // 80%!!!
       case AMP:
         return 0.5;
       case TRAP:
