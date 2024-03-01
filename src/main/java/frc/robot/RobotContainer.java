@@ -231,7 +231,6 @@ public class RobotContainer {
             new WaitUntilCommand(new BooleanSupplier() {
                 @Override
                 public boolean getAsBoolean() {
-                    // TODO Auto-generated method stub
                     return shooter.isUpToSpeed();
                 }
             }),
@@ -273,7 +272,7 @@ public class RobotContainer {
         //     new InstantCommand(() -> System.out.println("HELLLLLOOO")),
         //     new ShootCommand(shooter, intake)
         // );
-        return new PathPlannerAuto("4-close");
+        return new PathPlannerAuto("5-note");
 
     }
 
