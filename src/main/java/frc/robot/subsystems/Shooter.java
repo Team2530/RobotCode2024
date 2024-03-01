@@ -2,9 +2,12 @@ package frc.robot.subsystems;
 
 import java.text.DecimalFormat;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -34,57 +37,80 @@ public class Shooter extends SubsystemBase {
 
     // Falcon 500 shooter motor
     private final TalonFX shooterMotor = new TalonFX(ArmConstants.SHOOTER_MOTOR_PORT);
+    VelocityVoltage shooterVelocityControl = new VelocityVoltage(0);
+    Slot0Configs shooterSlot0 = new Slot0Configs();
 
-    private double targetRPM = 0.0;
+    private double targetRPS = 0.0;
 
     public Shooter() {
-        shooterMotor.setNeutralMode(NeutralModeValue.Brake);
+        shooterMotor.setNeutralMode(NeutralModeValue.Coast);
+        shooterVelocityControl.Slot = 0;
+        shooterSlot0.kV = ArmConstants.SHOOTER_kV;
+        shooterSlot0.kP = ArmConstants.SHOOTER_kP;
+        shooterSlot0.kI = ArmConstants.SHOOTER_kI;
+        shooterSlot0.kD = ArmConstants.SHOOTER_kD;
+
+        shooterMotor.getConfigurator().apply(shooterSlot0, 0.050);
     }
 
     @Override
     public void periodic() {
-        double percent = (targetRPM) / ArmConstants.MAX_SHOOTER_RPM;
-        shooterMotor.setVoltage(percent * 12.0);
+        // double percent = (targetRPS) / ArmConstants.SHOOTER_MAX_RPS;
+        // shooterMotor.setVoltage(percent * 12.0);
 
-        SmartDashboard.putNumber("Shooter Percent", targetRPM);    
+        if (targetRPS < 1.5) {
+            shooterMotor.set(0);
+        } else {
+            shooterMotor.setControl(shooterVelocityControl.withSlot(0).withVelocity(targetRPS));
+        }
+
+        SmartDashboard.putNumber("Shooter TARGET velocity", targetRPS);
+        SmartDashboard.putNumber("Shooter REAL velocity", shooterMotor.getVelocity().getValueAsDouble());
+
+        SmartDashboard.putNumber("Shooter Percent", targetRPS);
         SmartDashboard.putNumber("Shooter Real", shooterMotor.getRotorVelocity().getValueAsDouble());
-        SmartDashboard.putString("Shootake", "Shooter mode set to " + (shooterMode.name()));
+        // SmartDashboard.putString("Shootake", "Shooter mode set to " +
+        // (shooterMode.name()));
     }
 
     /**
      * Sets shooter RPM based on percent from Mode speed
+     * 
      * @param mode
      */
     public void setMode(ShooterMode mode) {
         shooterMode = mode;
-        targetRPM = shooterMode.modeSpeed * ArmConstants.MAX_SHOOTER_RPM;
+        targetRPS = shooterMode.modeSpeed * ArmConstants.SHOOTER_MAX_RPS;
+        SmartDashboard.putNumber("Shootake", mode.modeSpeed);
     }
 
     public void setCustomPercent(double percent) {
         shooterMode = ShooterMode.CUSTOM;
         // clamp between (-1, 1)
 
-        targetRPM = Math.max(-1, Math.min(percent, 1));
+        targetRPS = MathUtil.clamp(percent, -1.0, 1.0);// Math.max(-1, Math.min(percent, 1));
+        targetRPS *= ArmConstants.SHOOTER_MAX_RPS;
 
-        targetRPM = targetRPM * ArmConstants.MAX_SHOOTER_RPM;
-
-        SmartDashboard.putString("Shootake", "Shooter speed set to " + String.format("%.0f", percent * 100) + " percent");
+        SmartDashboard.putString("Shootake",
+                "Shooter speed set to " + String.format("%.0f", percent * 100) + " percent");
     }
 
     /**
      * Gets output percent of shooter, <em>not RPM!</em>
+     * 
      * @return output percent
      */
-    public double getTargetRPM() {
-        return targetRPM;
+    public double getTargetRPS() {
+        return targetRPS;
     }
 
     /**
      * Gets the output RPM of the motor
+     * 
      * @return
      */
     public double getOutputRPM() {
-        return targetRPM * ArmConstants.MAX_SHOOTER_RPM;
+        return targetRPS;// * ArmConstants.SHOOTER_MAX_RPS;
     }
 
     /**
@@ -102,6 +128,6 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isUpToSpeed() {
-        return shooterMotor.getRotorVelocity().getValueAsDouble() > (targetRPM * .9);
+        return shooterMotor.getVelocity().getValueAsDouble() > (targetRPS * .9);
     }
 }

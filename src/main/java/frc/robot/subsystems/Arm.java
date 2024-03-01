@@ -60,9 +60,9 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("Stage One Encoder", Units.radiansToDegrees(stageOne.getMeasurement()));
     SmartDashboard.putNumber("Stage Two Encoder", Units.radiansToDegrees(stageTwo.getMeasurement()));
 
-    if(currentPreset == Presets.SHOOT_LOW) {
+    if (currentPreset == Presets.SHOOT_LOW) {
       stageTwo.setGoalDegrees(targeting.getTheta(ArmConstants.SHOOTER_LOW_X_OFFSET, ArmConstants.SHOOTER_LOW_HEIGHT));
-    } else if(currentPreset == Presets.SHOOT_HIGH) {
+    } else if (currentPreset == Presets.SHOOT_HIGH) {
       stageTwo.setGoalDegrees(targeting.getTheta(ArmConstants.SHOOTER_HIGH_X_OFFSET, ArmConstants.SHOOTER_HIGH_HEIGHT));
     }
   }
@@ -84,6 +84,7 @@ public class Arm extends SubsystemBase {
 
   /**
    * Sets the arm to a custom goal for stage 1 and stage 2
+   * 
    * @param stageOneDegrees (shoulder) degrees
    * @param stageTwoDegrees (wrist) degrees
    */
@@ -98,9 +99,9 @@ public class Arm extends SubsystemBase {
   public double getPresetShooterSpeed() {
     switch (currentPreset) {
       case SHOOT_HIGH:
-        return 0.8;
+        return 0.85; // 80%!!!
       case SHOOT_LOW:
-        return 1;
+        return 0.85; // 80%!!!
       case AMP:
         return 0.5;
       case TRAP:
@@ -115,9 +116,9 @@ public class Arm extends SubsystemBase {
   }
 
   public double getHorizOffset() {
-    if(currentPreset == Presets.SHOOT_LOW) {
+    if (currentPreset == Presets.SHOOT_LOW) {
       return ArmConstants.SHOOTER_LOW_X_OFFSET;
-    } else if(currentPreset == Presets.SHOOT_HIGH) {
+    } else if (currentPreset == Presets.SHOOT_HIGH) {
       return ArmConstants.SHOOTER_HIGH_X_OFFSET;
     } else {
       return 0.0;
