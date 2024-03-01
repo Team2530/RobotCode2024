@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.DriveCommand;
 //import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Arm.Presets;
 
@@ -26,16 +27,18 @@ public class LEDstripOne extends SubsystemBase {
     public Intake intake;
     public Arm arm;
     public SwerveSubsystem swerve;
+    public DriveCommand drive;
 
     private XboxController DEBUG_XBOX = new XboxController(0);
 
     // Intake intake
     public LEDstripOne(
-            int portPWM, Intake intake, Shooter shooter, Arm arm, SwerveSubsystem swerve) {
+            int portPWM, Intake intake, Shooter shooter, Arm arm, SwerveSubsystem swerve, DriveCommand drive) {
         this.intake = intake;
         this.shooter = shooter;
         this.arm = arm;
         this.swerve = swerve;
+        this.drive = drive;
         // Must be a PWM header, not MXP or DIO
         m_led = new AddressableLED(8);
 
@@ -108,10 +111,9 @@ public class LEDstripOne extends SubsystemBase {
 
         double mtime = DriverStation.getMatchTime();
 
-        if(DriverStation.isAutonomousEnabled()){
+        if (DriverStation.isAutonomousEnabled()) {
             rainbow();
-        }
-        else if (DriverStation.isTeleopEnabled() && mtime <= ctime) {
+        } else if (DriverStation.isTeleopEnabled() && mtime <= ctime &&  false) {
             for (int i = 0; i < 20; i++) {
                 // Countdown
                 int r = MathUtil.clamp((int) (255 * ((1.5 * ctime - 2 * mtime) / ctime)), 0, 255);
@@ -135,7 +137,7 @@ public class LEDstripOne extends SubsystemBase {
         } else if ((arm.getCurrentPreset() == Presets.SHOOT_HIGH ||
                 arm.getCurrentPreset() == Presets.SHOOT_LOW
                 || arm.getCurrentPreset() == Presets.TRAP)
-                && shooter.isUpToSpeed()) {
+                && shooter.isReadySpooled() && drive.isSpeakerAligned()) {
             setSolidColor(0, 255, 0);
         } else if (arm.getCurrentPreset() == Presets.SOURCE) {
             // Intaking!!

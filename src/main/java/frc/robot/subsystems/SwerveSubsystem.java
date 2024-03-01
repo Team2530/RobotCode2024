@@ -74,26 +74,24 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private RotationStyle rotationStyle = RotationStyle.Driver;
 
-    public final AHRS navX  = new AHRS(SPI.Port.kMXP);
+    public final AHRS navX = new AHRS(SPI.Port.kMXP);
     private double navxSim;
 
     private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();
 
     private Field2d field = new Field2d();
 
-
-
     // TODO: Properly set starting pose
     private final SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(DriveConstants.KINEMATICS,
             getRotation2d(),
             getModulePositions(), new Pose2d(), createStateStdDevs(
-                PoseConstants.kPositionStdDevX,
-                PoseConstants.kPositionStdDevY,
-                PoseConstants.kPositionStdDevTheta),
-                createVisionMeasurementStdDevs(
-                PoseConstants.kVisionStdDevX,
-                PoseConstants.kVisionStdDevY,
-                PoseConstants.kVisionStdDevTheta));
+                    PoseConstants.kPositionStdDevX,
+                    PoseConstants.kPositionStdDevY,
+                    PoseConstants.kPositionStdDevTheta),
+            createVisionMeasurementStdDevs(
+                    PoseConstants.kVisionStdDevX,
+                    PoseConstants.kVisionStdDevY,
+                    PoseConstants.kVisionStdDevTheta));
 
     public SwerveSubsystem() {
         zeroHeading();
@@ -127,21 +125,21 @@ public class SwerveSubsystem extends SubsystemBase {
         updateVisionOdometry();
         odometry.update(getRotation2d(), getModulePositions());
         // if (DriverStation.getAlliance().isPresent()) {
-        //     switch (DriverStation.getAlliance().get()) {
-        //         case Red:
-        //             field.setRobotPose(new Pose2d(new Translation2d(16.5 - getPose().getX(),  getPose().getY()),
-        //                     getPose().getRotation()));
-        //             break;
+        // switch (DriverStation.getAlliance().get()) {
+        // case Red:
+        // field.setRobotPose(new Pose2d(new Translation2d(16.5 - getPose().getX(),
+        // getPose().getY()),
+        // getPose().getRotation()));
+        // break;
 
-        //         case Blue:
-        //             field.setRobotPose(getPose());
-        //             break;
-        //     }
-        // } else {
-        //     // If no alliance provided, just go with blue
-            field.setRobotPose(getPose());
+        // case Blue:
+        // field.setRobotPose(getPose());
+        // break;
         // }
-
+        // } else {
+        // // If no alliance provided, just go with blue
+        field.setRobotPose(getPose());
+        // }
 
         SmartDashboard.putData("Field", field);
 
@@ -218,13 +216,13 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void setXstance() {
         frontLeft.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(45)));
+                Rotation2d.fromDegrees(45)));
         frontRight.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(-45)));
+                Rotation2d.fromDegrees(-45)));
         backLeft.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(-45)));
+                Rotation2d.fromDegrees(-45)));
         backRight.setModuleStateRaw(new SwerveModuleState(0,
-        Rotation2d.fromDegrees(45)));
+                Rotation2d.fromDegrees(45)));
     }
 
     public ChassisSpeeds getChassisSpeeds() {
@@ -276,7 +274,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
         return new FollowPathHolonomic(
                 path,
-                this::getPose,// Robot pose supplier
+                this::getPose, // Robot pose supplier
                 this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                 this::setChassisSpeedsAUTO, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
@@ -284,7 +282,8 @@ public class SwerveSubsystem extends SubsystemBase {
                         PathPlannerConstants.TRANSLATION_PID, // Translation PID constants
                         PathPlannerConstants.ROTATION_PID, // Rotation PID constants
                         DriveConstants.MAX_MODULE_VELOCITY, // Max module speed, in m/s
-                        DriveConstants.DRIVE_BASE_RADIUS, // Drive base radius in meters. Distance from robot center to furthest module.
+                        DriveConstants.DRIVE_BASE_RADIUS, // Drive base radius in meters. Distance from robot center to
+                                                          // furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
                 () -> {
@@ -326,23 +325,22 @@ public class SwerveSubsystem extends SubsystemBase {
         NetworkTableEntry poseEntry = LimelightHelpers.getLimelightNTTableEntry("limelight", "botpose_wpiblue");
         double[] poseArray = poseEntry.getDoubleArray(new double[0]);
 
-        if(LimelightHelpers.getLatestResults(null).targetingResults.targets_Fiducials.length > 0) {
+        if (LimelightHelpers.getLatestResults(null).targetingResults.targets_Fiducials.length > 0) {
             double timestamp = poseEntry.getLastChange() / 1e6 - poseArray[6] / 1e3;
 
             Pose2d visionPose = new Pose2d(
-                new Translation2d(poseArray[0], poseArray[1]),
-                new Rotation2d(Units.degreesToRadians(poseArray[5]))
-            );
+                    new Translation2d(poseArray[0], poseArray[1]),
+                    new Rotation2d(Units.degreesToRadians(poseArray[5])));
 
             odometry.addVisionMeasurement(visionPose, timestamp);
         }
     }
 
     public Vector<N3> createStateStdDevs(double x, double y, double theta) {
-    return VecBuilder.fill(x, y, Units.degreesToRadians(theta));
-  }
+        return VecBuilder.fill(x, y, Units.degreesToRadians(theta));
+    }
 
-  public Vector<N3> createVisionMeasurementStdDevs(double x, double y, double theta) {
-    return VecBuilder.fill(x, y, Units.degreesToRadians(theta));
-  }
+    public Vector<N3> createVisionMeasurementStdDevs(double x, double y, double theta) {
+        return VecBuilder.fill(x, y, Units.degreesToRadians(theta));
+    }
 }

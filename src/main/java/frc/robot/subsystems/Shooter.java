@@ -130,4 +130,8 @@ public class Shooter extends SubsystemBase {
     public boolean isUpToSpeed() {
         return shooterMotor.getVelocity().getValueAsDouble() > (targetRPS * .9);
     }
+
+    public boolean isReadySpooled() {
+        return Math.abs(shooterMotor.getVelocity().getValueAsDouble() - targetRPS) < 3;
+    }
 }
