@@ -8,6 +8,7 @@ import frc.robot.Constants.*;
 import frc.robot.commands.*;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import frc.robot.subsystems.*;
@@ -22,6 +23,8 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 
@@ -39,6 +42,8 @@ public class RobotContainer {
             ControllerConstants.DRIVER_CONTROLLER_PORT);
     private final CommandXboxController operatorXbox = new CommandXboxController(
             ControllerConstants.OPERATOR_CONTROLLER_PORT);
+
+    private final SendableChooser<Command> autoChooser;
 
     private final SwerveSubsystem swerveDriveSubsystem = new SwerveSubsystem();
     // private final LimeLightSubsystem limeLightSubsystem = new
@@ -62,12 +67,17 @@ public class RobotContainer {
     private final ClimberSubsystem climber = new ClimberSubsystem(swerveDriveSubsystem.navX);
     private final ClimberCommand climberCommand = new ClimberCommand(climber, operatorXbox.getHID());
 
+    
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
 
         swerveDriveSubsystem.setDefaultCommand(normalDrive);
         climber.setDefaultCommand(climberCommand);
@@ -275,7 +285,7 @@ public class RobotContainer {
         // new InstantCommand(() -> System.out.println("HELLLLLOOO")),
         // new ShootCommand(shooter, intake)
         // );
-        return new PathPlannerAuto("5-note");
+        return autoChooser.getSelected();
 
     }
 

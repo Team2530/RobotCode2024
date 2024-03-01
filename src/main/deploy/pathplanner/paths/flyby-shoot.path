@@ -98,7 +98,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "flyby-shoot",
+  "folder": "Tests",
   "previewStartingState": {
     "rotation": 175.27531761911348,
     "velocity": 2.0

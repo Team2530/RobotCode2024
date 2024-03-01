@@ -49,7 +49,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp",
+  "folder": "Tests",
   "previewStartingState": {
     "rotation": 89.44903914611152,
     "velocity": 0

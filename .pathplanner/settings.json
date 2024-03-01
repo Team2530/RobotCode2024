@@ -6,11 +6,11 @@
     "3-middle",
     "4-bottom",
     "4-close",
+    "4-close-amp-side",
+    "4-close-source-side",
     "4-top",
     "5-note",
-    "Amp",
-    "Tests",
-    "flyby-shoot"
+    "Tests"
   ],
   "autoFolders": [],
   "defaultMaxVel": 4.0,
