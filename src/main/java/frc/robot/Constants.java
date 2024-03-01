@@ -49,8 +49,9 @@ public final class Constants {
 
     public static Translation2d getSpeakerPosition() {
       Translation2d speakerBlue = new Translation2d(0.022, 5.55);
-      speakerBlue = DriverStation.getAlliance().get() == Alliance.Blue ? speakerBlue : GeometryUtil.flipFieldPosition(speakerBlue);
-      return speakerBlue; 
+      speakerBlue = DriverStation.getAlliance().get() == Alliance.Blue ? speakerBlue
+          : GeometryUtil.flipFieldPosition(speakerBlue);
+      return speakerBlue;
     }
   }
 
@@ -145,7 +146,7 @@ public final class Constants {
     public static final double THETA_kD = 0.08;
 
     public static final double X_kP = 1.0;
-    public static final double X_kI = 0.0;  
+    public static final double X_kI = 0.0;
     public static final double X_kD = 0.02;
 
     public static final double Y_kP = 5;
@@ -247,11 +248,14 @@ public final class Constants {
 
     public static final double HUMAN_ARM_INPUT_P = 0.0001;
 
-    public static final double MAX_SHOOTER_RPM = 95.0;
+    public static final double SHOOTER_kV = 0.104;
+    public static final double SHOOTER_kP = 0.2;
+    public static final double SHOOTER_kI = 0.48;
+    public static final double SHOOTER_kD = 0.01;
+    public static final double SHOOTER_MAX_RPS = 106.0;
 
-    public static final double SHOOTER_INTEGRAL = 0.01;
-    public static final double SHOOTER_P = 0.03;
-    public static final double SHOOTER_MAX_VOLTAGE = 11.5;
+    // FOR TARGETING!!!
+    public static final double MAX_SHOOTER_VELOCITY = 15.0;// 16.6;
 
     public static final double SHOOTER_LOW_HEIGHT = 0.7;
     public static final double SHOOTER_LOW_X_OFFSET = 0.36;
@@ -259,7 +263,6 @@ public final class Constants {
     public static final double SHOOTER_HIGH_HEIGHT = 0.96;
     public static final double SHOOTER_HIGH_X_OFFSET = -0.25;
 
-    public static final double MAX_SHOOTER_VELOCITY = 15; // 16.6s
   }
 
   public static class ClimberConstants {
@@ -274,9 +277,9 @@ public final class Constants {
 
     public static final double CLIMBER_LENGTH = 11.2; // Inches-ish
     public static final double SPOOL_RADIUS = 0.5; // CHECK WITH SPIRAL SPOOLING!
-    public static final double SPOOL_CIRC = 2*Math.PI*SPOOL_RADIUS;
+    public static final double SPOOL_CIRC = 2 * Math.PI * SPOOL_RADIUS;
 
-    public static final double CLIMBER_RATIO = 1.0/100.0;
+    public static final double CLIMBER_RATIO = 1.0 / 100.0;
 
     public static final double CLIMBER_POS_CONV_FACTOR = SPOOL_CIRC * CLIMBER_RATIO;
   }
