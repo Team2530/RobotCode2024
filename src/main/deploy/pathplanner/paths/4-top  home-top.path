@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 2.2126845393291923,
-        "y": 6.735832958845405
+        "x": 1.8045844863619553,
+        "y": 6.217553663177502
       },
       "prevControl": {
-        "x": 3.054135894495068,
-        "y": 6.922328333967831
+        "x": 2.646035841527831,
+        "y": 6.404049038299928
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "4-close-shoot-close"
     }
   ],
   "rotationTargets": [
@@ -45,7 +45,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 36.0,
+    "rotation": 30.0,
     "rotateFast": false
   },
   "reversed": false,

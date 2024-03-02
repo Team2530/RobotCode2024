@@ -104,12 +104,6 @@
                 }
               },
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "Shoot"
@@ -167,12 +161,6 @@
                 }
               },
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "Shoot"
@@ -215,6 +203,12 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "5 note  shoot 4"
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
@@ -227,12 +221,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
@@ -296,12 +284,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
