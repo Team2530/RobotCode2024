@@ -110,7 +110,7 @@ public class Targeting {
   }
 
   public double getTheta(double shooterHorizontal, double shooterVertical) {
-    double x = getDistanceToTarget() + shooterHorizontal;
+    double x = Math.max(0, getDistanceToTarget() + shooterHorizontal);
 
     // VELOCITY COMPENSATION
     // double tshotapprox = x / ArmConstants.MAX_SHOOTER_VELOCITY;
@@ -126,6 +126,6 @@ public class Targeting {
     double res = 90.0 - Units.radiansToDegrees(angle);
     // SmartDashboard.putNumber("Targeting Shooter Angle", res);
 
-    return res;
+    return MathUtil.clamp(res, 30, 180.0);
   }
 }

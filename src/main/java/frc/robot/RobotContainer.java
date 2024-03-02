@@ -180,6 +180,10 @@ public class RobotContainer {
             arm.setArmPreset(Presets.AMP);
         }));
 
+        operatorXbox.button(10).onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.SHOOT_MANUAL);
+        }));
+
         // High shoot preset
         operatorXbox.rightTrigger().and(new BooleanSupplier() {
             @Override

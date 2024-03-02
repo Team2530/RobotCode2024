@@ -18,7 +18,6 @@ public class StageTwo extends ProfiledPIDSubsystem {
 
     private double stageOneOffset = 0.0;
 
-
     public StageTwo() {
         super(ArmConstants.STAGE_TWO_PROFILEDPID);
 
@@ -31,7 +30,8 @@ public class StageTwo extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        // setpoint doesn't really matter as we aren't using a feedforward as of right now
+        // setpoint doesn't really matter as we aren't using a feedforward as of right
+        // now
         stageTwoMotor.set(output / 12d);
 
         SmartDashboard.putNumber("Two Output", output);
@@ -39,7 +39,8 @@ public class StageTwo extends ProfiledPIDSubsystem {
 
     @Override
     protected double getMeasurement() {
-        double actualPosition = (stageTwoEncoder.getAbsolutePosition().getValueAsDouble() * (ArmConstants.STAGE_TWO_ENCODER_ISREVERSED ? -1 : 1));
+        double actualPosition = (stageTwoEncoder.getAbsolutePosition().getValueAsDouble()
+                * (ArmConstants.STAGE_TWO_ENCODER_ISREVERSED ? -1 : 1));
         return Units.rotationsToRadians(ArmConstants.STAGE_TWO_ENCODER_OFFSET + actualPosition) + stageOneOffset;
     }
 
@@ -55,6 +56,4 @@ public class StageTwo extends ProfiledPIDSubsystem {
         return m_controller.getGoal().position;
     }
 
-
-    
 }

@@ -26,6 +26,7 @@ public class Arm extends SubsystemBase {
     INTAKE(-14.7, 37.2),
     AMP(101, 125),
     SHOOT_HIGH(90, 40),
+    SHOOT_MANUAL(19, 48),
     STARTING_CONFIG(0, 90),
     SOURCE(42, 132),
     TRAP(33, 47),
@@ -85,7 +86,7 @@ public class Arm extends SubsystemBase {
         stageTwo.enable();
       }
 
-      if (shooter.getShooterMode() != ShooterMode.STOPPED) {
+      if (shooter.getShooterMode() != ShooterMode.STOPPED && operatorXbox.getRightBumper()) {
         shooter.setCustomPercent(getPresetShooterSpeed());
       }
     }
@@ -108,9 +109,11 @@ public class Arm extends SubsystemBase {
   public double getPresetShooterSpeed() {
     switch (currentPreset) {
       case SHOOT_HIGH:
-        return 0.85; // 80%!!!
+        return 0.85;
       case SHOOT_LOW:
-        return 0.85; // 80%!!!
+        return 0.85;
+      case SHOOT_MANUAL:
+        return 0.85;
       case AMP:
         return 0.5;
       case TRAP:

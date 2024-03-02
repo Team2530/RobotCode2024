@@ -134,10 +134,11 @@ public class LEDstripOne extends SubsystemBase {
             }
 
             // Ready to shoot
-        } else if ((arm.getCurrentPreset() == Presets.SHOOT_HIGH || arm.getCurrentPreset() == Presets.SHOOT_LOW
-                || arm.getCurrentPreset() == Presets.TRAP) && shooter.isReadySpooled() && drive.isSpeakerAligned())
-
-        {
+        } else if ((arm.getCurrentPreset() == Presets.SHOOT_HIGH || arm.getCurrentPreset() == Presets.SHOOT_LOW)
+                && shooter.isReadySpooled() && drive.isSpeakerAligned()) {
+            setSolidColor(0, 255, 0);
+        } else if ((arm.getCurrentPreset() == Presets.TRAP || arm.getCurrentPreset() == Presets.AMP)
+                && shooter.isReadySpooled()) {
             setSolidColor(0, 255, 0);
         } else if (arm.getCurrentPreset() == Presets.SOURCE) {
             // Intaking!!
