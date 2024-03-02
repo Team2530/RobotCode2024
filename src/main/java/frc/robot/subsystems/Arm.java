@@ -76,21 +76,33 @@ public class Arm extends SubsystemBase {
   public void setArmPreset(Presets preset) {
     // only change if new goal
     if (currentPreset != preset) {
-      stageOne.setGoalDegrees(preset.s1angle);
-      stageTwo.setGoalDegrees(preset.s2angle);
-      currentPreset = preset;
-      SmartDashboard.putString("Arm Preset", "Moving to " + currentPreset.name());
 
       if (DriverStation.isEnabled()) {
-        stageOne.enable();
-        stageTwo.enable();
+        // If moving from intake to stow, only cam up the intake, don't use stage one at all
+        if (currentPreset == Presets.INTAKE && preset == Presets.STOW) {
+          stageOne.coast();
+          stageOne.disable();
+          stageTwo.enable();
+        } else {
+          stageOne.brake();
+          stageOne.enable();
+          stageTwo.enable();
+        }
       }
+
+      stageTwo.setGoalDegrees(preset.s2angle);
+      stageOne.setGoalDegrees(preset.s1angle);
+      SmartDashboard.putString("Arm Preset", "Moving to " + currentPreset.name());
+
+      currentPreset = preset;
 
       if (shooter.getShooterMode() != ShooterMode.STOPPED && operatorXbox.getRightBumper()) {
         shooter.setCustomPercent(getPresetShooterSpeed());
       }
+
     }
   }
+
 
   /**
    * Sets the arm to a custom goal for stage 1 and stage 2

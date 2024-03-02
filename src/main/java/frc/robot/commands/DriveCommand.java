@@ -137,18 +137,22 @@ public class DriveCommand extends Command {
         }
 
         // Drive Non Field Oriented
-        if (!xbox.getLeftBumper()) {
+        if(xbox.getRightBumper()) {
+            speeds = new ChassisSpeeds(-xSpeed, ySpeed, -zSpeed);
+
+        } else if (!xbox.getLeftBumper()) {
             speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-ySpeed, xSpeed, zSpeed,
                     new Rotation2d(
                             -swerveSubsystem.getRotation2d().rotateBy(DriveConstants.NAVX_ANGLE_OFFSET).getRadians()));
-        } else {
+        } else{
+            // Normal non-field oriented
             speeds = new ChassisSpeeds(-xSpeed, -ySpeed, zSpeed);
         }
 
         // State transition logic
         switch (state) {
             case Free:
-                state = xbox.getRightBumper() ? DriveState.Locked : DriveState.Free;
+                // state = xbox.getRightBumper() ? DriveState.Locked : DriveState.Free;
                 break;
             case Locked:
                 state = ((xyRaw.getNorm() > 0.15) && !xbox.getBButton()) ? DriveState.Free : DriveState.Locked;

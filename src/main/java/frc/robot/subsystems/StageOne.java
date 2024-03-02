@@ -73,4 +73,14 @@ public class StageOne extends ProfiledPIDSubsystem {
         return this.m_controller.getGoal().position;
     }
 
+    public void brake() {
+        stageOneLeader.setNeutralMode(NeutralModeValue.Brake);
+        stageOneFollower.setNeutralMode(NeutralModeValue.Brake);
+    }
+
+    public void coast() {
+        stageOneLeader.setNeutralMode(NeutralModeValue.Coast);
+        stageOneFollower.setNeutralMode(NeutralModeValue.Coast);
+    }
+
 }
