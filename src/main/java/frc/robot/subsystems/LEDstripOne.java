@@ -106,59 +106,95 @@ public class LEDstripOne extends SubsystemBase {
 
     @Override
     public void periodic() {
-        final double ctime = 20;
-        double ltmult = ctime / 20.0;
+        // final double ctime = 20;
+        // double ltmult = ctime / 20.0;
 
-        double mtime = DriverStation.getMatchTime();
+        // double mtime = DriverStation.getMatchTime();
 
-        if (DriverStation.isAutonomousEnabled()) {
-            rainbow();
-        } else if (DriverStation.isTeleopEnabled() && mtime <= ctime && (mtime >= 0.005)) {
-            for (int i = 0; i < 20; i++) {
-                // Countdown
-                int r = MathUtil.clamp((int) (255 * ((1.5 * ctime - 2 * mtime) / ctime)), 0, 255);
-                int g = MathUtil.clamp((int) (255 * ((2 * mtime - 0.75 * ctime) / ctime)), 0, 255);
-                double amplitude = 0.0;
-                if (mtime < 10) {
-                    amplitude = flash(2) ? 1.0 : 0.0;
-                } else {
-                    amplitude = (0.8 + 0.2 * Math.sin(Timer.getFPGATimestamp() * Math.PI * 3));
-                }
-                amplitude *= 1.0 - antiAliasFac(i + 1, mtime, 2);
+        // if (DriverStation.isAutonomousEnabled()) {
+        //     rainbow();
+        // } else if (DriverStation.isTeleopEnabled() && mtime <= ctime && (mtime >= 0.005)) {
+        //     for (int i = 0; i < 20; i++) {
+        //         // Countdown
+        //         int r = MathUtil.clamp((int) (255 * ((1.5 * ctime - 2 * mtime) / ctime)), 0, 255);
+        //         int g = MathUtil.clamp((int) (255 * ((2 * mtime - 0.75 * ctime) / ctime)), 0, 255);
+        //         double amplitude = 0.0;
+        //         if (mtime < 10) {
+        //             amplitude = flash(2) ? 1.0 : 0.0;
+        //         } else {
+        //             amplitude = (0.8 + 0.2 * Math.sin(Timer.getFPGATimestamp() * Math.PI * 3));
+        //         }
+        //         amplitude *= 1.0 - antiAliasFac(i + 1, mtime, 2);
 
-                r *= amplitude;
-                g *= amplitude;
+        //         r *= amplitude;
+        //         g *= amplitude;
 
-                setLED(i, r, g, 0);
-                // }
-            }
+        //         setLED(i, r, g, 0);
+        //         // }
+        //     }
 
-            // Ready to shoot
-        } else if ((arm.getCurrentPreset() == Presets.SHOOT_HIGH || arm.getCurrentPreset() == Presets.SHOOT_LOW)
-                && shooter.isReadySpooled() && drive.isSpeakerAligned()) {
-            setSolidColor(0, 255, 0);
-        } else if ((arm.getCurrentPreset() == Presets.TRAP || arm.getCurrentPreset() == Presets.AMP)
-                && shooter.isReadySpooled()) {
-            setSolidColor(0, 255, 0);
-        } else if (arm.getCurrentPreset() == Presets.SOURCE) {
-            // Intaking!!
-            sinColor(255, 30, 0, 2, 0.5, 0.5, 5);
-        } else {
-            // Set idle lights based on alliance color
-            if (DriverStation.getAlliance().get() == Alliance.Red) {
-                setSolidColor(100, 0, 0);
-            } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
-                setSolidColor(0, 0, 100);
-            } else {
-                setSolidColor(64, 64, 64);
-            }
-        }
+        //     // Ready to shoot
+        // } else if ((arm.getCurrentPreset() == Presets.SHOOT_HIGH || arm.getCurrentPreset() == Presets.SHOOT_LOW)
+        //         && shooter.isReadySpooled() && drive.isSpeakerAligned()) {
+        //     setSolidColor(0, 255, 0);
+        // } else if ((arm.getCurrentPreset() == Presets.TRAP || arm.getCurrentPreset() == Presets.AMP)
+        //         && shooter.isReadySpooled()) {
+        //     setSolidColor(0, 255, 0);
+        // } else if (arm.getCurrentPreset() == Presets.SOURCE) {
+        //     // Intaking!!
+        //     sinColor(255, 30, 0, 2, 0.5, 0.5, 5);
+        // } else {
+        //     // Set idle lights based on alliance color
+        //     if (DriverStation.getAlliance().get() == Alliance.Red) {
+        //         setSolidColor(100, 0, 0);
+        //     } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
+        //         setSolidColor(0, 0, 100);
+        //     } else {
+        //         setSolidColor(64, 64, 64);
+        //     }
+        // }
 
-        m_led.setData(m_ledBuffer);
+        // for (int i=0; i < 12;i+=3) {
+        //     m_ledBuffer.setRGB(i, 0, 255, 0);
+        //     m_ledBuffer.setRGB(i+1, 255, 0, 0);
+        //     m_ledBuffer.setRGB(i+2, 0, 0, 255);
+        // }
+        //System.out.println(m_ledBuffer);
+        // m_ledBuffer.setRGB(0, 0, 255, 0);
+        // m_ledBuffer.setRGB(1, 255, 0, 0);
+        // m_ledBuffer.setRGB(2, 0, 0, 255);
+        // m_ledBuffer.setRGB(3, 0, 0, 0);
+        // m_ledBuffer.setRGB(4, 0, 255, 0);
+        for (int i=0;i<20;i++) {setRGBW(i,0,0,255,255);}
+        //setRGBW(0,0,255,0,100);
+        
+
+        push();
 
         // Timer.getMatchTime();
 
         // This built-in method will be called once per scheduler run
+    }
+    public void setRGBW(int index, int R, int G, int B, int W) {
+        int offsetindex = index + (int) Math.floor(index/3); // INDEX OFFSET
+        Color thisColor = getLEDColor(offsetindex);
+        Color nextColor = getLEDColor(offsetindex+1);
+
+        switch (index % 3) {
+            case 0:
+                m_ledBuffer.setRGB(offsetindex, R, G, B); // R>R G>G B>B
+                m_ledBuffer.setRGB(offsetindex+1, (int) nextColor.red*255, W, (int) nextColor.blue*255); // G>W R B
+                break;
+            case 1:
+                m_ledBuffer.setRGB(offsetindex, G, (int) thisColor.green*255, R); // G R>G B>R
+                m_ledBuffer.setRGB(offsetindex+1, W, B, (int) nextColor.blue*255); // G>B R>W B
+                break;
+            case 2:
+                m_ledBuffer.setRGB(offsetindex, (int) thisColor.red*255, (int) thisColor.green*255, G); // G, R, B>G
+                m_ledBuffer.setRGB(offsetindex+1, B, R, W); // G>R R>B B>W
+                break;
+            default:break;
+        }
     }
 
     @Override
@@ -168,6 +204,9 @@ public class LEDstripOne extends SubsystemBase {
 
     public AddressableLEDBuffer getBuffer() {
         return m_ledBuffer;
+    }
+    public Color getLEDColor(int index) {
+        return m_ledBuffer.getLED(index);
     }
 
     public void push() {
