@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.406426755846387,
-      "y": 5.498863634306841
+      "x": 0.7851802130738433,
+      "y": 6.693172495897639
     },
-    "rotation": 58.69587650440901
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  pickup-2"
+                        "pathName": "4-top  end-top"
                       }
                     },
                     {
@@ -85,7 +85,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  shoot-2"
+                        "pathName": "4-top  home-top"
                       }
                     },
                     {
@@ -101,12 +101,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
@@ -129,7 +123,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  pickup-3"
+                        "pathName": "4-top  middle-1"
                       }
                     },
                     {
@@ -141,7 +135,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intaking"
+                        "name": "Intaking 5"
                       }
                     }
                   ]
@@ -154,7 +148,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  shoot-3"
+                        "pathName": "4-top  home-top"
                       }
                     },
                     {
@@ -170,12 +164,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
@@ -198,7 +186,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  pickup-4"
+                        "pathName": "4-top  middle-2"
                       }
                     },
                     {
@@ -210,7 +198,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intaking"
+                        "name": "Intaking 5"
                       }
                     }
                   ]
@@ -223,7 +211,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  shoot-4"
+                        "pathName": "4-top  home-top"
                       }
                     },
                     {
@@ -239,12 +227,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {

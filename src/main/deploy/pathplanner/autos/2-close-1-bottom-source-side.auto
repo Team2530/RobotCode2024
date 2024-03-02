@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.78,
-      "y": 4.416640472235815
+      "x": 1.406426755846387,
+      "y": 5.55
     },
-    "rotation": -59.68489969980125
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  pickup note 2"
+                        "pathName": "2-middle-1-bottom  pickup-2"
                       }
                     },
                     {
@@ -85,7 +85,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "5-note  shoot 2 note"
+                        "pathName": "2-middle-1-bottom  shoot-2"
                       }
                     },
                     {
@@ -101,12 +101,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
@@ -129,7 +123,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "5 note  pickup and shoot 3 note"
+                        "pathName": "2-middle-1-bottom  pickup-3"
                       }
                     },
                     {
@@ -152,6 +146,12 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "2-middle-1-bottom  shoot-3"
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
@@ -164,12 +164,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
@@ -192,7 +186,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "5 note  pickup and shoot 4 note"
+                        "pathName": "2-middle-1-bottom  pickup-4"
                       }
                     },
                     {
@@ -215,6 +209,12 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "2-middle-1-bottom  shoot-4"
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
@@ -227,81 +227,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "5 note  pickup 5"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Pickup"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shoot Close"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spool"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "5 note  shoot 5"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
