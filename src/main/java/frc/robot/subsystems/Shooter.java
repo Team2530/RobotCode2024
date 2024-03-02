@@ -132,6 +132,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isReadySpooled() {
-        return Math.abs(shooterMotor.getVelocity().getValueAsDouble() - targetRPS) < 3;
+        return (Math.abs(shooterMotor.getVelocity().getValueAsDouble() - targetRPS) < 3)
+                && shooterMode != ShooterMode.STOPPED && (targetRPS > 1.0);
+    }
+
+    public ShooterMode getShooterMode() {
+        return shooterMode;
     }
 }

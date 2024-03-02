@@ -114,8 +114,8 @@ public class DriveCommand extends Command {
 
         if (xbox.getXButton()) {
             swerveSubsystem.zeroHeading();
-            swerveSubsystem.resetOdometry(new Pose2d(1.38, 5.55, new Rotation2d()));
-            swerveSubsystem.zeroHeading();
+            // swerveSubsystem.resetOdometry(new Pose2d(1.38, 5.55, new Rotation2d()));
+            // swerveSubsystem.zeroHeading();
         }
 
         ChassisSpeeds speeds;

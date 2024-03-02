@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Targeting;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.FieldConstants;
+import frc.robot.subsystems.Shooter.ShooterMode;
 
 public class Arm extends SubsystemBase {
 
@@ -21,12 +22,14 @@ public class Arm extends SubsystemBase {
     // out the front when the arm is vertical, and the intake horizontal
     STOW(-0.37, 181),
     SHOOT_LOW(19, 48),
+    SHOOT_TM(19, 38),
     INTAKE(-14.7, 37.2),
     AMP(101, 125),
     SHOOT_HIGH(90, 40),
     STARTING_CONFIG(0, 90),
     SOURCE(42, 132),
     TRAP(33, 47),
+    CLIMB(-14.7, 74),
     CUSTOM(0, 0);
 
     private double s1angle;
@@ -42,14 +45,16 @@ public class Arm extends SubsystemBase {
   private final StageOne stageOne;
   private final StageTwo stageTwo;
   private final XboxController operatorXbox;
+  private final Shooter shooter;
   private Targeting targeting;
 
   private Presets currentPreset = Presets.STARTING_CONFIG;
 
-  public Arm(StageOne stageOne, StageTwo stageTwo, Targeting targeting, XboxController operatorXbox) {
+  public Arm(StageOne stageOne, StageTwo stageTwo, Shooter shooter, Targeting targeting, XboxController operatorXbox) {
     this.stageOne = stageOne;
     this.stageTwo = stageTwo;
     this.operatorXbox = operatorXbox;
+    this.shooter = shooter;
     this.targeting = targeting;
   }
 
@@ -78,6 +83,10 @@ public class Arm extends SubsystemBase {
       if (DriverStation.isEnabled()) {
         stageOne.enable();
         stageTwo.enable();
+      }
+
+      if (shooter.getShooterMode() != ShooterMode.STOPPED) {
+        shooter.setCustomPercent(getPresetShooterSpeed());
       }
     }
   }

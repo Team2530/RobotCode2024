@@ -109,8 +109,13 @@ public class SwerveSubsystem extends SubsystemBase {
                     // alliance
                     // This will flip the path being followed to the red side of the field.
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
 
                     return false;
+
                 },
                 this // Reference to this subsystem to set requirements
         );
@@ -145,7 +150,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
         SmartDashboard.putString("Robot Pose",
                 getPose().toString());
-
         double swerveCurrent = 0;
         for (int chan : pdh_channels)
             swerveCurrent += pdh.getCurrent(chan);
@@ -210,6 +214,8 @@ public class SwerveSubsystem extends SubsystemBase {
         double tmp = speeds.vxMetersPerSecond;
         speeds.vxMetersPerSecond = speeds.vyMetersPerSecond;
         speeds.vyMetersPerSecond = tmp;
+        tmp = speeds.omegaRadiansPerSecond;
+        speeds.omegaRadiansPerSecond *= -1;
         SwerveModuleState[] states = DriveConstants.KINEMATICS.toSwerveModuleStates(speeds);
         setModules(states);
     }

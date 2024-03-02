@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7851802130738433,
-      "y": 6.693172495897639
+      "x": 0.7889389462989452,
+      "y": 4.412969176815547
     },
-    "rotation": 60.0
+    "rotation": -60.751876656650715
   },
   "command": {
     "type": "sequential",
@@ -30,14 +30,14 @@
                       "data": {
                         "name": "Spool"
                       }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.2
+                      }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-top  end-top"
+                        "pathName": "4-close-source-side  pickup note 2"
                       }
                     },
                     {
@@ -85,7 +85,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-top  home-top"
+                        "pathName": "4-close-source-side  shoot note 2"
                       }
                     },
                     {
@@ -123,7 +123,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-top  middle-1"
+                        "pathName": "4-close-source-side  pickup note 3"
                       }
                     },
                     {
@@ -135,7 +135,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intaking 5"
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -148,7 +148,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-top  home-top"
+                        "pathName": "4-close-source-side  shoot note 3"
                       }
                     },
                     {
@@ -164,12 +164,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
@@ -192,7 +186,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-top  middle-2"
+                        "pathName": "4-close-source-side  pickup note 4"
                       }
                     },
                     {
@@ -204,7 +198,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intaking 5"
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -217,7 +211,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-top  home-top"
+                        "pathName": "4-close-source-side  shoot note 4"
                       }
                     },
                     {

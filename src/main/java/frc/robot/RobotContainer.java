@@ -8,6 +8,7 @@ import frc.robot.Constants.*;
 import frc.robot.commands.*;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import frc.robot.subsystems.*;
@@ -22,6 +23,8 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.subsystems.LEDstripOne;
@@ -42,6 +45,8 @@ public class RobotContainer {
     private final CommandXboxController operatorXbox = new CommandXboxController(
             ControllerConstants.OPERATOR_CONTROLLER_PORT);
 
+    private final SendableChooser<Command> autoChooser;
+
     private final SwerveSubsystem swerveDriveSubsystem = new SwerveSubsystem();
     // private final LimeLightSubsystem limeLightSubsystem = new
     // LimeLightSubsystem();
@@ -50,14 +55,15 @@ public class RobotContainer {
 
     private final StageOne stageOne = new StageOne();
     private final StageTwo stageTwo = new StageTwo();
-    private final Arm arm = new Arm(stageOne, stageTwo, targeting, operatorXbox.getHID());
+
+    private final Intake intake = new Intake(driverXbox, operatorXbox);
+    private final Shooter shooter = new Shooter();
+    private final Arm arm = new Arm(stageOne, stageTwo, shooter, targeting, operatorXbox.getHID());
 
     private final UsbCamera intakeCam = CameraServer.startAutomaticCapture();
     private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID(), targeting,
             arm);
 
-    private final Intake intake = new Intake(driverXbox, operatorXbox);
-    private final Shooter shooter = new Shooter();
     LEDstripOne m_stripOne = new LEDstripOne(9, intake, shooter, arm, swerveDriveSubsystem, normalDrive);
 
     // ----------- Commands ---------- \\
@@ -71,6 +77,65 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+
+        NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    arm.setArmPreset(Presets.SHOOT_LOW);
+                })));
+        NamedCommands.registerCommand("Shoot TM", new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    arm.setArmPreset(Presets.SHOOT_TM);
+                })));
+        NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
+                new WaitUntilCommand(new BooleanSupplier() {
+                    @Override
+                    public boolean getAsBoolean() {
+                        return shooter.isUpToSpeed();
+                    }
+                }),
+                new ShootCommand(shooter, intake)));
+        NamedCommands.registerCommand("Spool", new SequentialCommandGroup(
+                new AlignNoteCommand(intake, shooter),
+                new PrepNoteCommand(shooter, intake),
+                new PrepShooterCommand(intake, shooter, 0.8)));
+        NamedCommands.registerCommand("Intaking", new SequentialCommandGroup(
+                new AutoIntakeCommand(intake, 3)));
+        NamedCommands.registerCommand("Intaking 5", new SequentialCommandGroup(
+                new AutoIntakeCommand(intake, 10)));
+        NamedCommands.registerCommand("Pickup",
+                new InstantCommand(() -> {
+                    arm.setArmPreset(Presets.INTAKE);
+                }));
+        NamedCommands.registerCommand("Stow", new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    arm.setArmPreset(Presets.STOW);
+                })));
+        /*
+         * NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
+         * new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
+         * new WaitCommand(2),
+         * new AlignNoteCommand(intake, shooter),
+         * new PrepNoteCommand(shooter, intake),
+         * new PrepShooterCommand(intake, shooter, 0.8),
+         * new ShootCommand(shooter, intake)
+         * ));
+         * NamedCommands.registerCommand("Pickup", new SequentialCommandGroup(
+         * new InstantCommand(() -> {arm.setArmPreset(Presets.INTAKE);}),
+         * new IntakeCommand(intake)));
+         */
+        // Test Auto Week 0
+        // return new SequentialCommandGroup(
+        // new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
+        // new WaitCommand(2),
+        // new AlignNoteCommand(intake, shooter),
+        // new PrepNoteCommand(shooter, intake),
+        // new PrepShooterCommand(intake, shooter, 0.8),
+        // new InstantCommand(() -> System.out.println("HELLLLLOOO")),
+        // new ShootCommand(shooter, intake)
+        // );
+
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
 
         swerveDriveSubsystem.setDefaultCommand(normalDrive);
         climber.setDefaultCommand(climberCommand);
@@ -229,33 +294,8 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        /**
-         * NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
-         * new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
-         * new WaitCommand(2),
-         * new AlignNoteCommand(intake, shooter),
-         * new PrepNoteCommand(shooter, intake),
-         * new PrepShooterCommand(intake, shooter, 0.8),
-         * new ShootCommand(shooter, intake)
-         * ));
-         */
-        /**
-         * NamedCommands.registerCommand("Pickup", new SequentialCommandGroup(
-         * new InstantCommand(() -> {arm.setArmPreset(Presets.INTAKE);}),
-         * new IntakeCommand(intake)));
-         */
-        // return new PathPlannerAuto("Test Auto");
-        // return new SequentialCommandGroup(
-        // new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
-        // new WaitCommand(2),
-        // new AlignNoteCommand(intake, shooter),
-        // new PrepNoteCommand(shooter, intake),
-        // new PrepShooterCommand(intake, shooter, 0.8),
-        // new InstantCommand(() -> System.out.println("HELLLLLOOO")),
-        // new ShootCommand(shooter, intake)
-        // );
+        return autoChooser.getSelected();
 
-        return new PathPlannerAuto("AMP");
     }
 
     public SwerveSubsystem getSwerveSubsystem() {
