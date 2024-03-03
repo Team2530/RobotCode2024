@@ -16,10 +16,12 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.simulation.AddressableLEDSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.commands.DriveCommand;
 //import frc.robot.subsystems.Intake;
@@ -28,9 +30,11 @@ import frc.robot.subsystems.Arm.Presets;
 public class LEDstripOne extends SubsystemBase {
     private AddressableLED m_led;
     private AddressableLEDBuffer m_ledBuffer;
+
+    AddressableLEDSim sim;
     int m_rainbowFirstPixelHue = 0;
 
-    private final  Shooter shooter;
+    private final Shooter shooter;
     private final Intake intake;
     private final Arm arm;
     private final SwerveSubsystem swerve;
@@ -60,6 +64,10 @@ public class LEDstripOne extends SubsystemBase {
         m_led.setData(m_ledBuffer);
 
         m_led.start();
+
+        sim = new AddressableLEDSim(m_led);
+        sim.setLength(m_ledBuffer.getLength());
+        sim.setRunning(true);
 
     }
 
@@ -120,12 +128,17 @@ public class LEDstripOne extends SubsystemBase {
 
         double mtime = DriverStation.getMatchTime();
 
-        if(DriverStation.isTeleop()) {
+        if (DriverStation.isAutonomous() && !DriverStation.isEnabled()) {
             // For auto set-up
-            if(!autoStartPose.equals(new Pose2d())) {
+            if (!autoStartPose.equals(new Pose2d())) {
                 double distance = autoStartPose.getTranslation().getDistance(swerve.getPose().getTranslation());
+                double rot_distance = Math.abs(
+                        autoStartPose.getRotation().getDegrees() - swerve.getPose().getRotation().getDegrees());
 
-                if(distance < 0.3 && Math.abs(autoStartPose.getRotation().getDegrees() - swerve.getPose().getRotation().getDegrees()) < 4) {
+                SmartDashboard.putNumber("Auto config distance", distance);
+                SmartDashboard.putNumber("Auto config rotation distance", rot_distance);
+
+                if (distance < 0.2 && (rot_distance < 4)) {
                     setSolidColor(0, 255, 0);
                 } else {
                     setSolidColor(flash(2) ? 255 : 0, 0, 0);
@@ -136,7 +149,7 @@ public class LEDstripOne extends SubsystemBase {
 
         } else if (DriverStation.isAutonomousEnabled()) {
             rainbow();
-        } else if (DriverStation.isTeleopEnabled() && mtime <= ctime && (mtime >= 0.005)) {
+        } else if (DriverStation.isTeleopEnabled() && mtime <= ctime && (mtime >= 0.005) && !Robot.isSimulation()) {
             for (int i = 0; i < 20; i++) {
                 // Countdown
                 int r = MathUtil.clamp((int) (255 * ((1.5 * ctime - 2 * mtime) / ctime)), 0, 255);
@@ -168,12 +181,17 @@ public class LEDstripOne extends SubsystemBase {
             sinColor(255, 30, 0, 2, 0.5, 0.5, 5);
         } else {
             // Set idle lights based on alliance color
+            boolean lightstate = intake.getReverseLimitClosed() ? flash(2) : true;
+
             if (FieldConstants.getAlliance() == Alliance.Red) {
-                setSolidColor(100, 0, 0);
+                setSolidColor(lightstate ? 100 : 0, 0, 0);
             } else if (FieldConstants.getAlliance() == Alliance.Blue) {
-                setSolidColor(0, 0, 100);
+                setSolidColor(0, 0, lightstate ? 100 : 0);
             } else {
-                setSolidColor(64, 64, 64);
+                if (lightstate)
+                    setSolidColor(64, 64, 64);
+                else
+                    setSolidColor(0, 0, 0);
             }
         }
 
@@ -207,11 +225,11 @@ public class LEDstripOne extends SubsystemBase {
 
     public void updateAutoStartPosition(String autoName) {
         // Instant Command is the name of the "None" Auto
-        if(!autoName.equals("InstantCommand")) {
+        if (!autoName.equals("InstantCommand")) {
             autoStartPose = PathPlannerAuto.getStaringPoseFromAutoFile(autoName);
         } else {
             autoStartPose = new Pose2d();
         }
-        
+
     }
 }
