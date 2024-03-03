@@ -49,9 +49,17 @@ public final class Constants {
 
     public static Translation2d getSpeakerPosition() {
       Translation2d speakerBlue = new Translation2d(0.022, 5.55);
-      speakerBlue = DriverStation.getAlliance().get() == Alliance.Blue ? speakerBlue
+      speakerBlue = getAlliance() == Alliance.Blue ? speakerBlue
           : GeometryUtil.flipFieldPosition(speakerBlue);
       return speakerBlue;
+    }
+
+    public static Alliance getAlliance() {
+      if(DriverStation.getAlliance().isPresent()) {
+        return DriverStation.getAlliance().get();
+      }
+
+      return Alliance.Blue;
     }
   }
 

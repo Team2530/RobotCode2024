@@ -2,7 +2,13 @@ package frc.robot.subsystems;
 
 import java.sql.Driver;
 
+import com.fasterxml.jackson.databind.node.POJONode;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -14,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.commands.DriveCommand;
 //import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Arm.Presets;
@@ -23,13 +30,15 @@ public class LEDstripOne extends SubsystemBase {
     private AddressableLEDBuffer m_ledBuffer;
     int m_rainbowFirstPixelHue = 0;
 
-    public Shooter shooter;
-    public Intake intake;
-    public Arm arm;
-    public SwerveSubsystem swerve;
-    public DriveCommand drive;
+    private final  Shooter shooter;
+    private final Intake intake;
+    private final Arm arm;
+    private final SwerveSubsystem swerve;
+    private final DriveCommand drive;
 
     private XboxController DEBUG_XBOX = new XboxController(0);
+
+    private Pose2d autoStartPose = new Pose2d();
 
     // Intake intake
     public LEDstripOne(
@@ -111,7 +120,21 @@ public class LEDstripOne extends SubsystemBase {
 
         double mtime = DriverStation.getMatchTime();
 
-        if (DriverStation.isAutonomousEnabled()) {
+        if(DriverStation.isTeleop()) {
+            // For auto set-up
+            if(!autoStartPose.equals(new Pose2d())) {
+                double distance = autoStartPose.getTranslation().getDistance(swerve.getPose().getTranslation());
+
+                if(distance < 0.3 && Math.abs(autoStartPose.getRotation().getDegrees() - swerve.getPose().getRotation().getDegrees()) < 4) {
+                    setSolidColor(0, 255, 0);
+                } else {
+                    setSolidColor(flash(2) ? 255 : 0, 0, 0);
+                }
+            } else {
+                setSolidColor(0, 0, 0);
+            }
+
+        } else if (DriverStation.isAutonomousEnabled()) {
             rainbow();
         } else if (DriverStation.isTeleopEnabled() && mtime <= ctime && (mtime >= 0.005)) {
             for (int i = 0; i < 20; i++) {
@@ -145,9 +168,9 @@ public class LEDstripOne extends SubsystemBase {
             sinColor(255, 30, 0, 2, 0.5, 0.5, 5);
         } else {
             // Set idle lights based on alliance color
-            if (DriverStation.getAlliance().get() == Alliance.Red) {
+            if (FieldConstants.getAlliance() == Alliance.Red) {
                 setSolidColor(100, 0, 0);
-            } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
+            } else if (FieldConstants.getAlliance() == Alliance.Blue) {
                 setSolidColor(0, 0, 100);
             } else {
                 setSolidColor(64, 64, 64);
@@ -180,5 +203,15 @@ public class LEDstripOne extends SubsystemBase {
             m_ledBuffer.setRGB(i, 0, 0, 0);
         }
         push();
+    }
+
+    public void updateAutoStartPosition(String autoName) {
+        // Instant Command is the name of the "None" Auto
+        if(!autoName.equals("InstantCommand")) {
+            autoStartPose = PathPlannerAuto.getStaringPoseFromAutoFile(autoName);
+        } else {
+            autoStartPose = new Pose2d();
+        }
+        
     }
 }

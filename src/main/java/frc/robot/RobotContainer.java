@@ -18,6 +18,7 @@ import frc.robot.subsystems.Shooter.ShooterMode;
 import frc.robot.subsystems.SwerveSubsystem.RotationStyle;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
@@ -64,7 +65,7 @@ public class RobotContainer {
     private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID(), targeting,
             arm);
 
-    LEDstripOne m_stripOne = new LEDstripOne(9, intake, shooter, arm, swerveDriveSubsystem, normalDrive);
+    private final LEDstripOne m_stripOne = new LEDstripOne(9, intake, shooter, arm, swerveDriveSubsystem, normalDrive);
 
     // ----------- Commands ---------- \\
 
@@ -135,6 +136,11 @@ public class RobotContainer {
         // );
 
         autoChooser = AutoBuilder.buildAutoChooser();
+        autoChooser.onChange(new Consumer<Command>() {
+            public void accept(Command t) {
+                m_stripOne.updateAutoStartPosition(autoChooser.getSelected().getName());
+            };
+        } );
         SmartDashboard.putData("Auto Chooser", autoChooser);
 
         swerveDriveSubsystem.setDefaultCommand(normalDrive);
