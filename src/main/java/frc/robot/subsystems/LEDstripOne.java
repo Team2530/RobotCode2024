@@ -5,10 +5,13 @@ import java.sql.Driver;
 import com.fasterxml.jackson.databind.node.POJONode;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.util.GeometryUtil;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -132,13 +135,14 @@ public class LEDstripOne extends SubsystemBase {
             // For auto set-up
             if (!autoStartPose.equals(new Pose2d())) {
                 double distance = autoStartPose.getTranslation().getDistance(swerve.getPose().getTranslation());
-                double rot_distance = Math.abs(
-                        autoStartPose.getRotation().getDegrees() - swerve.getPose().getRotation().getDegrees());
+                // double rot_distance = Math.abs(
+                //         autoStartPose.getRotation().getDegrees() - swerve.getPose().getRotation().getDegrees());
+                double rot_distance = Math.acos(autoStartPose.getRotation().getCos() * swerve.getPose().getRotation().getCos() + autoStartPose.getRotation().getSin() * swerve.getPose().getRotation().getSin());
 
                 SmartDashboard.putNumber("Auto config distance", distance);
                 SmartDashboard.putNumber("Auto config rotation distance", rot_distance);
 
-                if (distance < 0.2 && (rot_distance < 4)) {
+                if (distance < 0.2 && (Units.radiansToDegrees(rot_distance) < 4)) {
                     setSolidColor(0, 255, 0);
                 } else {
                     setSolidColor(flash(2) ? 255 : 0, 0, 0);
@@ -227,6 +231,9 @@ public class LEDstripOne extends SubsystemBase {
         // Instant Command is the name of the "None" Auto
         if (!autoName.equals("InstantCommand")) {
             autoStartPose = PathPlannerAuto.getStaringPoseFromAutoFile(autoName);
+            if (DriverStation.getAlliance().get() == Alliance.Red) {
+                autoStartPose = GeometryUtil.flipFieldPose(autoStartPose);
+            }
         } else {
             autoStartPose = new Pose2d();
         }
