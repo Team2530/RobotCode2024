@@ -49,9 +49,17 @@ public final class Constants {
 
     public static Translation2d getSpeakerPosition() {
       Translation2d speakerBlue = new Translation2d(0.022, 5.55);
-      speakerBlue = DriverStation.getAlliance().get() == Alliance.Blue ? speakerBlue
+      speakerBlue = getAlliance() == Alliance.Blue ? speakerBlue
           : GeometryUtil.flipFieldPosition(speakerBlue);
       return speakerBlue;
+    }
+
+    public static Alliance getAlliance() {
+      if(DriverStation.getAlliance().isPresent()) {
+        return DriverStation.getAlliance().get();
+      }
+
+      return Alliance.Blue;
     }
   }
 
@@ -141,7 +149,7 @@ public final class Constants {
 
   public static class VisionContsants {
 
-    public static final double THETA_kP = .9;
+    public static final double THETA_kP = 5;
     public static final double THETA_kI = 0.0;
     public static final double THETA_kD = 0.08;
 
@@ -149,7 +157,7 @@ public final class Constants {
     public static final double X_kI = 0.0;
     public static final double X_kD = 0.02;
 
-    public static final double Y_kP = 1.5;
+    public static final double Y_kP = 5;
     public static final double Y_kI = 0.0;
     public static final double Y_kD = 0.02;
   }
@@ -174,8 +182,8 @@ public final class Constants {
   }
 
   public static final class PathPlannerConstants {
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(1, 0, 0);
-    public static final PIDConstants ROTATION_PID = new PIDConstants(.3, 0, 0);
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(5, 0, 0.2);
+    public static final PIDConstants ROTATION_PID = new PIDConstants(5, 0, 0.2);
 
     public static final HolonomicPathFollowerConfig HOLONOMIC_FOLLOWER_CONFIG = new HolonomicPathFollowerConfig(
         TRANSLATION_PID,

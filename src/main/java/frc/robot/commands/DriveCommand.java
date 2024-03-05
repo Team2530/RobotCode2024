@@ -9,6 +9,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,7 +41,6 @@ public class DriveCommand extends Command {
     };
 
     private DriveState state = DriveState.Free;
-    
 
     public DriveCommand(SwerveSubsystem swerveSubsystem, XboxController xbox, Targeting targeting, Arm arm) {
         this.swerveSubsystem = swerveSubsystem;
@@ -53,6 +53,11 @@ public class DriveCommand extends Command {
         dsratelimiter.reset(SLOWMODE_MULT);
 
         addRequirements(swerveSubsystem);
+    }
+
+    public boolean isSpeakerAligned() {
+        double calculatedAngle = targeting.getPhi(arm.getHorizOffset());
+        return Math.abs(swerveSubsystem.getHeading() - calculatedAngle) < Units.degreesToRadians(5.0);
     }
 
     double clamp(double v, double mi, double ma) {
@@ -109,8 +114,8 @@ public class DriveCommand extends Command {
 
         if (xbox.getXButton()) {
             swerveSubsystem.zeroHeading();
-            swerveSubsystem.resetOdometry(new Pose2d(1.38 , 5.55, new Rotation2d()));
-            swerveSubsystem.zeroHeading();
+            // swerveSubsystem.resetOdometry(new Pose2d(1.38, 5.55, new Rotation2d()));
+            // swerveSubsystem.zeroHeading();
         }
 
         ChassisSpeeds speeds;
@@ -120,35 +125,39 @@ public class DriveCommand extends Command {
                 // do nothing special
                 break;
             case Auto:
-                // Rotation2d r = swerveSubsystem.getPose().getTranslation().minus(FieldConstants.getSpeakerPosition()).getAngle();
+                // Rotation2d r =
+                // swerveSubsystem.getPose().getTranslation().minus(FieldConstants.getSpeakerPosition()).getAngle();
                 // if (DriverStation.getAlliance().get() == Alliance.Red)
-                //     r = r.rotateBy(new Rotation2d(Math.PI));
+                // r = r.rotateBy(new Rotation2d(Math.PI));
                 double calculatedAngle = targeting.getPhi(arm.getHorizOffset());
                 SmartDashboard.putNumber("Wanted Heading", calculatedAngle);
-                zSpeed = MathUtil.clamp(-rotationController.calculate(swerveSubsystem.getHeading(), calculatedAngle), -0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY, 0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY);
+                zSpeed = MathUtil.clamp(-rotationController.calculate(swerveSubsystem.getHeading(), calculatedAngle),
+                        -0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY, 0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY);
                 break;
         }
 
         // Drive Non Field Oriented
-        if (!xbox.getLeftBumper()) {
+        if(xbox.getRightBumper()) {
+            speeds = new ChassisSpeeds(-xSpeed, ySpeed, -zSpeed);
+
+        } else if (!xbox.getLeftBumper()) {
             speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-ySpeed, xSpeed, zSpeed,
                     new Rotation2d(
                             -swerveSubsystem.getRotation2d().rotateBy(DriveConstants.NAVX_ANGLE_OFFSET).getRadians()));
-        } else {
+        } else{
+            // Normal non-field oriented
             speeds = new ChassisSpeeds(-xSpeed, -ySpeed, zSpeed);
         }
 
         // State transition logic
         switch (state) {
             case Free:
-                state = xbox.getRightBumper() ? DriveState.Locked : DriveState.Free;
+                // state = xbox.getRightBumper() ? DriveState.Locked : DriveState.Free;
                 break;
             case Locked:
                 state = ((xyRaw.getNorm() > 0.15) && !xbox.getBButton()) ? DriveState.Free : DriveState.Locked;
                 break;
         }
-
-
 
         // Drive execution logic
         switch (state) {

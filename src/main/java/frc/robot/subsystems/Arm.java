@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Targeting;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.FieldConstants;
+import frc.robot.subsystems.Shooter.ShooterMode;
 
 public class Arm extends SubsystemBase {
 
@@ -21,12 +22,15 @@ public class Arm extends SubsystemBase {
     // out the front when the arm is vertical, and the intake horizontal
     STOW(-0.37, 181),
     SHOOT_LOW(19, 48),
+    SHOOT_TM(19, 38),
     INTAKE(-14.7, 37.2),
     AMP(101, 125),
     SHOOT_HIGH(90, 40),
+    SHOOT_MANUAL(19, 48),
     STARTING_CONFIG(0, 90),
     SOURCE(42, 132),
     TRAP(33, 47),
+    CLIMB(-14.7, 74),
     CUSTOM(0, 0);
 
     private double s1angle;
@@ -42,14 +46,16 @@ public class Arm extends SubsystemBase {
   private final StageOne stageOne;
   private final StageTwo stageTwo;
   private final XboxController operatorXbox;
+  private final Shooter shooter;
   private Targeting targeting;
 
   private Presets currentPreset = Presets.STARTING_CONFIG;
 
-  public Arm(StageOne stageOne, StageTwo stageTwo, Targeting targeting, XboxController operatorXbox) {
+  public Arm(StageOne stageOne, StageTwo stageTwo, Shooter shooter, Targeting targeting, XboxController operatorXbox) {
     this.stageOne = stageOne;
     this.stageTwo = stageTwo;
     this.operatorXbox = operatorXbox;
+    this.shooter = shooter;
     this.targeting = targeting;
   }
 
@@ -70,17 +76,33 @@ public class Arm extends SubsystemBase {
   public void setArmPreset(Presets preset) {
     // only change if new goal
     if (currentPreset != preset) {
-      stageOne.setGoalDegrees(preset.s1angle);
-      stageTwo.setGoalDegrees(preset.s2angle);
-      currentPreset = preset;
-      SmartDashboard.putString("Arm Preset", "Moving to " + currentPreset.name());
 
       if (DriverStation.isEnabled()) {
-        stageOne.enable();
-        stageTwo.enable();
+        // If moving from intake to stow, only cam up the intake, don't use stage one at all
+        if (currentPreset == Presets.INTAKE && preset == Presets.STOW) {
+          stageOne.coast();
+          stageOne.disable();
+          stageTwo.enable();
+        } else {
+          stageOne.brake();
+          stageOne.enable();
+          stageTwo.enable();
+        }
       }
+
+      stageTwo.setGoalDegrees(preset.s2angle);
+      stageOne.setGoalDegrees(preset.s1angle);
+      SmartDashboard.putString("Arm Preset", "Moving to " + currentPreset.name());
+
+      currentPreset = preset;
+
+      if (shooter.getShooterMode() != ShooterMode.STOPPED && operatorXbox.getRightBumper()) {
+        shooter.setCustomPercent(getPresetShooterSpeed());
+      }
+
     }
   }
+
 
   /**
    * Sets the arm to a custom goal for stage 1 and stage 2
@@ -99,9 +121,11 @@ public class Arm extends SubsystemBase {
   public double getPresetShooterSpeed() {
     switch (currentPreset) {
       case SHOOT_HIGH:
-        return 0.85; // 80%!!!
+        return 0.85;
       case SHOOT_LOW:
-        return 0.85; // 80%!!!
+        return 0.85;
+      case SHOOT_MANUAL:
+        return 0.85;
       case AMP:
         return 0.5;
       case TRAP:
@@ -123,6 +147,10 @@ public class Arm extends SubsystemBase {
     } else {
       return 0.0;
     }
+  }
+
+  public Presets getCurrentPreset() {
+    return currentPreset;
   }
 
   public double getStageTwoDegrees() {

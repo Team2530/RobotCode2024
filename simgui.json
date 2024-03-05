@@ -11,10 +11,16 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/SendableChooser[0]": "String Chooser"
     },
     "windows": {
+      "/FMSInfo": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "Robot": {
           "style": "Line"
@@ -40,7 +46,7 @@
     }
   },
   "NetworkTables Info": {
-    "Connections": {
+    "Server": {
       "open": true
     },
     "visible": true
