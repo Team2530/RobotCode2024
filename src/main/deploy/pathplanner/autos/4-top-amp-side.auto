@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7889389462989452,
-      "y": 4.412969176815547
+      "x": 0.7851802130738433,
+      "y": 6.693172495897639
     },
-    "rotation": -60.751876656650715
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  pickup note 2"
+                        "pathName": "4-top  end-top"
                       }
                     },
                     {
@@ -85,7 +85,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  shoot note 2"
+                        "pathName": "4-top  home-top"
                       }
                     },
                     {
@@ -123,7 +123,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  pickup note 3"
+                        "pathName": "4-top  middle-1"
                       }
                     },
                     {
@@ -135,7 +135,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intaking"
+                        "name": "Intaking 5"
                       }
                     }
                   ]
@@ -148,7 +148,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  shoot note 3"
+                        "pathName": "4-top  home-top"
                       }
                     },
                     {
@@ -186,7 +186,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  pickup note 4"
+                        "pathName": "4-top  middle-2"
                       }
                     },
                     {
@@ -198,7 +198,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intaking"
+                        "name": "Intaking 5"
                       }
                     }
                   ]
@@ -211,7 +211,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  shoot note 4"
+                        "pathName": "4-top  home-top"
                       }
                     },
                     {

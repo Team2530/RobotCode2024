@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  pickup note 2"
+                        "pathName": "5-note  pickup 2 note "
                       }
                     },
                     {
@@ -101,12 +101,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
@@ -167,12 +161,6 @@
                 }
               },
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "Shoot"
@@ -215,6 +203,12 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "5 note  shoot 4"
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
@@ -227,12 +221,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
@@ -296,12 +284,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {

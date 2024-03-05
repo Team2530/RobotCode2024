@@ -3,35 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.37,
-        "y": 3.28
+        "x": 2.339612047645148,
+        "y": 5.437682980629119
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.453522727615527,
-        "y": 2.997257011711172
+        "x": 2.0947689263799583,
+        "y": 5.129362013109991
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.1181591056768823,
-        "y": 3.8414047374413043
+        "x": 1.7864479588608302,
+        "y": 4.77569972683805
       },
       "prevControl": {
-        "x": 2.615396774736544,
-        "y": 3.5391622327187653
+        "x": 1.9678132338720822,
+        "y": 5.0386793756043655
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Shoot Far Bottom"
+      "linkedName": "4-close-shoot-close-bottom"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": -50.95999999999998,
+      "waypointRelativePos": 0.2,
+      "rotationDegrees": -30.0,
       "rotateFast": false
     }
   ],
@@ -45,14 +45,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -50.95999999999998,
+    "rotation": -30.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3-middle-source-side",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
-  },
+  "folder": "2-middle-1-bottom-source-side",
+  "previewStartingState": null,
   "useDefaultConstraints": false
 }
