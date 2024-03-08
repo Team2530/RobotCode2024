@@ -69,6 +69,8 @@ public class Shooter extends SubsystemBase {
 
         SmartDashboard.putNumber("Shooter Percent", targetRPS);
         SmartDashboard.putNumber("Shooter Real", shooterMotor.getRotorVelocity().getValueAsDouble());
+                SmartDashboard.putNumber("Shooter INPUT", shooterMotor.getClosedLoopOutput().getValueAsDouble());
+
         // SmartDashboard.putString("Shootake", "Shooter mode set to " +
         // (shooterMode.name()));
     }
@@ -132,7 +134,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isReadySpooled() {
-        return (Math.abs(shooterMotor.getVelocity().getValueAsDouble() - targetRPS) < 3)
+        return (Math.abs(shooterMotor.getVelocity().getValueAsDouble() - targetRPS) < 4.5)
                 && shooterMode != ShooterMode.STOPPED && (targetRPS > 1.0);
     }
 

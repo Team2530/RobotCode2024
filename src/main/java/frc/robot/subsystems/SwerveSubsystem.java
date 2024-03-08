@@ -94,7 +94,8 @@ public class SwerveSubsystem extends SubsystemBase {
                     PoseConstants.kVisionStdDevTheta));
 
     public SwerveSubsystem() {
-        zeroHeading();
+        //! F
+        // zeroHeading();
 
         // --------- Path Planner Init ---------- \\
 

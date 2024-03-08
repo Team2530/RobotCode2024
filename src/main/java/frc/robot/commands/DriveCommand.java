@@ -144,6 +144,10 @@ public class DriveCommand extends Command {
             speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-ySpeed, xSpeed, zSpeed,
                     new Rotation2d(
                             -swerveSubsystem.getRotation2d().rotateBy(DriveConstants.NAVX_ANGLE_OFFSET).getRadians()));
+
+            // speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-ySpeed, xSpeed, zSpeed,swerveSubsystem.odometry.getEstimatedPosition().getRotation().rotateBy(
+            //     new Rotation2d(FieldConstants.getAlliance() == Alliance.Red ? Math.PI : 0)
+            // ));
         } else{
             // Normal non-field oriented
             speeds = new ChassisSpeeds(-xSpeed, -ySpeed, zSpeed);
