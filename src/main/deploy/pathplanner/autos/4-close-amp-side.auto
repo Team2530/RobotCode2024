@@ -104,12 +104,6 @@
                 }
               },
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "Shoot"
@@ -173,12 +167,6 @@
                 }
               },
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "Shoot"
@@ -239,12 +227,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.15
                 }
               },
               {
