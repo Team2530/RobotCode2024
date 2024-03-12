@@ -8,7 +8,12 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.BatterySim;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Constants.*;
@@ -36,8 +41,21 @@ public class SwerveModule {
 
     SlewRateLimiter turnratelimiter = new SlewRateLimiter(4.d);
 
-    public SwerveModule(int steerCanID, int driveCanID, int absoluteEncoderPort, double motorOffsetRadians,
-            boolean isAbsoluteEncoderReversed, boolean motorReversed) {
+    DCMotor steerMotor_sim = DCMotor.getNEO(1);
+    DCMotor driveMotor_sim = DCMotor.getNEO(1);
+
+    FlywheelSim steerSim = new FlywheelSim(steerMotor_sim, 1.0 / SwerveModuleConstants.STEERING_GEAR_RATIO,
+            SwerveModuleConstants.MODULE_ROTATIONAL_INERTIA);
+    FlywheelSim driveSim = new FlywheelSim(driveMotor_sim, 1.0 / SwerveModuleConstants.DRIVE_GEAR_RATIO,
+            SwerveModuleConstants.MODULE_DRIVE_SIM_INERTIA);
+
+    public SwerveModule(
+            int steerCanID,
+            int driveCanID,
+            int absoluteEncoderPort,
+            double motorOffsetRadians,
+            boolean isAbsoluteEncoderReversed,
+            boolean motorReversed) {
         driveMotor = new CANSparkMax(driveCanID, MotorType.kBrushless);
         driveMotor.setInverted(motorReversed);
         driveMotor.setIdleMode(IdleMode.kBrake);
@@ -76,8 +94,23 @@ public class SwerveModule {
     }
 
     public void simulate_step() {
-        driveEncSim += 0.02 * driveMotor.get() * (DriveConstants.MAX_MODULE_VELOCITY);
-        steerEncSim += 0.02 * steerMotor.get() * (10.0);
+        driveSim.setInput(driveMotor.get() * RobotController.getBatteryVoltage());
+        driveSim.update(0.02);
+
+        driveEncSim += 0.02 * driveSim.getAngularVelocityRadPerSec() * (SwerveModuleConstants.WHEEL_DIAMETER);
+
+        steerSim.setInput(steerMotor.get() * RobotController.getBatteryVoltage());
+        steerSim.update(0.02);
+
+        steerEncSim += 0.02 * 2.0 * steerSim.getAngularVelocityRadPerSec();
+
+        RoboRioSim.setVInVoltage(
+                BatterySim.calculateDefaultBatteryLoadedVoltage(
+                        driveSim.getCurrentDrawAmps() + steerSim.getCurrentDrawAmps()));
+
+        // driveEncSim += 0.02 * driveMotor.get() *
+        // (DriveConstants.MAX_MODULE_VELOCITY);
+        // steerEncSim += 0.02 * steerMotor.get() * (50.0);
     }
 
     public double getDrivePosition() {

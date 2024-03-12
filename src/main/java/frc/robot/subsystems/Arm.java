@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import java.io.Console;
 import java.lang.annotation.Target;
 
 import edu.wpi.first.math.MathUtil;
@@ -7,8 +8,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Targeting;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.FieldConstants;
@@ -49,6 +55,13 @@ public class Arm extends SubsystemBase {
   private final Shooter shooter;
   private Targeting targeting;
 
+  private Mechanism2d mechanism = new Mechanism2d(3, 3);
+  private MechanismRoot2d root;
+  private MechanismLigament2d stage1 = new MechanismLigament2d("Stage 1",
+      Units.inchesToMeters(ArmConstants.STAGE_ONE_LENGTH), 0.0);
+  private MechanismLigament2d stage2 = new MechanismLigament2d("Stage 2",
+      Units.inchesToMeters(ArmConstants.STAGE_TWO_LENGTH), 0.0);
+
   private Presets currentPreset = Presets.STARTING_CONFIG;
 
   public Arm(StageOne stageOne, StageTwo stageTwo, Shooter shooter, Targeting targeting, XboxController operatorXbox) {
@@ -57,6 +70,13 @@ public class Arm extends SubsystemBase {
     this.operatorXbox = operatorXbox;
     this.shooter = shooter;
     this.targeting = targeting;
+
+    root = this.mechanism.getRoot("Arm", 1.5, Units.inchesToMeters(12));
+    stage1.setColor(new Color8Bit("#46FF09"));
+    stage2.setColor(new Color8Bit("#E00000"));
+
+    root.append(stage1);
+    stage1.append(stage2);
   }
 
   @Override
@@ -65,6 +85,11 @@ public class Arm extends SubsystemBase {
 
     SmartDashboard.putNumber("Stage One Encoder", Units.radiansToDegrees(stageOne.getMeasurement()));
     SmartDashboard.putNumber("Stage Two Encoder", Units.radiansToDegrees(stageTwo.getMeasurement()));
+
+    stage1.setAngle(Units.radiansToDegrees(stageOne.getMeasurement()));
+    stage2.setAngle(Units.radiansToDegrees(stageTwo.getRawMeasurement()) - 90);
+
+    SmartDashboard.putData("Arm Mechanism", mechanism);
 
     if (currentPreset == Presets.SHOOT_LOW) {
       stageTwo.setGoalDegrees(targeting.getTheta(ArmConstants.SHOOTER_LOW_X_OFFSET, ArmConstants.SHOOTER_LOW_HEIGHT));
@@ -78,7 +103,8 @@ public class Arm extends SubsystemBase {
     if (currentPreset != preset) {
 
       if (DriverStation.isEnabled()) {
-        // If moving from intake to stow, only cam up the intake, don't use stage one at all
+        // If moving from intake to stow, only cam up the intake, don't use stage one at
+        // all
         if (currentPreset == Presets.INTAKE && preset == Presets.STOW) {
           stageOne.coast();
           stageOne.disable();
@@ -102,7 +128,6 @@ public class Arm extends SubsystemBase {
 
     }
   }
-
 
   /**
    * Sets the arm to a custom goal for stage 1 and stage 2

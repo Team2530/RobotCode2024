@@ -55,7 +55,7 @@ public final class Constants {
     }
 
     public static Alliance getAlliance() {
-      if(DriverStation.getAlliance().isPresent()) {
+      if (DriverStation.getAlliance().isPresent()) {
         return DriverStation.getAlliance().get();
       }
 
@@ -67,6 +67,9 @@ public final class Constants {
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double STEERING_GEAR_RATIO = 1.d / (150d / 7d);
     public static final double DRIVE_GEAR_RATIO = 1.d / 6.75d;
+
+    public static final double MODULE_ROTATIONAL_INERTIA = 0.000125586602;
+    public static final double MODULE_DRIVE_SIM_INERTIA = 0.0075;
 
     public static final double DRIVE_ROTATION_TO_METER = DRIVE_GEAR_RATIO * Math.PI * WHEEL_DIAMETER;
     public static final double STEER_ROTATION_TO_RADIANS = STEERING_GEAR_RATIO * Math.PI * 2d;
@@ -119,6 +122,8 @@ public final class Constants {
     public static final double MAX_MODULE_VELOCITY = 4.8;
     public static final double MAX_ROBOT_VELOCITY = 4.8;
     public static final double MAX_ROBOT_RAD_VELOCITY = 12.0; // Approx. Measured rads/sec
+
+    public static final double ROBOT_MASS_KG = Units.lbsToKilograms(120.0);
 
     // TODO: Change based on actual robot!
     public static final double TRACK_WIDTH = Units.inchesToMeters(19.75);
@@ -194,6 +199,8 @@ public final class Constants {
   }
 
   public static final class ArmConstants {
+    public static final double STAGE_ONE_RATIO = 115.1111111;
+    public static final double STAGE_TWO_RATIO = 66.66666667;
 
     public static final int STAGE_ONE_MOTOR_L = 4;
 
