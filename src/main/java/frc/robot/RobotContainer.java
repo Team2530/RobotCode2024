@@ -140,7 +140,7 @@ public class RobotContainer {
             public void accept(Command t) {
                 m_stripOne.updateAutoStartPosition(autoChooser.getSelected().getName());
             };
-        } );
+        });
         SmartDashboard.putData("Auto Chooser", autoChooser);
 
         swerveDriveSubsystem.setDefaultCommand(normalDrive);
@@ -282,6 +282,14 @@ public class RobotContainer {
             swerveDriveSubsystem.setRotationStyle(RotationStyle.Auto);
         })).onFalse(new InstantCommand(() -> {
             swerveDriveSubsystem.setRotationStyle(RotationStyle.Driver);
+        }));
+
+        // SOFT RESET
+        driverXbox.button(7).onTrue(new InstantCommand(() -> {
+            arm.hardwareInit();
+            shooter.hardwareInit();
+            intake.hardwareInit();
+            climber.hardwareInit();
         }));
 
         // // Fine tune on stage 2

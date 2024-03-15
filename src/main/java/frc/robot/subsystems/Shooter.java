@@ -43,6 +43,10 @@ public class Shooter extends SubsystemBase {
     private double targetRPS = 0.0;
 
     public Shooter() {
+        hardwareInit();
+    }
+
+    public void hardwareInit() {
         shooterMotor.setNeutralMode(NeutralModeValue.Coast);
         shooterVelocityControl.Slot = 0;
         shooterSlot0.kV = ArmConstants.SHOOTER_kV;
@@ -69,7 +73,7 @@ public class Shooter extends SubsystemBase {
 
         SmartDashboard.putNumber("Shooter Percent", targetRPS);
         SmartDashboard.putNumber("Shooter Real", shooterMotor.getRotorVelocity().getValueAsDouble());
-                SmartDashboard.putNumber("Shooter INPUT", shooterMotor.getClosedLoopOutput().getValueAsDouble());
+        SmartDashboard.putNumber("Shooter INPUT", shooterMotor.getClosedLoopOutput().getValueAsDouble());
 
         // SmartDashboard.putString("Shootake", "Shooter mode set to " +
         // (shooterMode.name()));

@@ -14,14 +14,24 @@ public class ClimberArm {
     SlewRateLimiter motlim = new SlewRateLimiter(2.0);
     double throttle = 0.0f;
 
+    final boolean isinverted;
+    final int motorCANID;
+
     public boolean is_calibrated = false;
 
     public ClimberArm(int canID, boolean inverted) {
-        motor = new CANSparkMax(canID, MotorType.kBrushless);
+        motorCANID = canID;
+        isinverted = inverted;
+
+        hardwareInit();
+    }
+
+    public void hardwareInit() {
+        motor = new CANSparkMax(motorCANID, MotorType.kBrushless);
         motor.setIdleMode(IdleMode.kBrake);
-        motor.setInverted(inverted);
+        motor.setInverted(isinverted);
         motor.getEncoder().setPositionConversionFactor(ClimberConstants.CLIMBER_POS_CONV_FACTOR);
-        motor.setSoftLimit(SoftLimitDirection.kForward, (float)ClimberConstants.CLIMBER_LENGTH);
+        motor.setSoftLimit(SoftLimitDirection.kForward, (float) ClimberConstants.CLIMBER_LENGTH);
         motor.enableSoftLimit(SoftLimitDirection.kForward, true);
     }
 
@@ -33,8 +43,8 @@ public class ClimberArm {
         if (isRetracted()) {
             motor.getEncoder().setPosition(0.0);
             is_calibrated = true;
-        } 
-        
+        }
+
         // TODO: For production bot
         if (is_calibrated) {
             motor.set(motlim.calculate(throttle));
