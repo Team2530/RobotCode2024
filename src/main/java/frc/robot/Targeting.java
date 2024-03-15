@@ -126,6 +126,6 @@ public class Targeting {
     double res = 90.0 - Units.radiansToDegrees(angle);
     // SmartDashboard.putNumber("Targeting Shooter Angle", res);
 
-    return MathUtil.clamp(res, 30, 180.0);
+    return MathUtil.clamp(res, 30, 180.0) - 2.5f;
   }
 }

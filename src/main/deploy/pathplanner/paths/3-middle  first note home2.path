@@ -8,30 +8,30 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.453522727615527,
-        "y": 2.997257011711172
+        "x": 4.007019650402937,
+        "y": 2.518761401159167
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.1181591056768823,
-        "y": 3.8414047374413043
+        "x": 1.8800655783129747,
+        "y": 4.421825570923869
       },
       "prevControl": {
-        "x": 2.615396774736544,
-        "y": 3.5391622327187653
+        "x": 1.82409310273166,
+        "y": 3.274389821506916
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Shoot Far Bottom"
+      "linkedName": "4-close-shoot-close-bottom"
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": -50.95999999999998,
+      "rotationDegrees": -32.0,
       "rotateFast": false
     }
   ],
@@ -45,7 +45,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -50.95999999999998,
+    "rotation": -32.0,
     "rotateFast": false
   },
   "reversed": false,

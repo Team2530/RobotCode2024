@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.771033906107768,
-      "y": 6.683940204728357
+      "x": 0.7889389462989452,
+      "y": 4.412969176815547
     },
-    "rotation": 58.69587650440901
+    "rotation": -60.751876656650715
   },
   "command": {
     "type": "sequential",
@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  pickup-2"
+                        "pathName": "4-close-source-side  pickup note 2"
                       }
                     },
                     {
@@ -85,7 +85,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  shoot-2"
+                        "pathName": "4-close-source-side  shoot note 2"
                       }
                     },
                     {
@@ -123,7 +123,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  pickup-3"
+                        "pathName": "4-close-source-side  pickup note 3"
                       }
                     },
                     {
@@ -148,7 +148,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  shoot-3"
+                        "pathName": "4-close-source-side  shoot note 3"
                       }
                     },
                     {
@@ -186,7 +186,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  pickup-4"
+                        "pathName": "4-close-source-side  pickup note 4"
                       }
                     },
                     {
@@ -211,7 +211,70 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  shoot-4"
+                        "pathName": "4-close-source-side  shoot note 4"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "INPUT-4-close-1-far  top-top"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "INPUT-4-close-1-far  top-home"
                       }
                     },
                     {

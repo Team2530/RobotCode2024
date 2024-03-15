@@ -29,7 +29,9 @@ public class Arm extends SubsystemBase {
     SHOOT_MANUAL(19, 48),
     STARTING_CONFIG(0, 90),
     SOURCE(42, 132),
-    TRAP(33, 47),
+    // TRAP(33, 47),
+        TRAP(90, 36),
+// 
     CLIMB(-14.7, 74),
     CUSTOM(0, 0);
 
