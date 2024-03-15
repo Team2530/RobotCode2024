@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.subsystems.LEDstripOne;
+import frc.robot.subsystems.LEDstrip;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -64,7 +64,7 @@ public class RobotContainer {
     private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID(), targeting,
             arm);
 
-    LEDstripOne m_stripOne = new LEDstripOne(9, intake, shooter, arm, swerveDriveSubsystem, normalDrive);
+    LEDstrip m_stripOne = new LEDstrip(9, intake, shooter, arm, swerveDriveSubsystem, normalDrive);
 
     // ----------- Commands ---------- \\
 
