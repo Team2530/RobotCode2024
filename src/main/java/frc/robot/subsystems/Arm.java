@@ -30,8 +30,8 @@ public class Arm extends SubsystemBase {
     STARTING_CONFIG(0, 90),
     SOURCE(42, 132),
     // TRAP(33, 47),
-        TRAP(90, 36),
-// 
+    TRAP(90, 36),
+    //
     CLIMB(-14.7, 74),
     CUSTOM(0, 0);
 
@@ -80,7 +80,8 @@ public class Arm extends SubsystemBase {
     if (currentPreset != preset) {
 
       if (DriverStation.isEnabled()) {
-        // If moving from intake to stow, only cam up the intake, don't use stage one at all
+        // If moving from intake to stow, only cam up the intake, don't use stage one at
+        // all
         if (currentPreset == Presets.INTAKE && preset == Presets.STOW) {
           stageOne.coast();
           stageOne.disable();
@@ -104,7 +105,6 @@ public class Arm extends SubsystemBase {
 
     }
   }
-
 
   /**
    * Sets the arm to a custom goal for stage 1 and stage 2
