@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bong 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bong 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bong 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bong 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bong 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bong 6"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bong 7"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

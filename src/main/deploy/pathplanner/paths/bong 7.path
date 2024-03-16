@@ -1,0 +1,58 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.150807028886255,
+        "y": 6.71669706976051
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.350359064353961,
+        "y": 6.29690350290065
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.5740411480817657,
+        "y": 7.071189415108838
+      },
+      "prevControl": {
+        "x": 1.8240931027311293,
+        "y": 5.811808714529255
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6,
+      "rotationDegrees": -90.0,
+      "rotateFast": true
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "ding bong",
+  "previewStartingState": {
+    "rotation": 178.4088597288054,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
