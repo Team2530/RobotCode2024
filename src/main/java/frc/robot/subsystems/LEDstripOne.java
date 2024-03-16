@@ -229,14 +229,14 @@ public class LEDstripOne extends SubsystemBase {
 
     public void updateAutoStartPosition(String autoName) {
         // Instant Command is the name of the "None" Auto
-        if (!autoName.equals("InstantCommand")) {
-            autoStartPose = PathPlannerAuto.getStaringPoseFromAutoFile(autoName);
-            if (DriverStation.getAlliance().get() == Alliance.Red) {
-                autoStartPose = GeometryUtil.flipFieldPose(autoStartPose);
-            }
-        } else {
-            autoStartPose = new Pose2d();
-        }
+        // if (!autoName.equals("InstantCommand")) {
+        //     autoStartPose = PathPlannerAuto.getStaringPoseFromAutoFile(autoName);
+        //     if (DriverStation.getAlliance().get() == Alliance.Red) {
+        //         autoStartPose = GeometryUtil.flipFieldPose(autoStartPose);
+        //     }
+        // } else {
+        //     autoStartPose = new Pose2d();
+        // }
 
     }
 }
