@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.1935945690073195,
-        "y": 4.897591613365045
+        "x": 2.0206615235083216,
+        "y": 4.8748791084280505
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1935945690073195,
-        "y": 4.897591613365045
+        "x": 0.9481881196541504,
+        "y": 5.021125481680892
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.7,
-        "y": 4.897591613365045
+        "x": 6.135059491021596,
+        "y": 4.572636603705512
       },
       "prevControl": {
-        "x": 2.7,
-        "y": 4.897591613365045
+        "x": 1.9914122488577533,
+        "y": 0.9457265470350429
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,8 +30,13 @@
   ],
   "rotationTargets": [
     {
+      "waypointRelativePos": 0.8,
+      "rotationDegrees": -24.570811717559106,
+      "rotateFast": false
+    },
+    {
       "waypointRelativePos": 0.0,
-      "rotationDegrees": 180.0,
+      "rotationDegrees": -172.32072315125825,
       "rotateFast": false
     }
   ],
@@ -45,13 +50,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 57.03059609653791,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "ding bong",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -177.3574547059353,
     "velocity": 0
   },
   "useDefaultConstraints": true

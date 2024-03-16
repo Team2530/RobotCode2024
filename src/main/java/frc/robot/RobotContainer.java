@@ -64,7 +64,7 @@ public class RobotContainer {
     private final DriveCommand normalDrive = new DriveCommand(swerveDriveSubsystem, driverXbox.getHID(), targeting,
             arm);
 
-    LEDstrip m_stripOne = new LEDstrip(9, intake, shooter, arm, swerveDriveSubsystem, normalDrive);
+    LEDstrip m_stripOne = new LEDstrip(8);
 
     // ----------- Commands ---------- \\
 
