@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.79,
-      "y": 4.41
+      "x": 0.7626093884666401,
+      "y": 4.373613761472538
     },
-    "rotation": -60.75
+    "rotation": -59.036243467926454
   },
   "command": {
     "type": "sequential",
@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  pickup note 2"
+                        "pathName": "4-bottom  first-note"
                       }
                     },
                     {
@@ -85,7 +85,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  shoot note 2"
+                        "pathName": "4-bottom  main-grab"
                       }
                     },
                     {
@@ -101,6 +101,12 @@
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
                 }
               },
               {
@@ -123,7 +129,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  pickup note 3"
+                        "pathName": "4-bottom  middle-1"
                       }
                     },
                     {
@@ -148,7 +154,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  shoot note 3"
+                        "pathName": "4-bottom  main-grab"
                       }
                     },
                     {
@@ -164,6 +170,12 @@
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
                 }
               },
               {
@@ -186,7 +198,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  pickup note 4"
+                        "pathName": "4-bottom  middle-2"
                       }
                     },
                     {
@@ -211,7 +223,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-source-side  shoot note 4"
+                        "pathName": "4-bottom  main-grab"
                       }
                     },
                     {
@@ -227,6 +239,12 @@
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
                 }
               },
               {
