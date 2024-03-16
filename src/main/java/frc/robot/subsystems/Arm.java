@@ -27,6 +27,7 @@ public class Arm extends SubsystemBase {
     AMP(101, 125),
     SHOOT_HIGH(90, 40),
     SHOOT_MANUAL(19, 48),
+    SHOOT_SHUTTLE(19, 48),
     STARTING_CONFIG(0, 90),
     SOURCE(42, 132),
     // TRAP(33, 47),
@@ -59,7 +60,6 @@ public class Arm extends SubsystemBase {
     this.operatorXbox = operatorXbox;
     this.shooter = shooter;
     this.targeting = targeting;
-    hardwareInit();
   }
 
   public void hardwareInit() {
@@ -134,6 +134,8 @@ public class Arm extends SubsystemBase {
         return 0.85;
       case SHOOT_MANUAL:
         return 0.85;
+      case SHOOT_SHUTTLE:
+        return 0.70;
       case AMP:
         return 0.5;
       case TRAP:

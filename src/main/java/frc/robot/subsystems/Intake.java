@@ -68,6 +68,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void hardwareInit() {
+        limconf = new HardwareLimitSwitchConfigs();
         limconf.ForwardLimitSource = ForwardLimitSourceValue.LimitSwitchPin;
         limconf.ReverseLimitSource = ReverseLimitSourceValue.LimitSwitchPin;
         limconf.ReverseLimitEnable = false;

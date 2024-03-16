@@ -11,7 +11,7 @@ import frc.robot.Constants.ClimberConstants;
 
 public class ClimberArm {
     public CANSparkMax motor;
-    SlewRateLimiter motlim = new SlewRateLimiter(2.0);
+    SlewRateLimiter motlim = new SlewRateLimiter(5.0);
     double throttle = 0.0f;
 
     final boolean isinverted;
@@ -22,12 +22,12 @@ public class ClimberArm {
     public ClimberArm(int canID, boolean inverted) {
         motorCANID = canID;
         isinverted = inverted;
+        motor = new CANSparkMax(motorCANID, MotorType.kBrushless);
 
         hardwareInit();
     }
 
     public void hardwareInit() {
-        motor = new CANSparkMax(motorCANID, MotorType.kBrushless);
         motor.setIdleMode(IdleMode.kBrake);
         motor.setInverted(isinverted);
         motor.getEncoder().setPositionConversionFactor(ClimberConstants.CLIMBER_POS_CONV_FACTOR);

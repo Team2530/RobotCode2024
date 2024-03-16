@@ -18,13 +18,11 @@ public class ClimberSubsystem extends SubsystemBase {
 
     public ClimberSubsystem(AHRS navX) {
         this.navX = navX;
-        hardwareInit();
     }
 
     public void hardwareInit() {
         leftArm.hardwareInit();
         rightArm.hardwareInit();
-
     }
 
     @Override

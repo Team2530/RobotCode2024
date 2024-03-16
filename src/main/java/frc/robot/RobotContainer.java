@@ -190,6 +190,10 @@ public class RobotContainer {
             arm.setArmPreset(Presets.SHOOT_MANUAL);
         }));
 
+        operatorXbox.button(9).onTrue(new InstantCommand(() -> {
+            arm.setArmPreset(Presets.SHOOT_SHUTTLE);
+        }));
+
         // High shoot preset
         operatorXbox.rightTrigger().and(new BooleanSupplier() {
             @Override
@@ -217,10 +221,9 @@ public class RobotContainer {
                 .whileTrue(new SequentialCommandGroup(
                         new IntakeCommand(intake)).andThen(new ParallelCommandGroup(new InstantCommand(() -> {
                             arm.setArmPreset(Presets.STOW);
-                        }),
-                                new AlignNoteCommand(intake, shooter))));
+                        }),new AlignNoteCommand(intake, shooter))));
 
-        // Purge/ Spit command
+        // Purge/ hooterpit command
         operatorXbox.leftTrigger().and(new BooleanSupplier() {
             public boolean getAsBoolean() {
                 return operatorXbox.getLeftTriggerAxis() > 0.1;
@@ -274,7 +277,7 @@ public class RobotContainer {
         driverXbox.leftTrigger().and(new BooleanSupplier() {
             @Override
             public boolean getAsBoolean() {
-                return driverXbox.getLeftTriggerAxis() > 0.75 && shooter.isUpToSpeed();
+                return driverXbox.getLeftTriggerAxis() > 0.375 && shooter.isUpToSpeed();
             }
         }).onTrue(new ShootCommand(shooter, intake));
 

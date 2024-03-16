@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import org.opencv.core.RotatedRect;
+
 import com.pathplanner.lib.util.GeometryUtil;
 
 import edu.wpi.first.math.MathUtil;
@@ -114,6 +116,10 @@ public class DriveCommand extends Command {
 
         if (xbox.getXButton()) {
             swerveSubsystem.zeroHeading();
+            Translation2d pospose = swerveSubsystem.getPose().getTranslation();
+            swerveSubsystem.odometry.resetPosition(swerveSubsystem.getRotation2d(), swerveSubsystem.getModulePositions(), 
+                new Pose2d(pospose, new Rotation2d(FieldConstants.getAlliance() == Alliance.Blue ? 0.0 : Math.PI))
+            );
             // swerveSubsystem.resetOdometry(new Pose2d(1.38, 5.55, new Rotation2d()));
             // swerveSubsystem.zeroHeading();
         }
@@ -137,7 +143,7 @@ public class DriveCommand extends Command {
                         calculatedAngle,
                         swerveSubsystem.getHeading()
                 });
-                zSpeed = MathUtil.clamp(-rotationController.calculate(swerveSubsystem.getHeading(), calculatedAngle),
+                zSpeed = MathUtil.clamp(-rotationController.calculate(swerveSubsystem.getPose().getRotation().getRadians() + ((FieldConstants.getAlliance() == Alliance.Red) ? Math.PI : 0.0), calculatedAngle),
                         -0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY, 0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY);
                 break;
         }
