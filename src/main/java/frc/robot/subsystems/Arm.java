@@ -59,6 +59,12 @@ public class Arm extends SubsystemBase {
     this.operatorXbox = operatorXbox;
     this.shooter = shooter;
     this.targeting = targeting;
+    hardwareInit();
+  }
+
+  public void hardwareInit() {
+    stageOne.hardwareInit();
+    stageTwo.hardwareInit();
   }
 
   @Override
