@@ -21,7 +21,7 @@ public class Shooter extends SubsystemBase {
     public enum ShooterMode {
         STOPPED(0.0),
         FULL(1.0),
-        REVERSE(-0.2),
+        REVERSE(-1.0),
         IDLE(0.1),
         CUSTOM(1.5);
 
@@ -62,21 +62,30 @@ public class Shooter extends SubsystemBase {
         // double percent = (targetRPS) / ArmConstants.SHOOTER_MAX_RPS;
         // shooterMotor.setVoltage(percent * 12.0);
 
-        if (targetRPS < 1.5) {
+        if (Math.abs(targetRPS) < 1.5) {
             shooterMotor.set(0);
         } else {
-            shooterMotor.setControl(shooterVelocityControl.withSlot(0).withVelocity(targetRPS));
+            if (shooterMode == ShooterMode.REVERSE) {
+                shooterMotor.set(-1.0);
+            } else {
+                shooterMotor.setControl(shooterVelocityControl.withSlot(0).withVelocity(targetRPS));
+            }
         }
 
         SmartDashboard.putNumber("Shooter TARGET velocity", targetRPS);
         SmartDashboard.putNumber("Shooter REAL velocity", shooterMotor.getVelocity().getValueAsDouble());
 
-        SmartDashboard.putNumber("Shooter Percent", targetRPS);
-        SmartDashboard.putNumber("Shooter Real", shooterMotor.getRotorVelocity().getValueAsDouble());
-        SmartDashboard.putNumber("Shooter INPUT", shooterMotor.getClosedLoopOutput().getValueAsDouble());
+        // SmartDashboard.putNumber("Shooter Percent", targetRPS);
+        // SmartDashboard.putNumber("Shooter Real", shooterMotor.getRotorVelocity().getValueAsDouble());
+        // SmartDashboard.putNumber("Shooter INPUT", shooterMotor.getClosedLoopOutput().getValueAsDouble());
 
         // SmartDashboard.putString("Shootake", "Shooter mode set to " +
         // (shooterMode.name()));
+
+        SmartDashboard.putNumberArray("Shooter Debug", new double[] {
+            targetRPS,
+            shooterMotor.getVelocity().getValueAsDouble()
+        });
     }
 
     /**

@@ -6,20 +6,17 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.Intake.IntakeMode;
 
 public class PrepNoteCommand extends Command {
-    
-    private final Shooter shooter;
-    private final Intake intake;
+        private final Intake intake;
     private double startpos;
 
-    public PrepNoteCommand(Shooter shooter, Intake intake) {
-        this.shooter = shooter;
+    public PrepNoteCommand(Intake intake) {
         this.intake = intake;
+        addRequirements(intake);
     }
 
     @Override
     public void initialize() {
         startpos = intake.getIntakePosition();
-        shooter.coast();
         intake.brake();
         intake.setMode(IntakeMode.REVERSE);
         SmartDashboard.putString("Shootake", "Moving note back " + intake.getOutputPercent());

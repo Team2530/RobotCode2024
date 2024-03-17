@@ -12,30 +12,27 @@ import frc.robot.subsystems.Intake.IntakeMode;
 import frc.robot.subsystems.Shooter.ShooterMode;
 
 public class PrepShooterCommand extends Command {
-
-    private final Intake intake;
     private final Shooter shooter;
     private final Arm arm;
     private double speed = 0;
     double starttime;
 
-    public PrepShooterCommand(Intake intake, Shooter shooter, Arm arm) {
-        this.intake = intake;
+    public PrepShooterCommand(Shooter shooter, Arm arm) {
         this.shooter = shooter;
         this.arm = arm;
+        addRequirements(shooter);
     }
 
-    public PrepShooterCommand(Intake intake, Shooter shooter, double speed) {
-        this.intake = intake;
+    public PrepShooterCommand(Shooter shooter, double speed) {
         this.shooter = shooter;
         this.speed = speed;
         this.arm = null;
+        addRequirements(shooter);
     }
 
     @Override
     public void initialize() {
         starttime = RobotController.getFPGATime();
-        intake.coast();
         shooter.coast();
 
         if(arm != null) {
@@ -49,9 +46,7 @@ public class PrepShooterCommand extends Command {
 
     @Override
     public void execute() {
-        // if ((RobotController.getFPGATime() - starttime) > 1.25) {
-        //     cancel();
-        // }
+
     }
 
     @Override
@@ -65,10 +60,5 @@ public class PrepShooterCommand extends Command {
     public boolean isFinished() {
         // piece is behind front limit switch and is clear
         return shooter.isUpToSpeed();
-        // if ((RobotController.getFPGATime() - starttime) > 10.0*10e6) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
     }
 }

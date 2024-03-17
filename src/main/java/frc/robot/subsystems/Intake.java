@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import java.text.DecimalFormat;
+import java.util.function.BooleanSupplier;
 
 import javax.swing.text.Utilities;
 
@@ -28,10 +29,10 @@ import frc.robot.Constants.ArmConstants;
 public class Intake extends SubsystemBase {
 
     public enum IntakeMode {
-        IDLE(0.2),
         STOPPED(0.0),
-        INTAKING(0.8),
+        INTAKING(1.0),
         REVERSE(-0.1),
+        SHOOT(0.75),
         CUSTOM(1.5);
 
         private double modeSpeed;
@@ -83,15 +84,15 @@ public class Intake extends SubsystemBase {
     public void periodic() {
         double percent = intakeProfile.calculate(outputPercent);
         if (intakeMode == IntakeMode.INTAKING) {
-            percent *= getReverseLimitClosed() ? 0.5f : 1.0f;
+            percent *= getIntakeSideLimitClosed() ? 0.5f : 1.0f;
         }
         intakeMotor.set(percent);
 
         SmartDashboard.putNumber("Intake Percent", percent * 100);
-        SmartDashboard.putBoolean("Intake FWD Limit", getFrontLimitClosed());
-        SmartDashboard.putBoolean("Intake REV Limit", getReverseLimitClosed());
+        SmartDashboard.putBoolean("Intake FWD Limit", getShooterSideLimitClosed());
+        SmartDashboard.putBoolean("Intake REV Limit", getIntakeSideLimitClosed());
 
-        if (getReverseLimitClosed() && DriverStation.isTeleop() == true && DriverStation.isDisabled() == false) {
+        if (getIntakeSideLimitClosed() && DriverStation.isTeleop() == true && DriverStation.isDisabled() == false) {
             driverXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
             operatorXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
 
@@ -100,6 +101,15 @@ public class Intake extends SubsystemBase {
             operatorXboxController.getHID().setRumble(RumbleType.kBothRumble, 0);
         }
 
+    }
+
+    public BooleanSupplier containsNote() {
+        return new BooleanSupplier() {
+            @Override
+            public boolean getAsBoolean() {
+                return getIntakeSideLimitClosed() || getShooterSideLimitClosed();
+            }
+        };
     }
 
     /**
@@ -145,15 +155,15 @@ public class Intake extends SubsystemBase {
     }
 
     // Has note in trap
-    public boolean getFrontLimitClosed() {
+    public boolean getShooterSideLimitClosed() {
         return intakeMotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround;
     }
 
-    public boolean getReverseLimitClosed() {
+    public boolean getIntakeSideLimitClosed() {
         return intakeMotor.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
     }
 
-    public void setForwardLimitEnabled(boolean enabled) {
+    public void setShooterLimitEnabled(boolean enabled) {
         limconf.ForwardLimitEnable = enabled;
         intakeMotor.getConfigurator().apply(limconf);
     }

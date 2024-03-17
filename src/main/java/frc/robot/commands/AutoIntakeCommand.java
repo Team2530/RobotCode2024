@@ -20,7 +20,7 @@ public class AutoIntakeCommand extends Command {
     public void initialize() {
         ITime = Timer.getFPGATimestamp();
         intake.brake();
-        intake.setForwardLimitEnabled(true);
+        intake.setShooterLimitEnabled(true);
         intake.setMode(IntakeMode.INTAKING);
     }
 
@@ -34,7 +34,7 @@ public class AutoIntakeCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return intake.getFrontLimitClosed() || ((Timer.getFPGATimestamp() - ITime) > time) ;
+        return intake.getShooterSideLimitClosed() || ((Timer.getFPGATimestamp() - ITime) > time) ;
     }
     
 }

@@ -256,9 +256,10 @@ public final class Constants {
 
     public static final double HUMAN_ARM_INPUT_P = 0.0001;
 
-    public static final double SHOOTER_kV = 0.104;
+    // TODO: Retune!!!
+    public static final double SHOOTER_kV = 0.115;
     public static final double SHOOTER_kP = 0.2;
-    public static final double SHOOTER_kI = 0.48;
+    public static final double SHOOTER_kI = 0.075;
     public static final double SHOOTER_kD = 0.01;
     public static final double SHOOTER_MAX_RPS = 106.0;
 
