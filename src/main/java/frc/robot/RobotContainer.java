@@ -87,10 +87,10 @@ public class RobotContainer {
                 new InstantCommand(() -> {
                     arm.setArmPreset(Presets.SHOOT_TM);
                 })));
-        NamedCommands.registerCommand("Shoot AMPs", new SequentialCommandGroup(
+        NamedCommands.registerCommand("Shoot AMP", new SequentialCommandGroup(
                 new InstantCommand(() -> {
                     arm.setArmPreset(Presets.AMP);
-                })));
+                })))
         NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
                 new WaitUntilCommand(new BooleanSupplier() {
                     @Override

@@ -89,7 +89,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot Close"
+                              "name": "Shoot AMP"
                             }
                           }
                         ]
@@ -152,7 +152,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot Close"
+                              "name": "Shoot AMP"
                             }
                           }
                         ]
@@ -215,7 +215,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot Close"
+                              "name": "Shoot AMP"
                             }
                           }
                         ]
@@ -272,7 +272,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Pickup"
+                              "name": "Shoot AMP"
                             }
                           },
                           {
@@ -344,7 +344,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "AMP-steal"
+                        "pathName": "Steal-source-speaker"
                       }
                     },
                     {
@@ -356,7 +356,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Shoot Amp"
+                        "name": "Shoot Close"
                       }
                     }
                   ]

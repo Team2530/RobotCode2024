@@ -16,25 +16,19 @@
     },
     {
       "anchor": {
-        "x": 1.8800655783129747,
-        "y": 4.421825570923869
+        "x": 1.5410015435399254,
+        "y": 3.2067564135188564
       },
       "prevControl": {
-        "x": 2.350007412651026,
-        "y": 3.658170090124535
+        "x": 2.010943377877976,
+        "y": 2.4431009327195223
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "4-close-shoot-close-bottom"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": -36.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -32.0,
+    "rotation": -55.72885929809719,
     "rotateFast": false
   },
   "reversed": false,
