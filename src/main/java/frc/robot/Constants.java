@@ -229,7 +229,7 @@ public final class Constants {
         new Constraints(3, 3));
 
     public static final ProfiledPIDController STAGE_TWO_PROFILEDPID = new ProfiledPIDController(
-        12,
+        10,
         0.0,
         0.001,
         new Constraints(12, 12));
@@ -264,7 +264,7 @@ public final class Constants {
     public static final double SHOOTER_MAX_RPS = 106.0;
 
     // FOR TARGETING!!!
-    public static final double MAX_SHOOTER_VELOCITY = 21.0;// 16.6;
+    public static final double MAX_SHOOTER_VELOCITY = 25.0;// 16.6;
 
     public static final double SHOOTER_LOW_HEIGHT = 0.7;
     public static final double SHOOTER_LOW_X_OFFSET = 0.36;

@@ -31,10 +31,14 @@ public class AlignNoteCommand extends Command {
     @Override
     public void execute() {
         if (!intake.getShooterSideLimitClosed()) {
-            intake.setMode(IntakeMode.INTAKING);
+            intake.setMode(IntakeMode.ALIGN);
+        } else {
+            // intake.setMode(IntakeMode.STOPPED);
         }
         if (!intake.getIntakeSideLimitClosed()) {
-            shooter.setMode(ShooterMode.REVERSE);
+            shooter.setMode(ShooterMode.ALIGN);
+        } else {
+            // shooter.setMode(ShooterMode.STOPPED);
         }
     }
 

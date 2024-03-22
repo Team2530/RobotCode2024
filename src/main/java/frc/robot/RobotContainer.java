@@ -291,12 +291,21 @@ public class RobotContainer {
             new AlignNoteCommand(intake, shooter),
             new ParallelCommandGroup(
                 new PrepNoteCommand(intake),
-                new PrepShooterCommand(shooter, arm)
+                new SequentialCommandGroup(
+                    new WaitCommand(0.1),
+                    new PrepShooterCommand(shooter, arm)
+                )
             )
         ).raceWith(new WaitUntilCommand(operatorXbox.rightBumper().negate()))
         ).onFalse(new SequentialCommandGroup(
                         new InstantCommand(() -> {
                             shooter.setMode(ShooterMode.STOPPED);
+                        }),
+                        new WaitUntilCommand(new BooleanSupplier() {
+                            @Override
+                            public boolean getAsBoolean() {
+                                return shooter.isStopped();
+                            }
                         }),
                         new AlignNoteCommand(intake, shooter)));
         ;

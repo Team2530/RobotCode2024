@@ -30,7 +30,9 @@ public class Intake extends SubsystemBase {
 
     public enum IntakeMode {
         STOPPED(0.0),
-        INTAKING(1.0),
+        INTAKING(1.0),        
+        ALIGN(0.8),
+
         REVERSE(-0.1),
         SHOOT(0.75),
         CUSTOM(1.5);
