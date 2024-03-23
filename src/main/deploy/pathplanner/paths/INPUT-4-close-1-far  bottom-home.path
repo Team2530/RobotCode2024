@@ -49,7 +49,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "INPUTS",
+  "folder": "INPUT",
   "previewStartingState": {
     "rotation": -47.0,
     "velocity": 3.0

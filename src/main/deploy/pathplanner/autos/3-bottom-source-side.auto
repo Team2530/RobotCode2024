@@ -186,16 +186,10 @@
               }
             ]
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "3-middle  through speaker"
-          }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Go-to-middle",
   "choreoAuto": false
 }

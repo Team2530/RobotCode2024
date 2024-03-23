@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7626093884666401,
-      "y": 4.373613761472538
+      "x": 1.5,
+      "y": 5.5
     },
-    "rotation": -59.036243467926454
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -37,7 +37,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.15
+                  "waitTime": 0.2
                 }
               },
               {
@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-bottom  first-note"
+                        "pathName": "INPUT-4-close-1-far  top-top"
                       }
                     },
                     {
@@ -83,12 +83,6 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
-                      "data": {
-                        "pathName": "4-bottom  main-grab"
-                      }
-                    },
-                    {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
@@ -106,7 +100,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.15
+                  "waitTime": 0.1
                 }
               },
               {
@@ -129,19 +123,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-bottom  middle-1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Pickup"
+                        "pathName": "2-note-steal"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Intaking"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
                       }
                     }
                   ]
@@ -152,21 +146,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "4-bottom  main-grab"
+                        "name": "Spool"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spool"
                       }
                     }
                   ]
@@ -175,7 +163,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.15
+                  "waitTime": 0.1
                 }
               },
               {
@@ -198,7 +186,133 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-bottom  middle-2"
+                        "pathName": "3-note-steal"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Close"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.1
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-note-steal"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Close"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.1
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "5-note-steal"
                       }
                     },
                     {
@@ -217,34 +331,9 @@
                 }
               },
               {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "4-bottom  main-grab"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shoot Close"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spool"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.15
+                  "waitTime": 0.1
                 }
               },
               {
@@ -259,6 +348,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Steals",
   "choreoAuto": false
 }

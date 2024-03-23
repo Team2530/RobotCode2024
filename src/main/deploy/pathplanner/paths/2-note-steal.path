@@ -43,8 +43,8 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -54,7 +54,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Steal-middle",
+  "folder": "Steal",
   "previewStartingState": {
     "rotation": -0.7669752511600545,
     "velocity": 0

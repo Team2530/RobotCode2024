@@ -85,7 +85,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
                 new InstantCommand(() -> {
                     arm.setArmPreset(Presets.SHOOT_LOW);
-                })));
+                }),
+                new InstantCommand(() -> {swerveDriveSubsystem.setRotationStyle(RotationStyle.Auto);})));
         NamedCommands.registerCommand("Shoot TM", new SequentialCommandGroup(
                 new InstantCommand(() -> {
                     arm.setArmPreset(Presets.SHOOT_TM);
@@ -101,7 +102,8 @@ public class RobotContainer {
                         return shooter.isUpToSpeed();
                     }
                 }),
-                new ShootCommand(shooter, intake)));
+                new ShootCommand(shooter, intake),
+                new InstantCommand(() -> {swerveDriveSubsystem.setRotationStyle(RotationStyle.Driver);})));
         NamedCommands.registerCommand("Spool", new SequentialCommandGroup(
                 new AlignNoteCommand(intake, shooter),
                 new PrepNoteCommand(intake),

@@ -39,6 +39,12 @@
                       }
                     },
                     {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.2
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
                         "name": "Shoot"
@@ -344,7 +350,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Steal-source-speaker"
+                        "pathName": "AMP-steal"
                       }
                     },
                     {
@@ -380,6 +386,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Steals",
   "choreoAuto": false
 }
