@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.829682890135012,
-        "y": 0.7696215392430785
+        "x": 1.4521990582442719,
+        "y": 6.837791367890429
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.829682890135011,
-        "y": 0.7696215392430785
+        "x": 2.452199058244272,
+        "y": 6.837791367890429
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.043316855864482,
-        "y": 0.7696215392430785
+        "x": 4.0,
+        "y": 6.0
       },
       "prevControl": {
-        "x": 7.043316855864482,
-        "y": 0.7696215392430785
+        "x": 3.0,
+        "y": 6.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Steal-source",
+  "folder": "4-note-amp-auto",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
