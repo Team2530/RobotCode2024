@@ -89,7 +89,7 @@ public class RobotContainer {
                 })));
         NamedCommands.registerCommand("Shoot AMP", new SequentialCommandGroup(
                 new InstantCommand(() -> {
-                    arm.setArmPreset(Presets.AMP);
+                    arm.setArmPreset(Presets.AUTO_AMP);
                 })));
         NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
                 new WaitUntilCommand(new BooleanSupplier() {
@@ -103,6 +103,10 @@ public class RobotContainer {
                 new AlignNoteCommand(intake, shooter),
                 new PrepNoteCommand(shooter, intake),
                 new PrepShooterCommand(intake, shooter, 0.8)));
+        NamedCommands.registerCommand("SpoolAMP", new SequentialCommandGroup(
+                new AlignNoteCommand(intake, shooter),
+                new PrepNoteCommand(shooter, intake),
+                new PrepShooterCommand(intake, shooter, 0.5)));
         NamedCommands.registerCommand("Intaking", new SequentialCommandGroup(
                 new AutoIntakeCommand(intake, 3)));
         NamedCommands.registerCommand("Intaking 5", new SequentialCommandGroup(
