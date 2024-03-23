@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-bottom  middle-1"
+                        "pathName": "4-bottom  middle-2"
                       }
                     },
                     {
@@ -129,7 +129,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-bottom  middle-2"
+                        "pathName": "4-bottom  middle-1"
                       }
                     },
                     {
@@ -185,6 +185,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3-middle  through speaker"
           }
         }
       ]

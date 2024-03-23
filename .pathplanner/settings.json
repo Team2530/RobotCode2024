@@ -12,7 +12,14 @@
     "4-top-amp-side",
     "5-note-source-side",
     "Drive Out",
-    "INPUT-4-close-1-far",
+<<<<<<< HEAD
+    "4-note-amp-auto",
+=======
+    "INPUTS",
+    "Knockout",
+>>>>>>> f5095502f282522403770b0a7a2561249b6a4f12
+    "Steal-middle",
+    "Steal-source",
     "Tests"
   ],
   "autoFolders": [],
