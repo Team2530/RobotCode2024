@@ -3,12 +3,39 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+<<<<<<< HEAD
     "source-4-note-shootback",
     "Steal"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
+=======
+    "2-middle-1-bottom-source-side",
+    "3-middle-thru-speaker-source-side",
+    "4-bottom-source-side",
+    "4-close-amp-side",
+    "4-close-middle",
+    "4-close-source-side",
+    "4-top-amp-side",
+    "5-note-source-side",
+    "Amp",
+    "Drive Out",
+    "INPUT",
+    "Knockout",
+    "Steal",
+    "Tests"
+  ],
+  "autoFolders": [
+    "4-close",
+    "Go-to-middle",
+    "5-note",
+    "Steals",
+    "Testing"
+  ],
+  "defaultMaxVel": 4.0,
+  "defaultMaxAccel": 4.0,
+>>>>>>> 301a3b8433038e2ba0cac95b2e9338536a5043e0
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 4.5

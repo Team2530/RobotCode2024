@@ -39,6 +39,12 @@
                       }
                     },
                     {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.2
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
                         "name": "Shoot"
@@ -89,7 +95,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot Close"
+                              "name": "Shoot AMP"
                             }
                           }
                         ]
@@ -152,7 +158,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot Close"
+                              "name": "Shoot AMP"
                             }
                           }
                         ]
@@ -215,7 +221,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot Close"
+                              "name": "Shoot AMP"
                             }
                           }
                         ]
@@ -272,7 +278,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot Close"
+                              "name": "Shoot AMP"
                             }
                           },
                           {
@@ -344,19 +350,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "AMP-steal"
+                        "pathName": "Steal-source-speaker"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "SpoolAMP"
+                        "name": "Spool"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Shoot AMP"
+                        "name": "Shoot Close"
                       }
                     }
                   ]
@@ -380,6 +386,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Steals",
   "choreoAuto": false
 }

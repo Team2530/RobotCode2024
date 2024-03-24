@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7626093884666401,
-      "y": 4.373613761472538
+      "x": 0.77,
+      "y": 6.69
     },
-    "rotation": -59.036243467926454
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -37,7 +37,11 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.15
+<<<<<<<< HEAD:src/main/deploy/pathplanner/autos/Shootback-4-note-source.auto
+                  "waitTime": 0.75
+========
+                  "waitTime": 0.2
+>>>>>>>> 301a3b8433038e2ba0cac95b2e9338536a5043e0:src/main/deploy/pathplanner/autos/Graciously-remove-middle-start-amp-side.auto
                 }
               },
               {
@@ -60,19 +64,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-bottom  first-note"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Pickup"
+                        "pathName": "4-close-amp-side  pickup-2"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Intaking"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
                       }
                     }
                   ]
@@ -85,19 +89,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-bottom  main-grab"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shoot Close"
+                        "pathName": "4-close-amp-side  shoot-2"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Spool"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Close"
                       }
                     }
                   ]
@@ -106,7 +110,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.15
+                  "waitTime": 0.04
                 }
               },
               {
@@ -129,19 +133,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-bottom  middle-1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Pickup"
+                        "pathName": "5 note  pickup 5"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Intaking"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
                       }
                     }
                   ]
@@ -154,19 +158,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-bottom  main-grab"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shoot Close"
+                        "pathName": "shootback-2nd-shoot"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Spool"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Close"
                       }
                     }
                   ]
@@ -175,7 +179,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.15
+                  "waitTime": 0.05
                 }
               },
               {
@@ -198,19 +202,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-bottom  middle-2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Pickup"
+                        "pathName": "shootback-3rd-note"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Intaking"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
                       }
                     }
                   ]
@@ -221,9 +225,9 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "4-bottom  main-grab"
+                        "name": "Spool"
                       }
                     },
                     {
@@ -233,24 +237,37 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "Spool"
+                        "pathName": "shootback-2nd-shoot"
                       }
                     }
                   ]
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 0.15
+                  "name": "Pickup"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Shoot"
+                  "name": "Intaking"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "shoot-back-4-pickup"
                 }
               }
             ]
@@ -259,6 +276,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Steals",
   "choreoAuto": false
 }
