@@ -89,7 +89,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot AMP"
+                              "name": "Shoot Close"
                             }
                           }
                         ]
@@ -152,7 +152,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot AMP"
+                              "name": "Shoot Close"
                             }
                           }
                         ]
@@ -215,7 +215,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot AMP"
+                              "name": "Shoot Close"
                             }
                           }
                         ]
@@ -272,7 +272,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot AMP"
+                              "name": "Shoot Close"
                             }
                           },
                           {
@@ -350,13 +350,13 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Spool"
+                        "name": "SpoolAMP"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Shoot Close"
+                        "name": "Shoot AMP"
                       }
                     }
                   ]

@@ -1,30 +1,14 @@
 {
-  "robotWidth": 0.813,
-  "robotLength": 0.94,
+  "robotWidth": 0.9,
+  "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "2-middle-1-bottom-source-side",
-    "3-middle-source-side",
-    "4-bottom-source-side",
-    "4-close-amp-side",
-    "4-close-middle",
-    "4-close-source-side",
-    "4-top-amp-side",
-    "5-note-source-side",
-    "Drive Out",
-<<<<<<< HEAD
-    "4-note-amp-auto",
-=======
-    "INPUTS",
-    "Knockout",
->>>>>>> f5095502f282522403770b0a7a2561249b6a4f12
-    "Steal-middle",
-    "Steal-source",
-    "Tests"
+    "source-4-note-shootback",
+    "Steal"
   ],
   "autoFolders": [],
-  "defaultMaxVel": 4.0,
-  "defaultMaxAccel": 4.0,
+  "defaultMaxVel": 3.0,
+  "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 4.5
