@@ -43,11 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-<<<<<<< HEAD:src/main/deploy/pathplanner/paths/shoot-back-4-pickup.path
   "folder": "source-4-note-shootback",
-=======
-  "folder": "Steal",
->>>>>>> 301a3b8433038e2ba0cac95b2e9338536a5043e0:src/main/deploy/pathplanner/paths/5-note-steal.path
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

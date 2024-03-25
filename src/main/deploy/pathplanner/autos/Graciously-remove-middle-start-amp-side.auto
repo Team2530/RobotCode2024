@@ -37,11 +37,7 @@
               {
                 "type": "wait",
                 "data": {
-<<<<<<<< HEAD:src/main/deploy/pathplanner/autos/Shootback-4-note-source.auto
                   "waitTime": 0.75
-========
-                  "waitTime": 0.2
->>>>>>>> 301a3b8433038e2ba0cac95b2e9338536a5043e0:src/main/deploy/pathplanner/autos/Graciously-remove-middle-start-amp-side.auto
                 }
               },
               {
