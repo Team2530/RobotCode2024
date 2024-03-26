@@ -43,14 +43,14 @@ public class ClimberCommand extends Command {
                 // climber.climb_tilt(-1.0, roll_compensation);
                 climber.climb(-1.0);
                 break;
-            case 90:
-                if (pastpov != 90)
+            case 270:
+                if (pastpov != 270)
                     climber.rightArm
                             .setDeployMode(climber.rightArm.getDeployMode() == DeployMode.Extend ? DeployMode.FlipUp
                                     : DeployMode.Extend);
                 break;
-            case 270:
-                if (pastpov != 270)
+            case 90:
+                if (pastpov != 90)
                     climber.leftArm
                             .setDeployMode(climber.leftArm.getDeployMode() == DeployMode.Extend ? DeployMode.FlipUp
                                     : DeployMode.Extend);
@@ -60,6 +60,9 @@ public class ClimberCommand extends Command {
                 break;
         }
         pastpov = xbox.getPOV();
+
+        // climber.leftArm.setDeployMode(DeployMode.Extend);
+        // climber.rightArm.setDeployMode(DeployMode.Extend);
 
         SmartDashboard.putBoolean("Climber L Flipup", climber.leftArm.getDeployMode() == DeployMode.FlipUp);
         SmartDashboard.putBoolean("Climber R Flipup", climber.rightArm.getDeployMode() == DeployMode.FlipUp);

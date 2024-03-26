@@ -47,7 +47,7 @@ public class RobotContainer {
     private final CommandXboxController operatorXbox = new CommandXboxController(
             ControllerConstants.OPERATOR_CONTROLLER_PORT);
 
-    private final CommandXboxController debugXbox = new CommandXboxController(0);
+    // private final CommandXboxController debugXbox = new CommandXboxController(0);
 
     // private final SendableChooser<Command> autoChooser;
 
@@ -86,7 +86,9 @@ public class RobotContainer {
                 new InstantCommand(() -> {
                     arm.setArmPreset(Presets.SHOOT_LOW);
                 }),
-                new InstantCommand(() -> {swerveDriveSubsystem.setRotationStyle(RotationStyle.Auto);})));
+                new InstantCommand(() -> {
+                    swerveDriveSubsystem.setRotationStyle(RotationStyle.Auto);
+                })));
         NamedCommands.registerCommand("Shoot TM", new SequentialCommandGroup(
                 new InstantCommand(() -> {
                     arm.setArmPreset(Presets.SHOOT_TM);
@@ -103,7 +105,9 @@ public class RobotContainer {
                     }
                 }),
                 new ShootCommand(shooter, intake),
-                new InstantCommand(() -> {swerveDriveSubsystem.setRotationStyle(RotationStyle.Driver);})));
+                new InstantCommand(() -> {
+                    swerveDriveSubsystem.setRotationStyle(RotationStyle.Driver);
+                })));
         NamedCommands.registerCommand("Spool", new SequentialCommandGroup(
                 new AlignNoteCommand(intake, shooter),
                 new PrepNoteCommand(intake),
@@ -180,12 +184,14 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        debugXbox.a().onTrue(new AlignNoteCommand(intake, shooter));
-        debugXbox.b().whileTrue(new AlignNoteCommand(intake, shooter).andThen(new PrepNoteCommand(intake)));
-        debugXbox.x().whileTrue(new IntakeCommand(intake).andThen(new AlignNoteCommand(intake, shooter)))
-                .onFalse(new InstantCommand(() -> {
-                    intake.setMode(IntakeMode.STOPPED);
-                }));
+        // debugXbox.a().onTrue(new AlignNoteCommand(intake, shooter));
+        // debugXbox.b().whileTrue(new AlignNoteCommand(intake, shooter).andThen(new
+        // PrepNoteCommand(intake)));
+        // debugXbox.x().whileTrue(new IntakeCommand(intake).andThen(new
+        // AlignNoteCommand(intake, shooter)))
+        // .onFalse(new InstantCommand(() -> {
+        // intake.setMode(IntakeMode.STOPPED);
+        // }));
 
         // Stow intake/shooter
         operatorXbox.b().onTrue(new InstantCommand(() -> {

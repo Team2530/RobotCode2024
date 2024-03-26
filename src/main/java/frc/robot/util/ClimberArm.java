@@ -33,8 +33,8 @@ public class ClimberArm {
 
     public enum DeployMode {
         None(1.5),
-        Extend(4.0),
-        FlipUp(6.65);
+        Extend(3.6),
+        FlipUp(5.4);
 
         double extensionLimitRots;
 
@@ -53,6 +53,8 @@ public class ClimberArm {
         hardwareInit();
     }
 
+    private final double POS_BOT_LIM = -0.35;
+
     public void hardwareInit() {
         is_calibrated = false;
         brake_release_time = Timer.getFPGATimestamp() - 1.5;
@@ -64,6 +66,9 @@ public class ClimberArm {
         // motor.setSoftLimit(SoftLimitDirection.kForward, (float)
         // DeployMode.FlipUp.extensionLimitRots);
         setDeployMode(DeployMode.Extend);
+        motor.getReverseLimitSwitch(Type.kNormallyOpen).enableLimitSwitch(true);
+
+        motor.setSoftLimit(SoftLimitDirection.kReverse, (float) POS_BOT_LIM);
 
         motor.enableSoftLimit(SoftLimitDirection.kForward, true);
         motor.enableSoftLimit(SoftLimitDirection.kReverse, false);
@@ -96,15 +101,18 @@ public class ClimberArm {
     public void periodic() {
         if (isRetracted()) {
             if (!is_calibrated) {
-                // motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+                motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+                motor.getReverseLimitSwitch(Type.kNormallyOpen).enableLimitSwitch(false);
+                motor.getForwardLimitSwitch(Type.kNormallyOpen).enableLimitSwitch(false);
+
+                motor.getEncoder().setPosition(0.0);
                 engageBrake();
             }
-            motor.getEncoder().setPosition(0.0);
             is_calibrated = true;
         }
 
         if (is_calibrated) {
-            if (Math.abs(throttle) < 0.01 || ((throttle < 0.01) && isRetracted())) {
+            if (Math.abs(throttle) < 0.01 || ((throttle < 0.01) && (motor.getEncoder().getPosition() < POS_BOT_LIM))) {
                 engageBrake();
             } else {
                 disengageBrake();
