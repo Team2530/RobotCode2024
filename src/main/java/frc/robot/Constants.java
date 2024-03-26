@@ -55,7 +55,7 @@ public final class Constants {
     }
 
     public static Alliance getAlliance() {
-      if(DriverStation.getAlliance().isPresent()) {
+      if (DriverStation.getAlliance().isPresent()) {
         return DriverStation.getAlliance().get();
       }
 
@@ -276,7 +276,10 @@ public final class Constants {
 
   public static class ClimberConstants {
     public static final int LEFT_CLIMBER_CANID = 20;
+    public static final int LEFT_CLIMBER_BRAKE_PWM = 1;
+
     public static final int RIGHT_CLIMBER_CANID = 30;
+    public static final int RIGHT_CLIMBER_BRAKE_PWM = 0;
 
     public static final double ROLL_kP = 15.0; // 1.0 is full side rotation;
     public static final double GOOD_THRESHOLD = 10.0;// Degrees!
@@ -284,13 +287,17 @@ public final class Constants {
     public static final boolean LEFT_CLIMBER_INVERTED = false;
     public static final boolean RIGHT_CLIMBER_INVERTED = true;
 
-    public static final double CLIMBER_LENGTH = 11.2; // Inches-ish
     public static final double SPOOL_RADIUS = 0.5; // CHECK WITH SPIRAL SPOOLING!
     public static final double SPOOL_CIRC = 2 * Math.PI * SPOOL_RADIUS;
 
-    public static final double CLIMBER_RATIO = 1.0 / 100.0;
+    public static final double CLIMBER_RATIO = 1.0 / 45.0;
 
-    public static final double CLIMBER_POS_CONV_FACTOR = SPOOL_CIRC * CLIMBER_RATIO;
+    public static final double BRAKE_ENGAGE_POSITION = 0.0f;
+    public static final double BRAKE_DISENGAGE_POSITION = 90.0f;
+
+    public static final double BRAKE_DISENGAGE_TIME = 0.2f;
+
+    public static final double CLIMBER_POS_CONV_FACTOR = CLIMBER_RATIO;
   }
 
   public static final class PoseConstants {

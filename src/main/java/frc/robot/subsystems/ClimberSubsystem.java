@@ -11,8 +11,12 @@ import frc.robot.util.ClimberArm;
 
 public class ClimberSubsystem extends SubsystemBase {
     public ClimberArm leftArm = new ClimberArm(ClimberConstants.LEFT_CLIMBER_CANID,
+            ClimberConstants.LEFT_CLIMBER_BRAKE_PWM,
+            false,
             ClimberConstants.LEFT_CLIMBER_INVERTED);
     public ClimberArm rightArm = new ClimberArm(ClimberConstants.RIGHT_CLIMBER_CANID,
+            ClimberConstants.RIGHT_CLIMBER_BRAKE_PWM,
+            true,
             ClimberConstants.RIGHT_CLIMBER_INVERTED);
     public AHRS navX;
 
