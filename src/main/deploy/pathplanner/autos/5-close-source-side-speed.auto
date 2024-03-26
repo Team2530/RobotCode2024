@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.77,
-      "y": 6.69
+      "x": 0.79,
+      "y": 4.41
     },
-    "rotation": 60.0
+    "rotation": -60.75
   },
   "command": {
     "type": "sequential",
@@ -22,7 +22,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Shoot Close"
+                        "name": "Shoot TM"
                       }
                     },
                     {
@@ -37,7 +37,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.75
+                  "waitTime": 0.2
                 }
               },
               {
@@ -60,19 +60,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  pickup-2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
+                        "pathName": "Speed-4-close-source-side  pickup note 2"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -85,13 +85,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  shoot-2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spool"
+                        "pathName": "Speed-4-close-source-side  shoot note 2"
                       }
                     },
                     {
@@ -99,14 +93,14 @@
                       "data": {
                         "name": "Shoot Close"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.04
                 }
               },
               {
@@ -129,19 +123,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "5 note  pickup 5"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
+                        "pathName": "Speed-4-close-source-side  pickup note 3"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -154,13 +148,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "shootback-2nd-shoot"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spool"
+                        "pathName": "Speed-4-close-source-side  shoot note 3"
                       }
                     },
                     {
@@ -168,14 +156,14 @@
                       "data": {
                         "name": "Shoot Close"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.05
                 }
               },
               {
@@ -198,19 +186,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "shootback-3rd-note"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
+                        "pathName": "Speed-4-close-source-side  pickup note 4"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -223,22 +211,22 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Spool"
+                        "name": "Shoot Close"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Shoot Close"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "shootback-2nd-shoot"
+                        "name": "Spool"
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
                 }
               }
             ]
@@ -249,21 +237,59 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "parallel",
                 "data": {
-                  "name": "Pickup"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Speed-4-close-source-side  pickup note 5"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Speed-4-close-source-side  shoot note 5"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
+                    }
+                  ]
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intaking"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "shoot-back-4-pickup"
+                  "name": "Shoot"
                 }
               }
             ]
@@ -272,6 +298,6 @@
       ]
     }
   },
-  "folder": "Steals",
+  "folder": "4-close",
   "choreoAuto": false
 }

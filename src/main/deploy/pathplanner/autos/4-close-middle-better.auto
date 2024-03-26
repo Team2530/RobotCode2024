@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.77,
-      "y": 6.69
+      "x": 1.377372910647826,
+      "y": 5.5196408968316515
     },
-    "rotation": 60.0
+    "rotation": 0.6986853833488332
   },
   "command": {
     "type": "sequential",
@@ -37,7 +37,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.75
+                  "waitTime": 0.15
                 }
               },
               {
@@ -60,19 +60,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  pickup-2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
+                        "pathName": "4-close  bottom-note-path"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -85,19 +85,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  shoot-2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spool"
+                        "pathName": "4-close-source-side  shoot note 2"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
                       }
                     }
                   ]
@@ -106,7 +106,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.04
+                  "waitTime": 0.15
                 }
               },
               {
@@ -129,19 +129,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "5 note  pickup 5"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
+                        "pathName": "4-close-source-side  pickup note 3"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -154,19 +154,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "shootback-2nd-shoot"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spool"
+                        "pathName": "4-close-source-side  shoot note 3"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
                       }
                     }
                   ]
@@ -175,7 +175,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.05
+                  "waitTime": 0.15
                 }
               },
               {
@@ -198,19 +198,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "shootback-3rd-note"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
+                        "pathName": "4-close-source-side  pickup note 4"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -221,9 +221,9 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "Spool"
+                        "pathName": "4-close-source-side  shoot note 4"
                       }
                     },
                     {
@@ -233,37 +233,24 @@
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "shootback-2nd-shoot"
+                        "name": "Spool"
                       }
                     }
                   ]
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
+              },
               {
-                "type": "named",
+                "type": "wait",
                 "data": {
-                  "name": "Pickup"
+                  "waitTime": 0.15
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intaking"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "shoot-back-4-pickup"
+                  "name": "Shoot"
                 }
               }
             ]
@@ -272,6 +259,6 @@
       ]
     }
   },
-  "folder": "Steals",
+  "folder": "4-close",
   "choreoAuto": false
 }

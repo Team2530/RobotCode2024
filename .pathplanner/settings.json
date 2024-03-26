@@ -1,9 +1,8 @@
 {
-  "robotWidth": 0.9,
-  "robotLength": 0.9,
+  "robotWidth": 0.81,
+  "robotLength": 0.94,
   "holonomicMode": true,
   "pathFolders": [
-
     "2-middle-1-bottom-source-side",
     "3-middle-thru-speaker-source-side",
     "4-bottom-source-side",
@@ -16,6 +15,8 @@
     "Drive Out",
     "INPUT",
     "Knockout",
+    "4-close-speed",
+    "Shootback",
     "Steal",
     "Tests"
   ],
