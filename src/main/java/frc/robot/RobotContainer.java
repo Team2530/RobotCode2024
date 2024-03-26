@@ -85,10 +85,15 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
                 new InstantCommand(() -> {
                     arm.setArmPreset(Presets.SHOOT_LOW);
-                })));
+                }),
+                new InstantCommand(() -> {swerveDriveSubsystem.setRotationStyle(RotationStyle.Auto);})));
         NamedCommands.registerCommand("Shoot TM", new SequentialCommandGroup(
                 new InstantCommand(() -> {
                     arm.setArmPreset(Presets.SHOOT_TM);
+                })));
+        NamedCommands.registerCommand("Shoot AMP", new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    arm.setArmPreset(Presets.AUTO_AMP);
                 })));
         NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
                 new WaitUntilCommand(new BooleanSupplier() {
@@ -97,11 +102,16 @@ public class RobotContainer {
                         return shooter.isUpToSpeed();
                     }
                 }),
-                new ShootCommand(shooter, intake)));
+                new ShootCommand(shooter, intake),
+                new InstantCommand(() -> {swerveDriveSubsystem.setRotationStyle(RotationStyle.Driver);})));
         NamedCommands.registerCommand("Spool", new SequentialCommandGroup(
                 new AlignNoteCommand(intake, shooter),
                 new PrepNoteCommand(intake),
                 new PrepShooterCommand(shooter, 0.8)));
+        NamedCommands.registerCommand("SpoolAMP", new SequentialCommandGroup(
+                new AlignNoteCommand(intake, shooter),
+                new PrepNoteCommand(intake),
+                new PrepShooterCommand(shooter, 0.5)));
         NamedCommands.registerCommand("Intaking", new SequentialCommandGroup(
                 new AutoIntakeCommand(intake, 3)));
         NamedCommands.registerCommand("Intaking 5", new SequentialCommandGroup(
@@ -198,7 +208,7 @@ public class RobotContainer {
 
         // Amp preset
         operatorXbox.y().onTrue(new InstantCommand(() -> {
-            arm.setArmPreset(Presets.AMP);
+            arm.setArmPreset(Presets.AUTO_AMP);
         }));
 
         operatorXbox.button(10).onTrue(new InstantCommand(() -> {
