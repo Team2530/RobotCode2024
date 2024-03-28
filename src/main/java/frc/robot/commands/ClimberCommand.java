@@ -3,6 +3,7 @@ package frc.robot.commands;
 import java.util.HashSet;
 import java.util.Set;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,6 +33,17 @@ public class ClimberCommand extends Command {
         // boolean climbing = (xbox.getLeftBumper() || xbox.getRightBumper()) &&
         // (!xbox.getAButton());
 
+        // boolean manual = false;
+        // if (Math.abs(xbox.getLeftY()) > 0.025) {
+        // climber.rightArm.set(-MathUtil.applyDeadband(xbox.getLeftY(), 0.025));
+        // manual = true;
+        // }
+        // if (Math.abs(xbox.getRightY()) > 0.025) {
+        // climber.leftArm.set(-MathUtil.applyDeadband(xbox.getRightY(), 0.025));
+        // manual = true;
+        // }
+
+        // if (manual == false) {
         switch (xbox.getPOV()) {
             case 180:
                 climber.deploy();
@@ -59,7 +71,9 @@ public class ClimberCommand extends Command {
                 climber.idle();
                 break;
         }
+
         pastpov = xbox.getPOV();
+        // }
 
         // climber.leftArm.setDeployMode(DeployMode.Extend);
         // climber.rightArm.setDeployMode(DeployMode.Extend);

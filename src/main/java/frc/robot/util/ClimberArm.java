@@ -34,7 +34,7 @@ public class ClimberArm {
     public enum DeployMode {
         None(1.5),
         Extend(3.6),
-        FlipUp(5.4);
+        FlipUp(5.8);
 
         double extensionLimitRots;
 
@@ -53,7 +53,7 @@ public class ClimberArm {
         hardwareInit();
     }
 
-    private final double POS_BOT_LIM = -0.35;
+    private final double POS_BOT_LIM = -0.45;
 
     public void hardwareInit() {
         is_calibrated = false;
@@ -112,7 +112,8 @@ public class ClimberArm {
         }
 
         if (is_calibrated) {
-            if (Math.abs(throttle) < 0.01 || ((throttle < 0.01) && (motor.getEncoder().getPosition() < POS_BOT_LIM))) {
+            // || ((throttle < 0.01) && (motor.getEncoder().getPosition() < POS_BOT_LIM))
+            if (Math.abs(throttle) < 0.01) {
                 engageBrake();
             } else {
                 disengageBrake();
