@@ -160,6 +160,10 @@ public class Arm extends SubsystemBase {
     }
   }
 
+  public boolean isShooterAligned() {
+    return Math.abs(getStageTwoDegrees() - stageTwo.getGoal()) < 2.0;
+  }
+
   public Presets getCurrentPreset() {
     return currentPreset;
   }

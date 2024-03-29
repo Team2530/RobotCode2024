@@ -49,7 +49,7 @@ public class RobotContainer {
 
     // private final CommandXboxController debugXbox = new CommandXboxController(0);
 
-    // private final SendableChooser<Command> autoChooser;
+    private final SendableChooser<Command> autoChooser;
 
     private final SwerveSubsystem swerveDriveSubsystem = new SwerveSubsystem();
     // private final LimeLightSubsystem limeLightSubsystem = new
@@ -152,13 +152,13 @@ public class RobotContainer {
         // new ShootCommand(shooter, intake)
         // );
 
-        // autoChooser = AutoBuilder.buildAutoChooser();
-        // autoChooser.onChange(new Consumer<Command>() {
-        // public void accept(Command t) {
-        // m_stripOne.updateAutoStartPosition(autoChooser.getSelected().getName());
-        // };
-        // });
-        // SmartDashboard.putData("Auto Chooser", autoChooser);
+        autoChooser = AutoBuilder.buildAutoChooser();
+        autoChooser.onChange(new Consumer<Command>() {
+        public void accept(Command t) {
+        m_stripOne.updateAutoStartPosition(autoChooser.getSelected().getName());
+        };
+        });
+        SmartDashboard.putData("Auto Chooser", autoChooser);
 
         swerveDriveSubsystem.setDefaultCommand(normalDrive);
         climber.setDefaultCommand(climberCommand);

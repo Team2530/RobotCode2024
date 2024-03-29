@@ -175,7 +175,7 @@ public class LEDstripOne extends SubsystemBase {
 
             // Ready to shoot
         } else if ((arm.getCurrentPreset() == Presets.SHOOT_HIGH || arm.getCurrentPreset() == Presets.SHOOT_LOW)
-                && shooter.isReadySpooled() && drive.isSpeakerAligned()) {
+                && shooter.isReadySpooled() && drive.isSpeakerAligned() && arm.isShooterAligned()) {
             setSolidColor(0, 255, 0);
         } else if ((arm.getCurrentPreset() == Presets.TRAP || arm.getCurrentPreset() == Presets.AMP || arm.getCurrentPreset() == Presets.SHOOT_MANUAL || arm.getCurrentPreset() == Presets.SHOOT_SHUTTLE)
                 && shooter.isReadySpooled()) {

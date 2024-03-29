@@ -264,7 +264,7 @@ public final class Constants {
     public static final double SHOOTER_MAX_RPS = 106.0;
 
     // FOR TARGETING!!!
-    public static final double MAX_SHOOTER_VELOCITY = 19.5;// 15.0 worked fine on a deadish battery;
+    public static final double MAX_SHOOTER_VELOCITY = 17.5;// 15.0 worked fine on a deadish battery;
 
     public static final double SHOOTER_LOW_HEIGHT = 0.7;
     public static final double SHOOTER_LOW_X_OFFSET = 0.36;
