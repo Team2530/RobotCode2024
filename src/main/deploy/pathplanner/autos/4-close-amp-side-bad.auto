@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.79,
-      "y": 4.41
+      "x": 0.77,
+      "y": 6.683940204728357
     },
-    "rotation": -60.75
+    "rotation": 58.69587650440901
   },
   "command": {
     "type": "sequential",
@@ -15,6 +15,69 @@
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot TM"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-close-amp-side  pickup-2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
+                    }
+                  ]
+                }
+              },
               {
                 "type": "parallel",
                 "data": {
@@ -37,7 +100,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.2
+                  "waitTime": 1.0
                 }
               },
               {
@@ -60,133 +123,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Speed-4-close-source-side  pickup note 2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Pickup"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Speed-4-close-source-side  shoot note 2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shoot Close"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spool"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Speed-4-close-source-side  pickup note 3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Pickup"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Speed-4-close-source-side  shoot note 3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shoot Close"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spool"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Speed-4-close-source-side  pickup note 4"
+                        "pathName": "4-close-amp-side  pickup-3"
                       }
                     },
                     {
@@ -243,7 +180,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Speed-4-close-source-side  pickup note 5"
+                        "pathName": "4-close  bottom-note-path"
                       }
                     },
                     {
@@ -265,12 +202,6 @@
                 "type": "parallel",
                 "data": {
                   "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Speed-4-close-source-side  shoot note 5"
-                      }
-                    },
                     {
                       "type": "named",
                       "data": {

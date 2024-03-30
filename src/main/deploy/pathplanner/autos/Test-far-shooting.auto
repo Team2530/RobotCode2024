@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "shootback-2nd-shoot"
+                  "pathName": "shootback-amp-2nd-shoot"
                 }
               },
               {
@@ -64,6 +64,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Testing",
   "choreoAuto": false
 }

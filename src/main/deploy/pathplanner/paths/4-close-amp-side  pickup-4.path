@@ -44,9 +44,6 @@
   },
   "reversed": false,
   "folder": "4-close-amp-side",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
-  },
+  "previewStartingState": null,
   "useDefaultConstraints": false
 }

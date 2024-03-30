@@ -104,6 +104,12 @@
                 }
               },
               {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.1
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "Shoot"
@@ -154,6 +160,25 @@
                     {
                       "type": "named",
                       "data": {
+                        "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
                         "name": "Shoot Close"
                       }
                     },
@@ -186,7 +211,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-close-amp-side  pickup-4"
+                        "pathName": "4-close  bottom-note-path"
                       }
                     },
                     {

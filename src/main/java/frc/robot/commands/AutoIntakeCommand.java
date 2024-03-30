@@ -8,9 +8,9 @@ import frc.robot.subsystems.Intake.IntakeMode;
 public class AutoIntakeCommand extends Command {
     private final Intake intake;
     private double ITime = 0.0;
-    private int time = 0;
+    private double time = 0;
 
-    public AutoIntakeCommand(Intake intake, int time) {
+    public AutoIntakeCommand(Intake intake, double time) {
         this.intake = intake;
         this.time = time;
         addRequirements(intake);

@@ -33,8 +33,8 @@ public class ClimberArm {
 
     public enum DeployMode {
         None(1.5),
-        Extend(3.6),
-        FlipUp(5.8);
+        Extend(3.7),
+        FlipUp(6.3);
 
         double extensionLimitRots;
 

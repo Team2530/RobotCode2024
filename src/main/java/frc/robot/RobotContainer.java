@@ -29,7 +29,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.subsystems.LEDstripOne;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -49,7 +48,7 @@ public class RobotContainer {
 
     // private final CommandXboxController debugXbox = new CommandXboxController(0);
 
-    private final SendableChooser<Command> autoChooser;
+   private final SendableChooser<Command> autoChooser;
 
     private final SwerveSubsystem swerveDriveSubsystem = new SwerveSubsystem();
     // private final LimeLightSubsystem limeLightSubsystem = new
@@ -91,7 +90,7 @@ public class RobotContainer {
                 })));
         NamedCommands.registerCommand("Shoot TM", new SequentialCommandGroup(
                 new InstantCommand(() -> {
-                    arm.setArmPreset(Presets.SHOOT_TM);
+                    arm.setArmPreset(Presets.SHOOT_HIGH);
                 })));
         NamedCommands.registerCommand("Shoot AMP", new SequentialCommandGroup(
                 new InstantCommand(() -> {
@@ -117,7 +116,8 @@ public class RobotContainer {
                 new PrepNoteCommand(intake),
                 new PrepShooterCommand(shooter, 0.5)));
         NamedCommands.registerCommand("Intaking", new SequentialCommandGroup(
-                new AutoIntakeCommand(intake, 3)));
+                new AutoIntakeCommand(intake, 3.0)));
+        
         NamedCommands.registerCommand("Intaking 5", new SequentialCommandGroup(
                 new AutoIntakeCommand(intake, 10)));
         NamedCommands.registerCommand("Pickup",
@@ -128,6 +128,20 @@ public class RobotContainer {
                 new InstantCommand(() -> {
                     arm.setArmPreset(Presets.STOW);
                 })));
+
+        NamedCommands.registerCommand("StartBoth", new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    shooter.setCustomPercent(0.65);
+                    intake.setMode(IntakeMode.INTAKING);
+                    intake.setShooterLimitEnabled(false);
+                })));
+
+        NamedCommands.registerCommand("StopBoth", new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    shooter.setMode(ShooterMode.STOPPED);
+                    intake.setMode(IntakeMode.STOPPED);
+                })));
+
         /*
          * NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
          * new InstantCommand(() -> {arm.setArmPreset(Presets.SHOOT_HIGH);}),
@@ -236,12 +250,11 @@ public class RobotContainer {
             arm.setArmPreset(Presets.SHOOT_HIGH);
         }));
 
-        /*
-         * // intake preset on climber start
-         * operatorXbox.povUp().onTrue(new InstantCommand(() -> {
-         * arm.setArmPreset(Presets.CLIMB);
-         * }));
-         */
+        
+        // intake preset on climber start
+        operatorXbox.povUp().onTrue(new InstantCommand(() -> {
+        arm.setArmPreset(Presets.STOW);
+        }));
 
         // set arm to intake, once has happened, retract the arm and center the note
         // operatorXbox.leftBumper().onTrue(
@@ -372,6 +385,11 @@ public class RobotContainer {
         // }));
     }
 
+    public void resetShootake() {
+        shooter.setMode(ShooterMode.STOPPED);
+        intake.setMode(IntakeMode.STOPPED);
+    }
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
@@ -379,7 +397,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
-        // return new PrintCommand("Unimplimented");
+        // return new PathPlannerAuto("4-close-middle");
 
     }
 

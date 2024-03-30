@@ -3,54 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.826244114026691,
-        "y": 5.791895429944707
+        "x": 2.3303569684062455,
+        "y": 6.788456653836385
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.885445770892212,
-        "y": 5.870830972434633
+        "x": 2.6164983099196863,
+        "y": 6.748988882593149
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "shootback"
     },
     {
       "anchor": {
-        "x": 8.000907299960106,
-        "y": 7.436381206571257
+        "x": 7.83,
+        "y": 5.972526638348569
       },
       "prevControl": {
-        "x": 7.004346076069096,
-        "y": 7.416647320953096
+        "x": 6.999534079975842,
+        "y": 6.211427793424011
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -7.679170404945578,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Stopboth",
-      "waypointRelativePos": 0.4,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "StopBoth"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "shoot",
-      "waypointRelativePos": 0.8,
+      "name": "Intaking",
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "parallel",
         "data": {
@@ -73,21 +62,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 4.3,
+    "maxAcceleration": 4.3,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": -11.040940180323663,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "Steal",
+  "folder": "Shootback",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

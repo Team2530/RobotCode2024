@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.9384383614343798,
-      "y": 4.465389263320471
+      "x": 0.77,
+      "y": 6.68
     },
-    "rotation": -58.495733280795726
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -37,7 +37,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.2
+                  "waitTime": 0.4
                 }
               },
               {
@@ -60,25 +60,43 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Stow"
+                        "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Knockout-source-side  First note"
+                        "pathName": "4-close-amp-side  pickup-2"
                       }
                     }
                   ]
                 }
               },
               {
-                "type": "path",
+                "type": "parallel",
                 "data": {
-                  "pathName": "Knockout-source-side  Thee killa"
+                  "commands": []
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": []
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": []
           }
         }
       ]
