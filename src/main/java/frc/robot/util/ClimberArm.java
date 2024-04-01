@@ -1,5 +1,7 @@
 package frc.robot.util;
 
+import java.sql.Driver;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
@@ -9,6 +11,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkLimitSwitch.Type;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.ClimberConstants;
@@ -53,7 +56,9 @@ public class ClimberArm {
         hardwareInit();
     }
 
-    private final double POS_BOT_LIM = -0.45;
+    private final double BOTTOM_SOFT_LIMIT_POS = -0.45;   
+     private final double BOTTOM_BRAKE_POSITION = -0.3;
+
 
     public void hardwareInit() {
         is_calibrated = false;
@@ -68,7 +73,7 @@ public class ClimberArm {
         setDeployMode(DeployMode.Extend);
         motor.getReverseLimitSwitch(Type.kNormallyOpen).enableLimitSwitch(true);
 
-        motor.setSoftLimit(SoftLimitDirection.kReverse, (float) POS_BOT_LIM);
+        motor.setSoftLimit(SoftLimitDirection.kReverse, (float) BOTTOM_SOFT_LIMIT_POS);
 
         motor.enableSoftLimit(SoftLimitDirection.kForward, true);
         motor.enableSoftLimit(SoftLimitDirection.kReverse, false);
@@ -113,7 +118,7 @@ public class ClimberArm {
 
         if (is_calibrated) {
             // || ((throttle < 0.01) && (motor.getEncoder().getPosition() < POS_BOT_LIM))
-            if (Math.abs(throttle) < 0.01) {
+            if (Math.abs(throttle) < 0.01 || ((Timer.getMatchTime() < 0.375) && DriverStation.isFMSAttached())) {
                 engageBrake();
             } else {
                 disengageBrake();

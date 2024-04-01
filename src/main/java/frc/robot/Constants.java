@@ -293,9 +293,9 @@ public final class Constants {
     public static final double CLIMBER_RATIO = 1.0 / 45.0;
 
     public static final double BRAKE_ENGAGE_POSITION = 0.0f;
-    public static final double BRAKE_DISENGAGE_POSITION = 90.0f;
+    public static final double BRAKE_DISENGAGE_POSITION = 70.0f;
 
-    public static final double BRAKE_DISENGAGE_TIME = 0.2f;
+    public static final double BRAKE_DISENGAGE_TIME = 0.16f;
 
     public static final double CLIMBER_POS_CONV_FACTOR = CLIMBER_RATIO;
   }
