@@ -10,21 +10,32 @@ import frc.robot.Constants.ClimberConstants;
 import frc.robot.util.ClimberArm;
 
 public class ClimberSubsystem extends SubsystemBase {
-    public ClimberArm leftArm = new ClimberArm(ClimberConstants.LEFT_CLIMBER_CANID, ClimberConstants.LEFT_CLIMBER_INVERTED);
-    public ClimberArm rightArm = new ClimberArm(ClimberConstants.RIGHT_CLIMBER_CANID, ClimberConstants.RIGHT_CLIMBER_INVERTED);
+    public ClimberArm leftArm = new ClimberArm(ClimberConstants.LEFT_CLIMBER_CANID,
+            ClimberConstants.LEFT_CLIMBER_BRAKE_PWM,
+            false,
+            ClimberConstants.LEFT_CLIMBER_INVERTED);
+    public ClimberArm rightArm = new ClimberArm(ClimberConstants.RIGHT_CLIMBER_CANID,
+            ClimberConstants.RIGHT_CLIMBER_BRAKE_PWM,
+            true,
+            ClimberConstants.RIGHT_CLIMBER_INVERTED);
     public AHRS navX;
 
     public ClimberSubsystem(AHRS navX) {
         this.navX = navX;
     }
 
+    public void hardwareInit() {
+        leftArm.hardwareInit();
+        rightArm.hardwareInit();
+    }
+
     @Override
     public void periodic() {
         SmartDashboard.putNumberArray("Climber Position", new double[] {
-            leftArm.motor.getEncoder().getPosition(),
-            rightArm.motor.getEncoder().getPosition()
+                leftArm.motor.getEncoder().getPosition(),
+                rightArm.motor.getEncoder().getPosition()
         });
-    
+
         leftArm.periodic();
         rightArm.periodic();
     }
@@ -46,8 +57,8 @@ public class ClimberSubsystem extends SubsystemBase {
     /// Tilt positive rolls clockwise
     public void climb_tilt(double climb, double tilt) {
         // if (leftArm.isRetracted() && rightArm.isRetracted()) {
-        //     stop();
-        //     return;
+        // stop();
+        // return;
         // }
         leftArm.set(climb + tilt);
         rightArm.set(climb - tilt);

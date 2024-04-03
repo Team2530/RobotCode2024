@@ -15,7 +15,7 @@ public class IntakeCommand extends Command {
     @Override
     public void initialize() {
         intake.brake();
-        intake.setForwardLimitEnabled(true);
+        intake.setShooterLimitEnabled(true);
         intake.setMode(IntakeMode.INTAKING);
     }
 
@@ -24,12 +24,14 @@ public class IntakeCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        intake.setMode(IntakeMode.STOPPED);
+        // intake.setMode(IntakeMode.STOPPED);
+        // Keep intake going for alignment!!!
     }
 
     @Override
     public boolean isFinished() {
-        return intake.getFrontLimitClosed();
+        // return intake.getShooterSideLimitClosed();
+        return intake.getIntakeSideLimitClosed();
     }
     
 }

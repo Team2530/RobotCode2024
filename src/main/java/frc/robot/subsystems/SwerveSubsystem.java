@@ -82,7 +82,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private Field2d field = new Field2d();
 
     // TODO: Properly set starting pose
-    private final SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(DriveConstants.KINEMATICS,
+    public final SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(DriveConstants.KINEMATICS,
             getRotation2d(),
             getModulePositions(), new Pose2d(), createStateStdDevs(
                     PoseConstants.kPositionStdDevX,
@@ -151,11 +151,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
         SmartDashboard.putString("Robot Pose",
                 getPose().toString());
-        double swerveCurrent = 0;
-        for (int chan : pdh_channels)
-            swerveCurrent += pdh.getCurrent(chan);
-        SmartDashboard.putNumber("SwerveSubsystem Amps", swerveCurrent);
-        SmartDashboard.putNumber("PDH Amps", pdh.getTotalCurrent());
+        // double swerveCurrent = 0;
+        // for (int chan : pdh_channels)
+        //     swerveCurrent += pdh.getCurrent(chan);
+        // SmartDashboard.putNumber("SwerveSubsystem Amps", swerveCurrent);
+        // SmartDashboard.putNumber("PDH Amps", pdh.getTotalCurrent());
 
         SmartDashboard.putNumberArray("SwerveStates", new double[] {
                 frontLeft.getModuleState().angle.getDegrees() + 90, -frontLeft.getModuleState().speedMetersPerSecond,
@@ -183,6 +183,13 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
+        // TODO: TEST
+        setHeading(Units.radiansToDegrees(pose.getRotation().times(-1.0).getRadians() + (
+            FieldConstants.getAlliance() == Alliance.Red ? Math.PI : 0.0
+        )));
+
+        SmartDashboard.putNumber("HEading reset to", getHeading());
+        SmartDashboard.putBoolean("HASBEENREET",true);
         odometry.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
 

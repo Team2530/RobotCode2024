@@ -5,6 +5,8 @@
 # Prerequisites
 *.d
 
+ctre_sim/
+
 # Compiled Object files
 *.slo
 *.lo

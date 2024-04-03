@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import org.opencv.core.RotatedRect;
+
 import com.pathplanner.lib.util.GeometryUtil;
 
 import edu.wpi.first.math.MathUtil;
@@ -30,7 +32,7 @@ public class DriveCommand extends Command {
     private SlewRateLimiter dsratelimiter = new SlewRateLimiter(4);
 
     // Auto rotation pid/rate limiter
-    private PIDController rotationController = new PIDController(5, 0.0, 0.001);
+    private PIDController rotationController = new PIDController(6, 0.0, 0.5);
 
     private double DRIVE_MULT = 1.0;
     private final double SLOWMODE_MULT = 0.25;
@@ -114,11 +116,17 @@ public class DriveCommand extends Command {
 
         if (xbox.getXButton()) {
             swerveSubsystem.zeroHeading();
+            Translation2d pospose = swerveSubsystem.getPose().getTranslation();
+            swerveSubsystem.odometry.resetPosition(swerveSubsystem.getRotation2d(), swerveSubsystem.getModulePositions(), 
+                new Pose2d(pospose, new Rotation2d(FieldConstants.getAlliance() == Alliance.Blue ? 0.0 : Math.PI))
+            );
             // swerveSubsystem.resetOdometry(new Pose2d(1.38, 5.55, new Rotation2d()));
             // swerveSubsystem.zeroHeading();
         }
 
         ChassisSpeeds speeds;
+
+        double calculatedAngle = targeting.getPhi(arm.getHorizOffset());
 
         switch (swerveSubsystem.getRotationStyle()) {
             case Driver:
@@ -129,15 +137,19 @@ public class DriveCommand extends Command {
                 // swerveSubsystem.getPose().getTranslation().minus(FieldConstants.getSpeakerPosition()).getAngle();
                 // if (DriverStation.getAlliance().get() == Alliance.Red)
                 // r = r.rotateBy(new Rotation2d(Math.PI));
-                double calculatedAngle = targeting.getPhi(arm.getHorizOffset());
-                SmartDashboard.putNumber("Wanted Heading", calculatedAngle);
-                zSpeed = MathUtil.clamp(-rotationController.calculate(swerveSubsystem.getHeading(), calculatedAngle),
+                // double calculatedAngle = targeting.getPhi(arm.getHorizOffset());
+                // SmartDashboard.putNumber("Wanted Heading", calculatedAngle);
+                SmartDashboard.putNumberArray("Phi control", new double[] {
+                        calculatedAngle,
+                        swerveSubsystem.getHeading()
+                });
+                zSpeed = MathUtil.clamp(-rotationController.calculate(swerveSubsystem.getPose().getRotation().getRadians() + ((FieldConstants.getAlliance() == Alliance.Red) ? Math.PI : 0.0), calculatedAngle),
                         -0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY, 0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY);
                 break;
         }
 
         // Drive Non Field Oriented
-        if(xbox.getRightBumper()) {
+        if (xbox.getRightBumper()) {
             speeds = new ChassisSpeeds(-xSpeed, ySpeed, -zSpeed);
 
         } else if (!xbox.getLeftBumper()) {
@@ -145,10 +157,11 @@ public class DriveCommand extends Command {
                     new Rotation2d(
                             -swerveSubsystem.getRotation2d().rotateBy(DriveConstants.NAVX_ANGLE_OFFSET).getRadians()));
 
-            // speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-ySpeed, xSpeed, zSpeed,swerveSubsystem.odometry.getEstimatedPosition().getRotation().rotateBy(
-            //     new Rotation2d(FieldConstants.getAlliance() == Alliance.Red ? Math.PI : 0)
+            // speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-ySpeed, xSpeed,
+            // zSpeed,swerveSubsystem.odometry.getEstimatedPosition().getRotation().rotateBy(
+            // new Rotation2d(FieldConstants.getAlliance() == Alliance.Red ? Math.PI : 0)
             // ));
-        } else{
+        } else {
             // Normal non-field oriented
             speeds = new ChassisSpeeds(-xSpeed, -ySpeed, zSpeed);
         }

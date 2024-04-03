@@ -79,42 +79,44 @@ public class Targeting {
 
     double phi = angle_tgt.getRadians();
 
-    // SmartDashboard.putNumberArray("Chassis Speeds", new double[] {
-    // swerveSubsystem.getChassisSpeeds().vxMetersPerSecond,
-    // swerveSubsystem.getChassisSpeeds().vyMetersPerSecond,
-    // swerveSubsystem.getChassisSpeeds().omegaRadiansPerSecond
-    // });
+    SmartDashboard.putNumber("Tangentian Vel", getTargetTangentialVelocity());
+    SmartDashboard.putNumber("Normal Vel", getTargetNormalVelocity());
 
-    // // TODO: VELOCITY COMPENSATION
-    // double X2 = getDistanceToTarget() + armHorizOffset;
+    SmartDashboard.putString("Bot vel", getBotVelocity().toString());
 
-    // // Bot pos
-    // Translation2d R = swerveSubsystem.getPose().getTranslation();
-    // // Target pos
-    // Translation2d T = FieldConstants.getSpeakerPosition();
+    // TODO: VELOCITY COMPENSATION
+    double X2 = getDistanceToTarget() + armHorizOffset;
 
-    // Translation2d V = getBotVelocity();
-    // SmartDashboard.putNumberArray("Bot velocity", new double[] {V.getX(),
-    // V.getY()});
-    // double tshotapprox = X2 / ArmConstants.MAX_SHOOTER_VELOCITY;
+    // Bot pos
+    Translation2d R = swerveSubsystem.getPose().getTranslation();
+    // Target pos
+    Translation2d T = FieldConstants.getSpeakerPosition();
 
-    // Translation2d proj_shot_offset = T.plus(V.times(tshotapprox));
-    // double phi_correction =
-    // Math.acos(dotProd(normalize(proj_shot_offset.minus(R)),
-    // normalize(T.minus(R))))
-    // * 1.25 * Math.signum(getTargetTangentialVelocity());
+    Translation2d V = getBotVelocity();
 
-    // SmartDashboard.putNumber("Phi compensation", phi_correction);
+    // Control forwards compensation
+    // R = R.plus(V.times(0.02));
 
-    return phi;
+    SmartDashboard.putNumberArray("Bot velocity", new double[] { V.getX(),
+        V.getY() });
+    double tshotapprox = X2 / ArmConstants.MAX_SHOOTER_VELOCITY;
+
+    Translation2d proj_shot_offset = T.plus(V.times(tshotapprox));
+    double phi_correction = Math.acos(dotProd(normalize(proj_shot_offset.minus(R)),
+        normalize(T.minus(R))))
+        * 1.2 * Math.signum(getTargetTangentialVelocity());
+
+    SmartDashboard.putNumber("Phi compensation", phi_correction);
+
+    return phi;// + phi_correction;
   }
 
   public double getTheta(double shooterHorizontal, double shooterVertical) {
     double x = Math.max(0, getDistanceToTarget() + shooterHorizontal);
 
     // VELOCITY COMPENSATION
-    // double tshotapprox = x / ArmConstants.MAX_SHOOTER_VELOCITY;
-    // x -= tshotapprox * getTargetNormalVelocity();
+    double tshotapprox = x / ArmConstants.MAX_SHOOTER_VELOCITY;
+    x -= tshotapprox * -getTargetNormalVelocity();
 
     double y = FieldConstants.SPEAKER_HEIGHT - shooterVertical;
     double g = FieldConstants.GRAVITY;

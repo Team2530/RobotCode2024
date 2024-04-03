@@ -28,7 +28,12 @@ public class StageOne extends ProfiledPIDSubsystem {
 
     public StageOne() {
         super(ArmConstants.STAGE_ONE_PROFILEDPID);
+        hardwareInit();
 
+        setGoalDegrees(getMeasurement());
+    }
+
+    public void hardwareInit() {
         stageOneLeader.setInverted(ArmConstants.L_STAGE_ONE_ISREVERSED);
         stageOneFollower
                 .setControl(new Follower(stageOneLeader.getDeviceID(), ArmConstants.FOLLOWER_STAGE_ONE_ISREVERSED));
@@ -36,11 +41,8 @@ public class StageOne extends ProfiledPIDSubsystem {
         stageOneLeader.setSafetyEnabled(false);
         stageOneFollower.setSafetyEnabled(false);
 
-        stageOneLeader.setNeutralMode(NeutralModeValue.Brake);        
+        stageOneLeader.setNeutralMode(NeutralModeValue.Brake);
         stageOneFollower.setNeutralMode(NeutralModeValue.Brake);
-
-
-        setGoalDegrees(getMeasurement());
     }
 
     @Override
@@ -61,7 +63,8 @@ public class StageOne extends ProfiledPIDSubsystem {
 
     @Override
     protected double getMeasurement() {
-        double actualPosition = (stageOneEncoder.getAbsolutePosition().getValueAsDouble() * (ArmConstants.STAGE_ONE_ENCODER_ISREVERSED ? -1 : 1));
+        double actualPosition = (stageOneEncoder.getAbsolutePosition().getValueAsDouble()
+                * (ArmConstants.STAGE_ONE_ENCODER_ISREVERSED ? -1 : 1));
         return Units.rotationsToRadians(ArmConstants.STAGE_ONE_ENCODER_OFFSET + actualPosition);
     }
 

@@ -19,14 +19,15 @@ public class ShootCommand extends Command {
     public ShootCommand(Shooter shooter, Intake intake) {
         this.intake = intake;
         this.shooter = shooter;
+        addRequirements(shooter, intake);
     }
 
     @Override
     public void initialize() {
         intake.coast();
         shooter.coast();
-        intake.setForwardLimitEnabled(false);
-        intake.setCustomPercent(0.75);
+        intake.setShooterLimitEnabled(false);
+        intake.setMode(IntakeMode.SHOOT);
         SmartDashboard.putString("Shootake", "Shooting note");
 
         dTime = Timer.getFPGATimestamp();
@@ -34,23 +35,20 @@ public class ShootCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.setMode(ShooterMode.STOPPED);
-        intake.setMode(IntakeMode.STOPPED);
-        intake.setForwardLimitEnabled(true);
+
+        if (!interrupted) {
+            shooter.setMode(ShooterMode.STOPPED);
+            intake.setMode(IntakeMode.STOPPED);
+        }
+        intake.setShooterLimitEnabled(true);
 
         SmartDashboard.putString("Shootake", "Ending Shooting Sequence");
     }
-
-
 
     @Override
     public boolean isFinished() {
         // terminate after 1.5 seconds has passed and front limit doesn't see the note
         // TODO Determine if 1.5 seconds is too long or not
-       if ((!intake.getFrontLimitClosed()) && ((Timer.getFPGATimestamp() - dTime) > 0.5)) {   
-            return true;
-       } else {
-            return false;
-       }
+       return (!intake.getShooterSideLimitClosed()) && (!intake.getIntakeSideLimitClosed());
     }
 }

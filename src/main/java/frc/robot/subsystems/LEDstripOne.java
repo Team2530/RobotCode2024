@@ -175,9 +175,9 @@ public class LEDstripOne extends SubsystemBase {
 
             // Ready to shoot
         } else if ((arm.getCurrentPreset() == Presets.SHOOT_HIGH || arm.getCurrentPreset() == Presets.SHOOT_LOW)
-                && shooter.isReadySpooled() && drive.isSpeakerAligned()) {
+                && shooter.isReadySpooled() && drive.isSpeakerAligned() && arm.isShooterAligned()) {
             setSolidColor(0, 255, 0);
-        } else if ((arm.getCurrentPreset() == Presets.TRAP || arm.getCurrentPreset() == Presets.AMP)
+        } else if ((arm.getCurrentPreset() == Presets.TRAP || arm.getCurrentPreset() == Presets.AMP || arm.getCurrentPreset() == Presets.SHOOT_MANUAL || arm.getCurrentPreset() == Presets.SHOOT_SHUTTLE)
                 && shooter.isReadySpooled()) {
             setSolidColor(0, 255, 0);
         } else if (arm.getCurrentPreset() == Presets.SOURCE) {
@@ -185,7 +185,7 @@ public class LEDstripOne extends SubsystemBase {
             sinColor(255, 30, 0, 2, 0.5, 0.5, 5);
         } else {
             // Set idle lights based on alliance color
-            boolean lightstate = intake.getReverseLimitClosed() ? flash(2) : true;
+            boolean lightstate = intake.getIntakeSideLimitClosed() ? flash(2) : true;
 
             if (FieldConstants.getAlliance() == Alliance.Red) {
                 setSolidColor(lightstate ? 100 : 0, 0, 0);
