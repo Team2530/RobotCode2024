@@ -3,43 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.89,
-        "y": 5.93
+        "x": 7.9,
+        "y": 2.6
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.29427775932475,
-        "y": 6.818855825403959
+        "x": 7.234227545378168,
+        "y": 2.150993532756296
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8335710517574895,
-        "y": 6.4924483695121245
+        "x": 7.9,
+        "y": 0.9176256814052094
       },
       "prevControl": {
-        "x": 3.366385963541159,
-        "y": 6.689787225728298
+        "x": 7.194759774134935,
+        "y": 1.1445653660538107
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "shootback"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.4,
-      "rotationDegrees": -10.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "ready",
-      "waypointRelativePos": 0.0,
+      "name": "Stopboth",
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -47,13 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "Shoot Close"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Spool"
+                "name": "StopBoth"
               }
             }
           ]
@@ -61,22 +49,22 @@
       }
     },
     {
-      "name": "shoot",
-      "waypointRelativePos": 1.0,
+      "name": "pickup",
+      "waypointRelativePos": 0.6,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
-              "type": "wait",
+              "type": "named",
               "data": {
-                "waitTime": 0.1
+                "name": "Pickup"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "Shoot"
+                "name": "Intaking"
               }
             }
           ]
@@ -85,21 +73,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.7,
-    "maxAcceleration": 4.7,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 23.36,
-    "rotateFast": true
+    "velocity": 0.0,
+    "rotation": -21.0,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "Shootback",
+  "folder": "Jimmy-Upgrade",
   "previewStartingState": {
-    "rotation": -18.430000000000007,
+    "rotation": -21.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

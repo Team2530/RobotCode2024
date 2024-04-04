@@ -3,50 +3,56 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.83,
-        "y": 2.44
+        "x": 5.451965319885056,
+        "y": 1.3682160697654737
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.88920165686552,
-        "y": 2.5189355424899267
+        "x": 6.5632754342431765,
+        "y": 1.6872472206482891
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.97,
-        "y": 4.1046482092964185
+        "x": 8.02,
+        "y": 2.2891307321076186
       },
       "prevControl": {
-        "x": 6.973438776108989,
-        "y": 4.084914323678258
+        "x": 6.888884546999863,
+        "y": 1.7760497059455664
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": 30.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 4.2,
+    "maxAcceleration": 4.2,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": 30.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "Steal",
+  "folder": "Testinggg",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 0.4095736554312427,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
