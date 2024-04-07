@@ -58,8 +58,11 @@ public class DriveCommand extends Command {
     }
 
     public boolean isSpeakerAligned() {
+        double botAngle = swerveSubsystem.getPose().getRotation().getRadians() + ((FieldConstants.getAlliance() == Alliance.Red) ? Math.PI : 0.0);
+
         double calculatedAngle = targeting.getPhi(arm.getHorizOffset());
-        return Math.abs(swerveSubsystem.getHeading() - calculatedAngle) < Units.degreesToRadians(5.0);
+        // return Math.abs(swerveSubsystem.getHeading() - calculatedAngle) < Units.degreesToRadians(5.0);
+        return Math.abs(botAngle - calculatedAngle) < Units.degreesToRadians(5.0);
     }
 
     double clamp(double v, double mi, double ma) {

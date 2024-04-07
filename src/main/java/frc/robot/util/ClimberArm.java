@@ -70,7 +70,7 @@ public class ClimberArm {
         motor.getEncoder().setPositionConversionFactor(ClimberConstants.CLIMBER_POS_CONV_FACTOR);
         // motor.setSoftLimit(SoftLimitDirection.kForward, (float)
         // DeployMode.FlipUp.extensionLimitRots);
-        setDeployMode(DeployMode.Extend);
+        setDeployMode(DeployMode.FlipUp);
         motor.getReverseLimitSwitch(Type.kNormallyOpen).enableLimitSwitch(true);
 
         motor.setSoftLimit(SoftLimitDirection.kReverse, (float) BOTTOM_SOFT_LIMIT_POS);

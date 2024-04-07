@@ -43,7 +43,7 @@ public class StageTwo extends ProfiledPIDSubsystem {
 
     @Override
     protected double getMeasurement() {
-        double actualPosition = (stageTwoEncoder.getAbsolutePosition().getValueAsDouble()
+        double actualPosition = (stageTwoEncoder.getPosition().getValueAsDouble()
                 * (ArmConstants.STAGE_TWO_ENCODER_ISREVERSED ? -1 : 1));
         return Units.rotationsToRadians(ArmConstants.STAGE_TWO_ENCODER_OFFSET + actualPosition) + stageOneOffset;
     }
