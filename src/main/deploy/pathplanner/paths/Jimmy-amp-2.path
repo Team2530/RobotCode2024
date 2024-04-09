@@ -3,50 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.9095172036497934,
-        "y": 4.54866063578281
+        "x": 7.9,
+        "y": 7.44
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6396709716496372,
-        "y": 3.9369101815126717
+        "x": 7.332896973486255,
+        "y": 7.005529395674177
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.60663136710889,
-        "y": 2.979816728864227
+        "x": 7.9,
+        "y": 5.851097086809559
       },
       "prevControl": {
-        "x": 2.2711553115413943,
-        "y": 3.2264902991344453
+        "x": 7.194759774134935,
+        "y": 6.117504542701393
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "shootback-source"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -50.0,
+    "rotation": -10.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Shootback",
+  "folder": "Jimmy-Upgrade",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.79,
-      "y": 4.41
+      "x": 0.7626093884666401,
+      "y": 4.373613761472538
     },
-    "rotation": -60.0
+    "rotation": -59.036243467926454
   },
   "command": {
     "type": "sequential",
@@ -37,7 +37,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.4
+                  "waitTime": 0.15
                 }
               },
               {
@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "shootback-source-1-pickup"
+                        "pathName": "4-bottom  first-note"
                       }
                     },
                     {
@@ -85,19 +85,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "shootback-source-shoot-1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spool"
+                        "pathName": "4-bottom  main-grab"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
                       }
                     }
                   ]
@@ -106,7 +106,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.04
+                  "waitTime": 0.15
                 }
               },
               {
@@ -129,19 +129,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "shotback-source-2-pickup"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
+                        "pathName": "4-bottom  middle-1"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -154,7 +154,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "shotback-2-shoot"
+                        "pathName": "4-bottom  main-grab"
                       }
                     },
                     {
@@ -175,7 +175,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.04
+                  "waitTime": 0.15
                 }
               },
               {
@@ -196,6 +196,12 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-bottom  middle-2"
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
                         "name": "Pickup"
@@ -205,12 +211,6 @@
                       "type": "named",
                       "data": {
                         "name": "Intaking"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "shootback-source-3-pickup"
                       }
                     }
                   ]
@@ -223,19 +223,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Copy of shootback-amp-3-note"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spool"
+                        "pathName": "4-bottom  main-grab"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
                       }
                     }
                   ]
@@ -244,7 +244,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.05
+                  "waitTime": 0.15
                 }
               },
               {
@@ -259,6 +259,6 @@
       ]
     }
   },
-  "folder": "Steals",
+  "folder": "Maybe",
   "choreoAuto": false
 }

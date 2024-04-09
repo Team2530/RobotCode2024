@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.913825345482359,
-        "y": 1.4521437316769061
+        "x": 4.8383416481797346,
+        "y": 7.244070355124084
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.6867405575039385,
-        "y": 1.0656861256661172
+        "x": 5.647571580178791,
+        "y": 7.322068420858932
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.92,
-        "y": 0.7783411631223989
+        "x": 7.9,
+        "y": 7.439674879349759
       },
       "prevControl": {
-        "x": 7.054632571259442,
-        "y": 0.719870390910201
+        "x": 7.338680586762885,
+        "y": 7.439674879349759
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,15 +30,15 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0.45,
       "rotationDegrees": 0,
-      "rotateFast": false
+      "rotateFast": true
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Startboth",
+      "name": "startboth",
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
@@ -56,8 +56,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.7,
-    "maxAcceleration": 4.7,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -67,10 +67,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Steal",
+  "folder": "Jimmy-Upgrade",
   "previewStartingState": {
     "rotation": 0,
-    "velocity": 4.0
+    "velocity": 0
   },
   "useDefaultConstraints": false
 }

@@ -3,43 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.89,
-        "y": 5.93
+        "x": 5.221371211973195,
+        "y": 1.4800414216213047
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.29427775932475,
-        "y": 6.818855825403959
+        "x": 4.7970926711084205,
+        "y": 1.8451183056212273
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8335710517574895,
-        "y": 6.4924483695121245
+        "x": 2.429026396514333,
+        "y": 3.552099411891132
       },
       "prevControl": {
-        "x": 3.366385963541159,
-        "y": 6.689787225728298
+        "x": 2.715167738027785,
+        "y": 3.078486156972315
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "shootback"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.4,
-      "rotationDegrees": -10.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "ready",
-      "waypointRelativePos": 0.0,
+      "name": "spool",
+      "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
         "data": {
@@ -47,13 +41,13 @@
             {
               "type": "named",
               "data": {
-                "name": "Shoot Close"
+                "name": "Spool"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "Spool"
+                "name": "Shoot Close"
               }
             }
           ]
@@ -64,15 +58,9 @@
       "name": "shoot",
       "waypointRelativePos": 1.0,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 0.1
-              }
-            },
             {
               "type": "named",
               "data": {
@@ -85,21 +73,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.7,
-    "maxAcceleration": 4.7,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 23.36,
-    "rotateFast": true
+    "rotation": -41.18592516570972,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "Shootback",
+  "folder": "Jimmy-Upgrade",
   "previewStartingState": {
-    "rotation": -18.430000000000007,
+    "rotation": -19.885165113855404,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
