@@ -128,7 +128,9 @@ public class SwerveSubsystem extends SubsystemBase {
     public void periodic() {
         // TODO: Test
         // WARNING: REMOVE IF USING TAG FOLLOW!!!
-        updateVisionOdometry();
+        // updateVisionOdometry();
+
+        updateMegaTagOdometry();
         odometry.update(getRotation2d(), getModulePositions());
         // if (DriverStation.getAlliance().isPresent()) {
         // switch (DriverStation.getAlliance().get()) {
@@ -348,6 +350,23 @@ public class SwerveSubsystem extends SubsystemBase {
 
             odometry.addVisionMeasurement(visionPose, timestamp);
         }
+    }
+
+    public void updateMegaTagOdometry() {
+        boolean doRejectUpdate = false;
+      LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+      if(Math.abs(navX.getRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
+      {
+        doRejectUpdate = true;
+      }
+      if(!doRejectUpdate)
+      {
+        odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.6,.6,9999999));
+        odometry.addVisionMeasurement(
+            mt2.pose,
+            mt2.timestampSeconds);
+      }
     }
 
     public Vector<N3> createStateStdDevs(double x, double y, double theta) {
