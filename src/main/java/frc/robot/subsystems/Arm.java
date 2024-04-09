@@ -28,11 +28,12 @@ public class Arm extends SubsystemBase {
 
     SHOOT_HIGH(90, 40),
     SHOOT_MANUAL(19, 48),
+    SHOOT_SHUTTLE(19, 48),
     STARTING_CONFIG(0, 90),
     SOURCE(42, 132),
     // TRAP(33, 47),
-        TRAP(90, 36),
-// 
+    TRAP(90, 36),
+    //
     CLIMB(-14.7, 74),
     CUSTOM(0, 0);
 
@@ -47,7 +48,7 @@ public class Arm extends SubsystemBase {
   }
 
   private final StageOne stageOne;
-  private final StageTwo stageTwo;
+  public final StageTwo stageTwo;
   private final XboxController operatorXbox;
   private final Shooter shooter;
   private Targeting targeting;
@@ -60,6 +61,11 @@ public class Arm extends SubsystemBase {
     this.operatorXbox = operatorXbox;
     this.shooter = shooter;
     this.targeting = targeting;
+  }
+
+  public void hardwareInit() {
+    stageOne.hardwareInit();
+    stageTwo.hardwareInit();
   }
 
   @Override
@@ -81,7 +87,8 @@ public class Arm extends SubsystemBase {
     if (currentPreset != preset) {
 
       if (DriverStation.isEnabled()) {
-        // If moving from intake to stow, only cam up the intake, don't use stage one at all
+        // If moving from intake to stow, only cam up the intake, don't use stage one at
+        // all
         if (currentPreset == Presets.INTAKE && preset == Presets.STOW) {
           stageOne.coast();
           stageOne.disable();
@@ -106,7 +113,6 @@ public class Arm extends SubsystemBase {
     }
   }
 
-
   /**
    * Sets the arm to a custom goal for stage 1 and stage 2
    * 
@@ -129,6 +135,8 @@ public class Arm extends SubsystemBase {
         return 0.85;
       case SHOOT_MANUAL:
         return 0.85;
+      case SHOOT_SHUTTLE:
+        return 0.70;
       case AMP:
         return 0.5;
       case TRAP:
@@ -150,6 +158,10 @@ public class Arm extends SubsystemBase {
     } else {
       return 0.0;
     }
+  }
+
+  public boolean isShooterAligned() {
+    return Math.abs(getStageTwoDegrees() - stageTwo.getGoal()) < 2.0;
   }
 
   public Presets getCurrentPreset() {

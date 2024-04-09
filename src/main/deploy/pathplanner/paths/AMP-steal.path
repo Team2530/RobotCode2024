@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 89.41816996427183,
+    "rotation": -90.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Steal-source",
+  "folder": "Amp",
   "previewStartingState": {
     "rotation": 27.05059700708621,
     "velocity": 0

@@ -21,11 +21,15 @@ public class StageTwo extends ProfiledPIDSubsystem {
     public StageTwo() {
         super(ArmConstants.STAGE_TWO_PROFILEDPID);
 
+        hardwareInit();
+
+        setGoalDegrees(getMeasurement());
+    }
+
+    public void hardwareInit() {
         stageTwoMotor.setInverted(ArmConstants.STAGE_TWO_ISREVERSED);
         stageTwoMotor.setSafetyEnabled(false);
         stageTwoMotor.setNeutralMode(NeutralModeValue.Brake);
-
-        setGoalDegrees(getMeasurement());
     }
 
     @Override
@@ -39,7 +43,7 @@ public class StageTwo extends ProfiledPIDSubsystem {
 
     @Override
     protected double getMeasurement() {
-        double actualPosition = (stageTwoEncoder.getAbsolutePosition().getValueAsDouble()
+        double actualPosition = (stageTwoEncoder.getPosition().getValueAsDouble()
                 * (ArmConstants.STAGE_TWO_ENCODER_ISREVERSED ? -1 : 1));
         return Units.rotationsToRadians(ArmConstants.STAGE_TWO_ENCODER_OFFSET + actualPosition) + stageOneOffset;
     }

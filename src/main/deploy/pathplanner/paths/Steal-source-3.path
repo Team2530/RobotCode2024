@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.826244114026691,
-        "y": 4.1046482092964185
+        "x": 7.97,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.885445770892211,
-        "y": 4.183583751786345
+        "x": 8.02920165686552,
+        "y": 4.178935542489926
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.826244114026691,
-        "y": 5.7721615443230885
+        "x": 7.94,
+        "y": 5.791895429944707
       },
       "prevControl": {
-        "x": 6.829682890135681,
-        "y": 5.752427658704928
+        "x": 6.94343877610899,
+        "y": 5.772161544326546
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Steal-source",
+  "folder": "Steal",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

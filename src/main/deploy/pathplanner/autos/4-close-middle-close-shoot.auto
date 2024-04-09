@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.5,
-      "y": 5.5
+      "x": 1.377372910647826,
+      "y": 5.5196408968316515
     },
-    "rotation": 0.0
+    "rotation": 0.6986853833488332
   },
   "command": {
     "type": "sequential",
@@ -35,6 +35,12 @@
                 }
               },
               {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.15
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "Shoot"
@@ -54,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "INPUT-4-close-1-far  top-top"
+                        "pathName": "4-close  first-note"
                       }
                     },
                     {
@@ -76,6 +82,12 @@
                 "type": "parallel",
                 "data": {
                   "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "4-close  middle-connector"
+                      }
+                    },
                     {
                       "type": "named",
                       "data": {
@@ -94,7 +106,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.1
+                  "waitTime": 0.15
                 }
               },
               {
@@ -117,19 +129,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "2-note-steal"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
+                        "pathName": "4-close  top-note-path"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -140,9 +152,9 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "Spool"
+                        "pathName": "4-close  middle-connector"
                       }
                     },
                     {
@@ -150,6 +162,12 @@
                       "data": {
                         "name": "Shoot Close"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spool"
+                      }
                     }
                   ]
                 }
@@ -157,7 +175,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.1
+                  "waitTime": 0.15
                 }
               },
               {
@@ -180,19 +198,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "3-note-steal"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
+                        "pathName": "4-close  bottom-note-path"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -203,9 +221,9 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "Spool"
+                        "pathName": "4-close  middle-connector"
                       }
                     },
                     {
@@ -213,69 +231,12 @@
                       "data": {
                         "name": "Shoot Close"
                       }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.1
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "4-note-steal"
-                      }
                     },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Pickup"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
                     {
                       "type": "named",
                       "data": {
                         "name": "Spool"
                       }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shoot Close"
-                      }
                     }
                   ]
                 }
@@ -283,51 +244,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.1
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "5-note-steal"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Pickup"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.1
+                  "waitTime": 0.15
                 }
               },
               {
@@ -342,6 +259,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "4-close",
   "choreoAuto": false
 }

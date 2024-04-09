@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 1.5410015435399254,
-        "y": 3.2067564135188564
+        "x": 1.9671072960379539,
+        "y": 4.373613761472538
       },
       "prevControl": {
-        "x": 1.4850290679586107,
-        "y": 2.0593206641019033
+        "x": 1.9111348204566394,
+        "y": 3.226178012055585
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,7 +49,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3-middle-source-side",
+  "folder": "3-middle-thru-speaker-source-side",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

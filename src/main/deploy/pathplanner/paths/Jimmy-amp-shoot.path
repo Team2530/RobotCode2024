@@ -1,0 +1,93 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.221371211973195,
+        "y": 1.4800414216213047
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.7970926711084205,
+        "y": 1.8451183056212273
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.429026396514333,
+        "y": 3.552099411891132
+      },
+      "prevControl": {
+        "x": 2.715167738027785,
+        "y": 3.078486156972315
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "spool",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Spool"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot Close"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -41.18592516570972,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Jimmy-Upgrade",
+  "previewStartingState": {
+    "rotation": -19.885165113855404,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

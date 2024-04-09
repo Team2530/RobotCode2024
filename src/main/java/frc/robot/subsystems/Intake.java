@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import java.text.DecimalFormat;
+import java.util.function.BooleanSupplier;
 
 import javax.swing.text.Utilities;
 
@@ -28,17 +29,19 @@ import frc.robot.Constants.ArmConstants;
 public class Intake extends SubsystemBase {
 
     public enum IntakeMode {
-         IDLE(0.2),
-         STOPPED(0.0),
-         INTAKING(0.8),
-         REVERSE(-0.1),
-         CUSTOM(1.5);
+        STOPPED(0.0),
+        INTAKING(1.0),        
+        ALIGN(0.8),
 
-         private double modeSpeed;
+        REVERSE(-0.1),
+        SHOOT(0.75),
+        CUSTOM(1.5);
 
-         private IntakeMode(double modeSpeed) {
+        private double modeSpeed;
+
+        private IntakeMode(double modeSpeed) {
             this.modeSpeed = modeSpeed;
-         }
+        }
     }
 
     // Current Wanted setpoint of intake
@@ -48,11 +51,11 @@ public class Intake extends SubsystemBase {
     private final TalonFX intakeMotor = new TalonFX(ArmConstants.INTAKE_MOTOR_PORT);
     HardwareLimitSwitchConfigs limconf = new HardwareLimitSwitchConfigs();
 
-
     // desired custom motor output percent
     private double outputPercent = 0.0;
 
-    // private final PIDController intakeProfile = new PIDController(0.1, 0.0, 0.01);
+    // private final PIDController intakeProfile = new PIDController(0.1, 0.0,
+    // 0.01);
 
     // allow motor to speed up quickly and slow down over a period of time
     private final SlewRateLimiter intakeProfile = new SlewRateLimiter(5, -5, 0.0);
@@ -60,47 +63,60 @@ public class Intake extends SubsystemBase {
     private final CommandXboxController driverXboxController;
     private final CommandXboxController operatorXboxController;
 
-
     public Intake(CommandXboxController driverXboxController, CommandXboxController operatXboxController) {
+        hardwareInit();
+
+        this.driverXboxController = driverXboxController;
+        this.operatorXboxController = operatXboxController;
+    }
+
+    public void hardwareInit() {
+        limconf = new HardwareLimitSwitchConfigs();
         limconf.ForwardLimitSource = ForwardLimitSourceValue.LimitSwitchPin;
         limconf.ReverseLimitSource = ReverseLimitSourceValue.LimitSwitchPin;
         limconf.ReverseLimitEnable = false;
         limconf.ForwardLimitEnable = true;
         intakeMotor.getConfigurator().apply(limconf);
-    
+
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
         intakeMotor.setInverted(true);
-
-        this.driverXboxController = driverXboxController;
-        this.operatorXboxController = operatXboxController;
     }
 
     @Override
     public void periodic() {
         double percent = intakeProfile.calculate(outputPercent);
         if (intakeMode == IntakeMode.INTAKING) {
-            percent *= getReverseLimitClosed() ? 0.5f : 1.0f;
+            percent *= getIntakeSideLimitClosed() ? 0.5f : 1.0f;
         }
         intakeMotor.set(percent);
 
         SmartDashboard.putNumber("Intake Percent", percent * 100);
-        SmartDashboard.putBoolean("Intake FWD Limit", getFrontLimitClosed());
-        SmartDashboard.putBoolean("Intake REV Limit", getReverseLimitClosed());
+        SmartDashboard.putBoolean("Intake FWD Limit", getShooterSideLimitClosed());
+        SmartDashboard.putBoolean("Intake REV Limit", getIntakeSideLimitClosed());
 
-        if(getReverseLimitClosed() && DriverStation.isTeleop() == true && DriverStation.isDisabled() == false) {
+        if (getIntakeSideLimitClosed() && DriverStation.isTeleop() == true && DriverStation.isDisabled() == false) {
             driverXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
             operatorXboxController.getHID().setRumble(RumbleType.kBothRumble, 0.5);
 
         } else {
             driverXboxController.getHID().setRumble(RumbleType.kBothRumble, 0);
             operatorXboxController.getHID().setRumble(RumbleType.kBothRumble, 0);
-
         }
 
     }
 
+    public BooleanSupplier containsNote() {
+        return new BooleanSupplier() {
+            @Override
+            public boolean getAsBoolean() {
+                return getIntakeSideLimitClosed() || getShooterSideLimitClosed();
+            }
+        };
+    }
+
     /**
      * Sets intake mode
+     * 
      * @param mode {@link IntakeMode} desired intake mode
      */
     public void setMode(IntakeMode mode) {
@@ -116,6 +132,7 @@ public class Intake extends SubsystemBase {
 
     /**
      * Changes the intake state to custom, and sets motor to custom output
+     * 
      * @param percent output percent from (-1 to 1)
      */
     public void setCustomPercent(double percent) {
@@ -123,7 +140,8 @@ public class Intake extends SubsystemBase {
         // clamp between (-1,1)
         outputPercent = Math.max(-1, Math.min(percent, 1));
 
-        SmartDashboard.putString("Shootake", "Intake speed set to " + String.format("%.0f", percent * 100) + " percent");
+        SmartDashboard.putString("Shootake",
+                "Intake speed set to " + String.format("%.0f", percent * 100) + " percent");
     }
 
     public double getOutputPercent() {
@@ -137,16 +155,17 @@ public class Intake extends SubsystemBase {
     public void brake() {
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
     }
-//Has note in trap
-    public boolean getFrontLimitClosed() { 
+
+    // Has note in trap
+    public boolean getShooterSideLimitClosed() {
         return intakeMotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround;
     }
 
-    public boolean getReverseLimitClosed() {
+    public boolean getIntakeSideLimitClosed() {
         return intakeMotor.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
     }
 
-    public void setForwardLimitEnabled(boolean enabled) {
+    public void setShooterLimitEnabled(boolean enabled) {
         limconf.ForwardLimitEnable = enabled;
         intakeMotor.getConfigurator().apply(limconf);
     }

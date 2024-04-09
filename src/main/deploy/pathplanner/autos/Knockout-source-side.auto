@@ -28,7 +28,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Shoot Close"
+                        "name": "Shoot TM"
                       }
                     }
                   ]
@@ -84,6 +84,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Maybe",
   "choreoAuto": false
 }

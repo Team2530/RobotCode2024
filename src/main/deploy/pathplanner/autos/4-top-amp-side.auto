@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7851802130738433,
+      "x": 0.79,
       "y": 6.693172495897639
     },
     "rotation": 60.0
@@ -123,7 +123,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-top  middle-1"
+                        "pathName": "4-top  middle-2"
                       }
                     },
                     {
@@ -135,7 +135,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intaking 5"
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -186,7 +186,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "4-top  middle-2"
+                        "pathName": "4-top  middle-1"
                       }
                     },
                     {
@@ -198,7 +198,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intaking 5"
+                        "name": "Intaking"
                       }
                     }
                   ]
@@ -241,6 +241,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Go-to-middle",
   "choreoAuto": false
 }

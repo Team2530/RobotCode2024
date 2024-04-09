@@ -2,7 +2,9 @@ package frc.robot.subsystems;
 
 import java.text.DecimalFormat;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -21,7 +23,9 @@ public class Shooter extends SubsystemBase {
     public enum ShooterMode {
         STOPPED(0.0),
         FULL(1.0),
-        REVERSE(-0.2),
+        REVERSE(-1.0),        
+        ALIGN(-1.0),
+
         IDLE(0.1),
         CUSTOM(1.5);
 
@@ -43,6 +47,16 @@ public class Shooter extends SubsystemBase {
     private double targetRPS = 0.0;
 
     public Shooter() {
+        hardwareInit();
+    }
+
+    public void hardwareInit() {
+        // var clc = new CurrentLimitsConfigs();
+        // clc.StatorCurrentLimitEnable = false;
+        // clc.SupplyCurrentLimitEnable = false;
+        // shooterMotor.getConfigurator().apply(clc);
+        // shooterMotor.setSafetyEnabled(false);
+
         shooterMotor.setNeutralMode(NeutralModeValue.Coast);
         shooterVelocityControl.Slot = 0;
         shooterSlot0.kV = ArmConstants.SHOOTER_kV;
@@ -53,26 +67,41 @@ public class Shooter extends SubsystemBase {
         shooterMotor.getConfigurator().apply(shooterSlot0, 0.050);
     }
 
+    
+
     @Override
     public void periodic() {
         // double percent = (targetRPS) / ArmConstants.SHOOTER_MAX_RPS;
         // shooterMotor.setVoltage(percent * 12.0);
 
-        if (targetRPS < 1.5) {
+
+
+        if (shooterMode == ShooterMode.STOPPED || Math.abs(targetRPS) < 1.5) {
             shooterMotor.set(0);
+        } else if (shooterMode == ShooterMode.ALIGN){
+            shooterMotor.set(shooterMode.modeSpeed);
         } else {
-            shooterMotor.setControl(shooterVelocityControl.withSlot(0).withVelocity(targetRPS));
+            if (shooterMode == ShooterMode.REVERSE) {
+                shooterMotor.set(-1.0);
+            } else {
+                shooterMotor.setControl(shooterVelocityControl.withSlot(0).withVelocity(targetRPS));
+            }
         }
 
         SmartDashboard.putNumber("Shooter TARGET velocity", targetRPS);
         SmartDashboard.putNumber("Shooter REAL velocity", shooterMotor.getVelocity().getValueAsDouble());
 
-        SmartDashboard.putNumber("Shooter Percent", targetRPS);
-        SmartDashboard.putNumber("Shooter Real", shooterMotor.getRotorVelocity().getValueAsDouble());
-                SmartDashboard.putNumber("Shooter INPUT", shooterMotor.getClosedLoopOutput().getValueAsDouble());
+        // SmartDashboard.putNumber("Shooter Percent", targetRPS);
+        // SmartDashboard.putNumber("Shooter Real", shooterMotor.getRotorVelocity().getValueAsDouble());
+        // SmartDashboard.putNumber("Shooter INPUT", shooterMotor.getClosedLoopOutput().getValueAsDouble());
 
         // SmartDashboard.putString("Shootake", "Shooter mode set to " +
         // (shooterMode.name()));
+
+        SmartDashboard.putNumberArray("Shooter Debug", new double[] {
+            targetRPS,
+            shooterMotor.getVelocity().getValueAsDouble()
+        });
     }
 
     /**
@@ -81,8 +110,17 @@ public class Shooter extends SubsystemBase {
      * @param mode
      */
     public void setMode(ShooterMode mode) {
+        if (shooterMode == mode) {
+            return;
+        }
+        
         shooterMode = mode;
         targetRPS = shooterMode.modeSpeed * ArmConstants.SHOOTER_MAX_RPS;
+        if (shooterMode == ShooterMode.STOPPED || Math.abs(targetRPS) < 1.5) {
+            brake();
+        } else {
+            coast();
+        }
         SmartDashboard.putNumber("Shootake", mode.modeSpeed);
     }
 
@@ -134,8 +172,12 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isReadySpooled() {
-        return (Math.abs(shooterMotor.getVelocity().getValueAsDouble() - targetRPS) < 4.5)
+        return (Math.abs(shooterMotor.getVelocity().getValueAsDouble() - targetRPS) < 5.0)
                 && shooterMode != ShooterMode.STOPPED && (targetRPS > 1.0);
+    }
+
+    public boolean isStopped() {
+        return Math.abs(shooterMotor.getVelocity().getValueAsDouble()) < 20.0;
     }
 
     public ShooterMode getShooterMode() {

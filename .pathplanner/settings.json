@@ -1,28 +1,35 @@
 {
-  "robotWidth": 0.813,
+  "robotWidth": 0.81,
   "robotLength": 0.94,
   "holonomicMode": true,
   "pathFolders": [
     "2-middle-1-bottom-source-side",
-    "3-middle-source-side",
+    "3-middle-thru-speaker-source-side",
     "4-bottom-source-side",
     "4-close-amp-side",
     "4-close-middle",
     "4-close-source-side",
+    "4-close-speed",
     "4-top-amp-side",
     "5-note-source-side",
+    "Amp",
     "Drive Out",
-<<<<<<< HEAD
-    "4-note-amp-auto",
-=======
-    "INPUTS",
+    "INPUT",
+    "Jimmy-Upgrade",
     "Knockout",
->>>>>>> f5095502f282522403770b0a7a2561249b6a4f12
-    "Steal-middle",
-    "Steal-source",
+    "Testinggg",
+    "Shootback",
+    "Steal",
     "Tests"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "4-close",
+    "5-note",
+    "Go-to-middle",
+    "Maybe",
+    "Steals",
+    "Testing"
+  ],
   "defaultMaxVel": 4.0,
   "defaultMaxAccel": 4.0,
   "defaultMaxAngVel": 540.0,

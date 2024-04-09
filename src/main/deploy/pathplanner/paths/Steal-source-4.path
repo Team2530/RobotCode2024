@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.826244114026691,
-        "y": 5.791895429944707
+        "x": 7.94,
+        "y": 5.79
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.885445770892212,
-        "y": 5.870830972434633
+        "x": 7.999201656865521,
+        "y": 5.868935542489926
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.83,
-        "y": 7.459408764971376
+        "x": 8.0,
+        "y": 7.436381206571257
       },
       "prevControl": {
-        "x": 6.83343877610899,
-        "y": 7.439674879353215
+        "x": 7.00343877610899,
+        "y": 7.416647320953096
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,48 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Stopboth",
+      "waypointRelativePos": 0.4,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "StopBoth"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot",
+      "waypointRelativePos": 0.8,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intaking"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Pickup"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 4.0,
@@ -43,7 +84,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Steal-source",
+  "folder": "Steal",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
