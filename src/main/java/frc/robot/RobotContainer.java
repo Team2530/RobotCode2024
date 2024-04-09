@@ -241,7 +241,7 @@ public class RobotContainer {
 
         // Amp preset
         operatorXbox.y().onTrue(new InstantCommand(() -> {
-            arm.setArmPreset(Presets.AUTO_AMP);
+            arm.setArmPreset(Presets.AMP);
         }));
 
         operatorXbox.button(10).onTrue(new InstantCommand(() -> {

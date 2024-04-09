@@ -48,7 +48,7 @@ public class Arm extends SubsystemBase {
   }
 
   private final StageOne stageOne;
-  private final StageTwo stageTwo;
+  public final StageTwo stageTwo;
   private final XboxController operatorXbox;
   private final Shooter shooter;
   private Targeting targeting;

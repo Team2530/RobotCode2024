@@ -209,6 +209,12 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Copy of 4-close-source-side  shoot note 4"
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
                         "name": "Shoot Close"

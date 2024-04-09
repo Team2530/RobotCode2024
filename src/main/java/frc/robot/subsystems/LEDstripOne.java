@@ -131,6 +131,9 @@ public class LEDstripOne extends SubsystemBase {
 
         double mtime = DriverStation.getMatchTime();
 
+        SmartDashboard.putNumberArray("Stage2 DEBUG", new double[] {arm.getStageTwoDegrees(), arm.stageTwo.getGoal()});
+
+
         if (DriverStation.isAutonomous() && !DriverStation.isEnabled()) {
             // For auto set-up
             if (!autoStartPose.equals(new Pose2d())) {
