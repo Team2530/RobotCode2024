@@ -144,15 +144,16 @@ public class RobotContainer {
                 })));
 
         NamedCommands.registerCommand("NoNote", new SequentialCommandGroup(
-        new WaitUntilCommand(new BooleanSupplier() {
-            @Override
-            public boolean getAsBoolean() {
-                return !intake.containsNote().getAsBoolean();
+            new WaitCommand(1.0),
+            new WaitUntilCommand(new BooleanSupplier() {
+                //@Override
+                public boolean getAsBoolean() {
+                    return !intake.containsNote().getAsBoolean();
             }
         })
         ));
 
-        // NamedCommands.registerCommand("NoNote", new (
+        // NamedCommands.registerCommand("NoNote", new SequentialCommandGroup(
         //     new WaitForCommand(1.0),
         //     new WaitUntilCommand(new BooleanSupplier() {
         //         @Override
