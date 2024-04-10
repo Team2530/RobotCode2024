@@ -118,7 +118,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Intaking", new SequentialCommandGroup(
                 new AutoIntakeCommand(intake, 3.0)));
         NamedCommands.registerCommand("Intaking2", new SequentialCommandGroup(
-                new AutoIntakeCommand(intake, 2.0)));
+                new AutoIntakeCommand(intake, 0.5)));
         NamedCommands.registerCommand("Intaking 5", new SequentialCommandGroup(
                 new AutoIntakeCommand(intake, 10)));
         NamedCommands.registerCommand("Pickup",
