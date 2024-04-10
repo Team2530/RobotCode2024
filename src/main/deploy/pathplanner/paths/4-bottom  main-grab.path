@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 2.5202357965343594,
-        "y": 3.3844317617308555
+        "x": 1.7238989114212167,
+        "y": 4.19247948338978
       },
       "prevControl": {
-        "x": 1.8819847299801942,
-        "y": 3.2749071580432965
+        "x": 1.4662605074140238,
+        "y": 3.7006243484669565
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Shoot Far Bottom"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],

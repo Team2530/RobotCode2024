@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7889389462989452,
-      "y": 4.412969176815547
+      "x": 1.290597959227301,
+      "y": 5.457249830334182
     },
-    "rotation": -60.75
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -60,7 +60,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Speed-4-close-source-side  pickup note 2"
+                        "pathName": "Speed-get-first-note-middle"
                       }
                     },
                     {

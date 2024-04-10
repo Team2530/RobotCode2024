@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Testinggg",
+  "folder": "Tests",
   "previewStartingState": {
     "rotation": -17.783888442692497,
     "velocity": 3.0
