@@ -3,64 +3,59 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.826244114026691,
-        "y": 0.7696215392465344
+        "x": 3.465055391649246,
+        "y": 5.476153259998827
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.8163771712158825,
-        "y": 0.927492624216019
+        "x": 4.465055391649246,
+        "y": 5.476153259998827
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.191320998026612,
-        "y": 2.4371348742697485
+        "x": 5.201637326351578,
+        "y": 3.9073093530802447
       },
       "prevControl": {
-        "x": 8.735763488369834,
-        "y": 2.619430481267938
+        "x": 4.2232030421480315,
+        "y": 4.113867701967662
       },
       "nextControl": {
-        "x": 8.012618136505887,
-        "y": 2.3772998187936465
+        "x": 6.08966217932436,
+        "y": 3.7198374396748797
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8364283832704595,
-        "y": 3.1970583769983514
+        "x": 7.826244114026691,
+        "y": 4.114515152107228
       },
       "prevControl": {
-        "x": 3.8435603262076707,
-        "y": 0.14053003854937662
+        "x": 7.184892831324126,
+        "y": 4.18358375178289
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "under"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.35,
-      "rotationDegrees": 80.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 1.6,
-      "rotationDegrees": -10.0,
+      "waypointRelativePos": 0.2,
+      "rotationDegrees": -30.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "pickup",
-      "waypointRelativePos": 0.05,
+      "name": "Stow",
+      "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
         "data": {
@@ -68,53 +63,30 @@
             {
               "type": "named",
               "data": {
-                "name": "Intaking"
+                "name": "Stow"
               }
-            },
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
             {
               "type": "named",
               "data": {
                 "name": "Pickup"
               }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "spool",
-      "waypointRelativePos": 1.85,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Spool"
-              }
             },
             {
               "type": "named",
               "data": {
-                "name": "Shoot Close"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "shoot",
-      "waypointRelativePos": 2.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Shoot"
+                "name": "Intaking"
               }
             }
           ]
@@ -130,13 +102,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -53.47846295838736,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Steal",
+  "folder": "1-middle-2-close",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -31.607502246248778,
     "velocity": 0
   },
   "useDefaultConstraints": true

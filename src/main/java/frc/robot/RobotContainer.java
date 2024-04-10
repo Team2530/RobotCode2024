@@ -117,7 +117,8 @@ public class RobotContainer {
                 new PrepShooterCommand(shooter, 0.5)));
         NamedCommands.registerCommand("Intaking", new SequentialCommandGroup(
                 new AutoIntakeCommand(intake, 3.0)));
-        
+        NamedCommands.registerCommand("Intaking2", new SequentialCommandGroup(
+                new AutoIntakeCommand(intake, 2.0)));
         NamedCommands.registerCommand("Intaking 5", new SequentialCommandGroup(
                 new AutoIntakeCommand(intake, 10)));
         NamedCommands.registerCommand("Pickup",
@@ -131,7 +132,7 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("StartBoth", new SequentialCommandGroup(
                 new InstantCommand(() -> {
-                    shooter.setCustomPercent(0.65);
+                    shooter.setCustomPercent(0.7);
                     intake.setMode(IntakeMode.INTAKING);
                     intake.setShooterLimitEnabled(false);
                 })));
@@ -141,6 +142,32 @@ public class RobotContainer {
                     shooter.setMode(ShooterMode.STOPPED);
                     intake.setMode(IntakeMode.STOPPED);
                 })));
+
+
+
+        NamedCommands.registerCommand("NoNote", new SequentialCommandGroup(
+        new WaitCommand(.4),
+        new WaitUntilCommand(new BooleanSupplier() {
+            public boolean getAsBoolean() {
+                return !intake.containsNote().getAsBoolean();
+            }
+        })
+        ));
+
+
+
+        // NamedCommands.registerCommand("NoNote", new (
+        //     new WaitForCommand(1.0),
+        //     new WaitUntilCommand(new BooleanSupplier() {
+        //         @Override
+        //         public boolean getAsBoolean() {
+        //             return !intake.containsNote().getAsBoolean();
+        //         }
+        //     })
+        // ));
+         
+        
+        
 
         /*
          * NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
