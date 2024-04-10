@@ -119,18 +119,6 @@
                       "data": {
                         "pathName": "1-middle-2-close-thru-stage"
                       }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Pickup"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intaking"
-                      }
                     }
                   ]
                 }
