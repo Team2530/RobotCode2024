@@ -50,9 +50,6 @@
   },
   "reversed": false,
   "folder": "5-note-source-side",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
-  },
+  "previewStartingState": null,
   "useDefaultConstraints": false
 }

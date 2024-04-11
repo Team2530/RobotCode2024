@@ -3,6 +3,7 @@
   "robotLength": 0.94,
   "holonomicMode": true,
   "pathFolders": [
+    "1-middle-2-close",
     "2-middle-1-bottom-source-side",
     "3-middle-thru-speaker-source-side",
     "4-bottom-source-side",
@@ -17,7 +18,7 @@
     "INPUT",
     "Jimmy-Upgrade",
     "Knockout",
-    "1-middle-2-close",
+    "Sneak",
     "Shootback",
     "Steal",
     "Tests"
@@ -26,8 +27,9 @@
     "4-close",
     "5-note",
     "Go-to-middle",
-    "Maybe",
-    "Testing"
+    "NoNote autos",
+    "Testing",
+    "Worldsssss Auto"
   ],
   "defaultMaxVel": 4.0,
   "defaultMaxAccel": 4.0,
