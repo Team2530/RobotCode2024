@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 5.837872416485573,
+      "y": 7.308846526524962
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Speed-4-close-source-side  pickup note 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "No-note 5-close-get-middle-2"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Testing",
+  "choreoAuto": false
+}
