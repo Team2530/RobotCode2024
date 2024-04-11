@@ -81,6 +81,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private Field2d field = new Field2d();
 
+    boolean isalliancereset = false;
+
     // TODO: Properly set starting pose
     public final SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(DriveConstants.KINEMATICS,
             getRotation2d(),
@@ -95,7 +97,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public SwerveSubsystem() {
         //! F
-        // zeroHeading();
+        // zeroHeading()    
 
         // --------- Path Planner Init ---------- \\
 
@@ -126,6 +128,16 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        if (!isalliancereset && DriverStation.getAlliance().isPresent()) {
+            zeroHeading();
+            Translation2d pospose = getPose().getTranslation();
+            odometry.resetPosition(getRotation2d(), getModulePositions(), 
+                new Pose2d(pospose, new Rotation2d(FieldConstants.getAlliance() == Alliance.Blue ? 0.0 : Math.PI))
+            );
+            isalliancereset = true;
+        }
+        
         // TODO: Test
         // WARNING: REMOVE IF USING TAG FOLLOW!!!
         // updateVisionOdometry();
@@ -360,9 +372,13 @@ public class SwerveSubsystem extends SubsystemBase {
       {
         doRejectUpdate = true;
       }
+
+      if (mt2.tagCount <= 0) {
+        doRejectUpdate = true;
+      }
       if(!doRejectUpdate)
       {
-        odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.6,.6,9999999));
+        odometry.setVisionMeasurementStdDevs(VecBuilder.fill(2,2,9999999));
         odometry.addVisionMeasurement(
             mt2.pose,
             mt2.timestampSeconds);
