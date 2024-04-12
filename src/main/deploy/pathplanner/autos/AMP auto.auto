@@ -119,6 +119,18 @@
                       "data": {
                         "pathName": "5 note  pickup 5"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
                     }
                   ]
                 }
@@ -126,7 +138,32 @@
               {
                 "type": "parallel",
                 "data": {
-                  "commands": []
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpoolAMP"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot AMP"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "AMP-steal"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
                 }
               }
             ]
@@ -135,7 +172,64 @@
         {
           "type": "sequential",
           "data": {
-            "commands": []
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Pickup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intaking"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "AMP-amp-3-note"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "AMP-steal"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot AMP"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SpoolAMP"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
           }
         }
       ]
