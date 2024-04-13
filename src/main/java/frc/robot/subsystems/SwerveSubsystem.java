@@ -7,20 +7,14 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.path.*;
+import com.pathplanner.lib.util.*;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -76,7 +70,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public SwerveSubsystem() {
         zeroHeading();
 
-        // --------- Path Planner Init ---------- \\
+        // --------- Path Planner Init ---------- //
 
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
@@ -229,7 +223,7 @@ public class SwerveSubsystem extends SubsystemBase {
         navxSim += 0.02 * lastChassisSpeeds.omegaRadiansPerSecond;
     }
 
-    // ---------- Path Planner Methods ---------- \\
+    // ---------- Path Planner Methods ---------- //
 
     public Command loadPath(String name) {
         return new PathPlannerAuto(name);

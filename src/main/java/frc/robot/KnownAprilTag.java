@@ -7,6 +7,7 @@ public class KnownAprilTag {
     private final double tagId;
     private LocalDateTime tagCaptureTime;
     private Pose3d tagPose3d;
+
     public KnownAprilTag(double tagId, LocalDateTime tagCaptureTime, Pose3d tagPose3d){
         this.tagId = tagId;
         this.tagCaptureTime = tagCaptureTime;

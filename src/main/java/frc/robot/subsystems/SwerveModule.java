@@ -31,7 +31,7 @@ public class SwerveModule {
 
     private final PIDController steerPID;
 
-    int moduleNumber;
+    public final int moduleNumber;
 
     SlewRateLimiter turnratelimiter = new SlewRateLimiter(4.d);
 
@@ -78,8 +78,7 @@ public class SwerveModule {
     }
 
     public double getDrivePosition() {
-        if (Robot.isSimulation())
-            return driveEncSim;
+        if (Robot.isSimulation()) return driveEncSim;
         return driveMotorEncoder.getPosition();
     }
 
@@ -88,8 +87,7 @@ public class SwerveModule {
     }
 
     public double getSteerPosition() {
-        if (Robot.isSimulation())
-            return steerEncSim;
+        if (Robot.isSimulation()) return steerEncSim;
         return steerMotorEncoder.getPosition();
     }
 
@@ -98,8 +96,7 @@ public class SwerveModule {
     }
 
     public double getAbsoluteEncoderPosition() {
-        double angle = Units.rotationsToRadians(absoluteEncoder.getPosition().getValue());// * (Math.PI /
-        // 180.d);
+        double angle = Units.rotationsToRadians(absoluteEncoder.getPosition().getValue());
         angle -= motorOffsetRadians;
         return angle * (isAbsoluteEncoderReversed ? -1.0 : 1.0);
     }
@@ -123,17 +120,12 @@ public class SwerveModule {
         double drive_command = state.speedMetersPerSecond / DriveConstants.MAX_MODULE_VELOCITY;
         driveMotor.set(drive_command * (motor_inv ? -1.0 : 1.0));
 
-        // This is stupid
-        // steerPID.setP(Constants.SwerveModuleConstants.MODULE_KP *
-        // Math.abs(drive_command));
         double steercmd = steerPID.calculate(getSteerPosition(), state.angle.getRadians());
         if (Robot.isSimulation()) {
             steerMotor.set(steercmd);
         } else {
             steerMotor.setVoltage(12 * steercmd);
         }
-        // SmartDashboard.putNumber("Abs" + thisModuleNumber,
-        // getAbsoluteEncoderPosition());
         SmartDashboard.putNumber("Drive" + moduleNumber, drive_command);
     }
 

@@ -22,9 +22,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 import static edu.wpi.first.math.MathUtil.clamp;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
 public class GoToAprilTagCommand extends Command {
 
@@ -51,10 +49,6 @@ public class GoToAprilTagCommand extends Command {
     @Override
     public void initialize() {
         super.initialize();
-        //pidControllerX.reset(swerveSubsystem.getPose().getY());
-        //pidControllerY.reset(swerveSubsystem.getPose().getX());
-        //pidControllerOmega.reset(swerveSubsystem.getRotation2d().getRadians());
-
 
         pidControllerX.setGoal(Units.inchesToMeters(36)); // Move forward/backwork to keep 36 inches from the target
         pidControllerX.setTolerance(Units.inchesToMeters(2.5));
@@ -86,7 +80,7 @@ public class GoToAprilTagCommand extends Command {
         try {
             ChassisSpeeds speeds;
             if (limeLightSubsystem.isAprilTagFound()) {
-                KnownAprilTag aprilTag = limeLightSubsystem.getKnownAprilTag(isItForRightSideAprilTag);
+                final KnownAprilTag aprilTag = limeLightSubsystem.getKnownAprilTag(isItForRightSideAprilTag);
 
                 if (aprilTag == null) return;
 
@@ -127,7 +121,6 @@ public class GoToAprilTagCommand extends Command {
                     logMessage += "rotation is at SetPoint : " + pidControllerOmega.atSetpoint() + ": ";
                     log.append(logMessage);
                 }
-                //speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-xspeed, -ySpeed, -zSpeed, swerveSubsystem.getRotation2d());
                 speeds = new ChassisSpeeds(-ySpeed, xspeed, omegaSpeed);
 
                 SwerveModuleState[] calculatedModuleStates = DriveConstants.KINEMATICS.toSwerveModuleStates(speeds);
@@ -158,4 +151,3 @@ public class GoToAprilTagCommand extends Command {
         swerveSubsystem.stopDrive();
     }
 }
-

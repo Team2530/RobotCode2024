@@ -22,11 +22,9 @@ public class DriveCommand extends Command {
     private static final double SLOWMODE_MULT = 0.25;
 
     private enum DriveState {
-        Free,
-        Locked
+        FREE,
+        LOCKED
     }
-
-    ;
 
     private DriveState state = DriveState.Free;
 
@@ -70,21 +68,11 @@ public class DriveCommand extends Command {
         double xSpeed = xySpeed.getX(); // xbox.getLeftX();
         double ySpeed = xySpeed.getY(); // xbox.getLeftY();
 
-        // System.out.println("DRIVE!!");
-
-        // double mag_xy = Math.sqrt(xSpeed*xSpeed + ySpeed*ySpeed);
-
-        // xSpeed = mag_xy > 0.15 ? xSpeed : 0.0;
-        // ySpeed = mag_xy > 0.15 ? ySpeed : 0.0;
-        // zSpeed = Math.abs(zSpeed) > 0.15 ? zSpeed : 0.0;
-
         // TODO: Full speed!
         xSpeed *= DriveConstants.XY_SPEED_LIMIT * DriveConstants.MAX_ROBOT_VELOCITY;
         ySpeed *= DriveConstants.XY_SPEED_LIMIT * DriveConstants.MAX_ROBOT_VELOCITY;
         zSpeed *= DriveConstants.Z_SPEED_LIMIT * DriveConstants.MAX_ROBOT_RAD_VELOCITY;
 
-        // double dmult = dsratelimiter.calculate(xbox.getRightBumper() ? 1.0 :
-        // SLOWMODE_MULT);
         double dmult = dsratelimiter
                 .calculate((DRIVE_MULT - SLOWMODE_MULT) * xbox.getRightTriggerAxis() + SLOWMODE_MULT);
         xSpeed *= dmult;
@@ -110,18 +98,18 @@ public class DriveCommand extends Command {
 
         // State transition logic
         switch (state) {
-            case Free -> state = xbox.getRightBumper() ? DriveState.Locked : DriveState.Free;
-            case Locked ->
+            case FREE -> state = xbox.getRightBumper() ? DriveState.Locked : DriveState.Free;
+            case LOCKED ->
                     state = ((xyRaw.getNorm() > 0.15) && !xbox.getBButton()) ? DriveState.Free : DriveState.Locked;
         }
 
         // Drive execution logic
         switch (state) {
-            case Free -> {
+            case FREE -> {
                 SwerveModuleState[] calculatedModuleStates = DriveConstants.KINEMATICS.toSwerveModuleStates(speeds);
                 swerveSubsystem.setModules(calculatedModuleStates);
             }
-            case Locked -> swerveSubsystem.setXstance();
+            case LOCKED -> swerveSubsystem.setXstance();
         }
     }
 
