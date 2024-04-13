@@ -231,8 +231,8 @@ public final class Constants {
     public static final ProfiledPIDController STAGE_TWO_PROFILEDPID = new ProfiledPIDController(
         12,
         0.0,
-        0.001,
-        new Constraints(12, 12));
+        0.005,
+        new Constraints(15, 14));
 
     public static final ArmFeedforward STAGE_ONE_FEEDFORWARD = new ArmFeedforward(
         0.0,

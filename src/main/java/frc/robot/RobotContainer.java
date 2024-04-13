@@ -368,7 +368,29 @@ public class RobotContainer {
                             }
                         }),
                         new AlignNoteCommand(intake, shooter)));
-        ;
+                        
+        // operatorXbox.rightBumper().onFalse(new ConditionalCommand(new SequentialCommandGroup(new ShootCommand(shooter, intake).deadlineWith(new WaitUntilCommand(1.5)), new InstantCommand(() -> {shooter.stop();})), new PrintCommand(""), new BooleanSupplier() {
+        //         @Override
+        //         public boolean getAsBoolean() {
+        //             return arm.getCurrentPreset() == Presets.SHOOT_SHUTTLE;
+        //         }
+        //     }));
+
+        // Operator shoots for shuttle
+        operatorXbox.rightBumper().negate().and(new BooleanSupplier() {
+            @Override
+            public boolean getAsBoolean() {
+                // TODO Auto-generated method stub
+                return arm.getCurrentPreset() == Presets.SHOOT_SHUTTLE;
+            }
+        }).onTrue(new ConditionalCommand(new ShootCommand(shooter, intake).andThen(new InstantCommand(() -> {shooter.stop();})), new InstantCommand(), new BooleanSupplier() {
+            @Override
+            public boolean getAsBoolean() {
+                // TODO Auto-generated method stub
+                return !intake.getShooterSideLimitClosed();
+            }
+        }));
+        
 
         // Recal climber
         operatorXbox.button(8).onTrue(new InstantCommand(() -> {

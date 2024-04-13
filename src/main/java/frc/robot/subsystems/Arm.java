@@ -23,7 +23,7 @@ public class Arm extends SubsystemBase {
     STOW(-0.37, 181),
     SHOOT_LOW(19, 48),
     SHOOT_TM(19, 38),
-    INTAKE(-14.7, 37.2),
+    INTAKE(-14.7, 34.5),
     AMP(101, 125),    AUTO_AMP(101, 120),
 
     SHOOT_HIGH(90, 40),

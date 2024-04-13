@@ -67,6 +67,10 @@ public class Shooter extends SubsystemBase {
         shooterMotor.getConfigurator().apply(shooterSlot0, 0.050);
     }
 
+    public void stop() {
+        shooterMotor.set(0);
+        brake();
+    }
     
 
     @Override
