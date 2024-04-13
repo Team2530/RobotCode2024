@@ -142,7 +142,7 @@ public class Arm extends SubsystemBase {
       case TRAP:
         return 0.65;
       default:
-        return 0.8;
+        return 0.5;
     }
   }
 
@@ -161,7 +161,7 @@ public class Arm extends SubsystemBase {
   }
 
   public boolean isShooterAligned() {
-    return Math.abs(getStageTwoDegrees() - stageTwo.getGoal()) < 2.0;
+    return Math.abs(getStageTwoDegrees() - stageTwo.getGoal()) < 1.25;
   }
 
   public Presets getCurrentPreset() {
