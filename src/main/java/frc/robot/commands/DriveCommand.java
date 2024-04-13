@@ -18,13 +18,15 @@ public class DriveCommand extends Command {
 
     private SlewRateLimiter dsratelimiter = new SlewRateLimiter(4);
 
-    private double DRIVE_MULT = 1.0;
-    private final double SLOWMODE_MULT = 0.25;
+    private static final double DRIVE_MULT = 1.0;
+    private static final double SLOWMODE_MULT = 0.25;
 
     private enum DriveState {
         Free,
         Locked
-    };
+    }
+
+    ;
 
     private DriveState state = DriveState.Free;
 
@@ -37,11 +39,11 @@ public class DriveCommand extends Command {
         addRequirements(swerveSubsystem);
     }
 
-    double clamp(double v, double mi, double ma) {
-        return (v < mi) ? mi : (v > ma ? ma : v);
+    private double clamp(double v, double mi, double ma) {
+        return (v < mi) ? mi : (Math.min(v, ma));
     }
 
-    public Translation2d DeadBand(Translation2d input, double deadzone) {
+    public Translation2d deadband(Translation2d input, double deadzone) {
         double mag = input.getNorm();
         Translation2d norm = input.div(mag);
 
@@ -56,15 +58,15 @@ public class DriveCommand extends Command {
         }
     }
 
-    public double DeadBand(double input, double deadband) {
+    public double deadband(double input, double deadband) {
         return Math.abs(input) < deadband ? 0.0 : (input - Math.signum(input) * deadband) / (1.0 - deadband);
     }
 
     @Override
     public void execute() {
         Translation2d xyRaw = new Translation2d(xbox.getLeftX(), xbox.getLeftY());
-        Translation2d xySpeed = DeadBand(xyRaw, 0.15);
-        double zSpeed = DeadBand(xbox.getRightX(), 0.1);
+        Translation2d xySpeed = deadband(xyRaw, 0.15);
+        double zSpeed = deadband(xbox.getRightX(), 0.1);
         double xSpeed = xySpeed.getX(); // xbox.getLeftX();
         double ySpeed = xySpeed.getY(); // xbox.getLeftY();
 
@@ -99,7 +101,7 @@ public class DriveCommand extends Command {
 
         // Drive Non Field Oriented
         if (!xbox.getLeftBumper()) {
-            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, -xSpeed, -zSpeed,
+            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-ySpeed, xSpeed, zSpeed,
                     new Rotation2d(
                             -swerveSubsystem.getRotation2d().rotateBy(DriveConstants.NAVX_ANGLE_OFFSET).getRadians()));
         } else {
@@ -108,23 +110,18 @@ public class DriveCommand extends Command {
 
         // State transition logic
         switch (state) {
-            case Free:
-                state = xbox.getRightBumper() ? DriveState.Locked : DriveState.Free;
-                break;
-            case Locked:
-                state = ((xyRaw.getNorm() > 0.15) && !xbox.getBButton()) ? DriveState.Free : DriveState.Locked;
-                break;
+            case Free -> state = xbox.getRightBumper() ? DriveState.Locked : DriveState.Free;
+            case Locked ->
+                    state = ((xyRaw.getNorm() > 0.15) && !xbox.getBButton()) ? DriveState.Free : DriveState.Locked;
         }
 
         // Drive execution logic
         switch (state) {
-            case Free:
+            case Free -> {
                 SwerveModuleState[] calculatedModuleStates = DriveConstants.KINEMATICS.toSwerveModuleStates(speeds);
                 swerveSubsystem.setModules(calculatedModuleStates);
-                break;
-            case Locked:
-                swerveSubsystem.setXstance();
-                break;
+            }
+            case Locked -> swerveSubsystem.setXstance();
         }
     }
 

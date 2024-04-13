@@ -1,7 +1,14 @@
 {
-  "robotWidth": 0.7747,
+  "robotWidth": 0.77,
   "robotLength": 0.7747,
   "holonomicMode": true,
-  "generateJSON": true,
-  "generateCSV": false
+  "pathFolders": [
+    "middle"
+  ],
+  "autoFolders": [],
+  "defaultMaxVel": 4.0,
+  "defaultMaxAccel": 4.0,
+  "defaultMaxAngVel": 540.0,
+  "defaultMaxAngAccel": 720.0,
+  "maxModuleSpeed": 4.5
 }

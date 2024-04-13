@@ -31,13 +31,13 @@ public class SwerveModule {
 
     private final PIDController steerPID;
 
-    private static int moduleNumber = 0;
-    int thisModuleNumber;
+    int moduleNumber;
 
     SlewRateLimiter turnratelimiter = new SlewRateLimiter(4.d);
 
-    public SwerveModule(int steerCanID, int driveCanID, int absoluteEncoderPort, double motorOffsetRadians,
-            boolean isAbsoluteEncoderReversed, boolean motorReversed) {
+    public SwerveModule(int moduleNumber, int steerCanID, int driveCanID, int absoluteEncoderPort, double motorOffsetRadians,
+                        boolean isAbsoluteEncoderReversed, boolean motorReversed) {
+        this.moduleNumber = moduleNumber;
         driveMotor = new CANSparkMax(driveCanID, MotorType.kBrushless);
         driveMotor.setInverted(false);
         driveMotor.setIdleMode(IdleMode.kBrake);
@@ -69,13 +69,10 @@ public class SwerveModule {
         steerPID = new PIDController(SwerveModuleConstants.MODULE_KP, 0, SwerveModuleConstants.MODULE_KD);
         steerPID.enableContinuousInput(-Math.PI, Math.PI);
 
-        thisModuleNumber = moduleNumber;
-        moduleNumber++;
-
         resetEncoders();
     }
 
-    public void simulate_step() {
+    public void simulateStep() {
         driveEncSim += 0.02 * driveMotor.get() * (DriveConstants.MAX_MODULE_VELOCITY);
         steerEncSim += 0.02 * steerMotor.get() * (10.0);
     }
@@ -137,7 +134,7 @@ public class SwerveModule {
         }
         // SmartDashboard.putNumber("Abs" + thisModuleNumber,
         // getAbsoluteEncoderPosition());
-        SmartDashboard.putNumber("Drive" + thisModuleNumber, drive_command);
+        SmartDashboard.putNumber("Drive" + moduleNumber, drive_command);
     }
 
     public void setModuleState(SwerveModuleState state) {
