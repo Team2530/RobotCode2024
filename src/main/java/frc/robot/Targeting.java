@@ -130,4 +130,16 @@ public class Targeting {
 
     return MathUtil.clamp(res, 30, 180.0) - 2.5f;
   }
+
+  public double getShuttlePhi() {
+    // Basic aiming
+    Rotation2d angle_tgt = swerveSubsystem.getPose().getTranslation().minus(FieldConstants.getShuttlePosition())
+        .getAngle();
+    if (DriverStation.getAlliance().get() == Alliance.Red)
+      angle_tgt = angle_tgt.rotateBy(new Rotation2d(Math.PI));
+
+    double phi = angle_tgt.getRadians();
+
+    return phi;
+  }
 }

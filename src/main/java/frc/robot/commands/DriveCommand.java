@@ -135,7 +135,7 @@ public class DriveCommand extends Command {
             case Driver:
                 // do nothing special
                 break;
-            case Auto:
+            case AutoSpeaker:
                 // Rotation2d r =
                 // swerveSubsystem.getPose().getTranslation().minus(FieldConstants.getSpeakerPosition()).getAngle();
                 // if (DriverStation.getAlliance().get() == Alliance.Red)
@@ -147,6 +147,12 @@ public class DriveCommand extends Command {
                         swerveSubsystem.getHeading()
                 });
                 zSpeed = MathUtil.clamp(-rotationController.calculate(swerveSubsystem.getPose().getRotation().getRadians() + ((FieldConstants.getAlliance() == Alliance.Red) ? Math.PI : 0.0), calculatedAngle),
+                        -0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY, 0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY);
+                break;
+            case AutoShuttle:
+                double shuttleCalculatedAngle = targeting.getShuttlePhi();
+
+                zSpeed = MathUtil.clamp(-rotationController.calculate(swerveSubsystem.getPose().getRotation().getRadians() + ((FieldConstants.getAlliance() == Alliance.Red) ? Math.PI : 0.0), shuttleCalculatedAngle),
                         -0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY, 0.5 * DriveConstants.MAX_ROBOT_RAD_VELOCITY);
                 break;
         }

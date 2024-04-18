@@ -54,6 +54,13 @@ public final class Constants {
       return speakerBlue;
     }
 
+    public static Translation2d getShuttlePosition() {
+      Translation2d shuttleBlue = new Translation2d(1.49, 7.12);
+      shuttleBlue = getAlliance() == Alliance.Blue ? shuttleBlue
+          : GeometryUtil.flipFieldPosition(shuttleBlue);
+      return shuttleBlue;
+    }
+
     public static Alliance getAlliance() {
       if (DriverStation.getAlliance().isPresent()) {
         return DriverStation.getAlliance().get();
@@ -218,7 +225,7 @@ public final class Constants {
 
     public static final double STAGE_ONE_ENCODER_OFFSET = 0.0175;
 
-    public static final double STAGE_TWO_ENCODER_OFFSET = -0.394043 - 0.0675;
+    public static final double STAGE_TWO_ENCODER_OFFSET = -0.394043 - 0.0685;//0.0675;// try 0.0500?
 
     public static final double INTAKE_ENCODER_TO_ROT = 10.0 / 18.0;
 
@@ -264,7 +271,7 @@ public final class Constants {
     public static final double SHOOTER_MAX_RPS = 106.0;
 
     // FOR TARGETING!!!
-    public static final double MAX_SHOOTER_VELOCITY = 26.0;// 15.0 worked fine on a deadish battery;
+    public static final double MAX_SHOOTER_VELOCITY = 19.0; // 21.5 ok first practice match // 15.0 worked fine on a deadish battery;
 
     public static final double SHOOTER_LOW_HEIGHT = 0.7;
     public static final double SHOOTER_LOW_X_OFFSET = 0.36;

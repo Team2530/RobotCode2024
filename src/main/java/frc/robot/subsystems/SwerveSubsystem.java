@@ -71,7 +71,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public enum RotationStyle {
         Driver,
-        Auto
+        AutoSpeaker,
+        AutoShuttle
     }
 
     private RotationStyle rotationStyle = RotationStyle.Driver;
@@ -364,7 +365,9 @@ public class SwerveSubsystem extends SubsystemBase {
             if (mt1.rawFiducials[0].ambiguity > .7) {
                 doRejectUpdate = true;
             }
-            if (mt1.rawFiducials[0].distToCamera > 3) {
+            // if (mt1.rawFiducials[0].distToCamera > 3) {
+            if (mt1.rawFiducials[0].distToCamera > 5) { // TODO: TUNE!!!
+
                 doRejectUpdate = true;
             }
         }

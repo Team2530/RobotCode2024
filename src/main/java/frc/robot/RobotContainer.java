@@ -86,7 +86,7 @@ public class RobotContainer {
                     arm.setArmPreset(Presets.SHOOT_LOW);
                 }),
                 new InstantCommand(() -> {
-                    swerveDriveSubsystem.setRotationStyle(RotationStyle.Auto);
+                    swerveDriveSubsystem.setRotationStyle(RotationStyle.AutoSpeaker);
                 })));
         NamedCommands.registerCommand("Shoot TM", new SequentialCommandGroup(
                 new InstantCommand(() -> {
@@ -407,7 +407,13 @@ public class RobotContainer {
         }).onTrue(new ShootCommand(shooter, intake).deadlineWith(new WaitCommand(1.0)));
 
         driverXbox.a().onTrue(new InstantCommand(() -> {
-            swerveDriveSubsystem.setRotationStyle(RotationStyle.Auto);
+            swerveDriveSubsystem.setRotationStyle(RotationStyle.AutoSpeaker);
+        })).onFalse(new InstantCommand(() -> {
+            swerveDriveSubsystem.setRotationStyle(RotationStyle.Driver);
+        }));
+
+        driverXbox.b().onTrue(new InstantCommand(() -> {
+            swerveDriveSubsystem.setRotationStyle(RotationStyle.AutoShuttle);
         })).onFalse(new InstantCommand(() -> {
             swerveDriveSubsystem.setRotationStyle(RotationStyle.Driver);
         }));
