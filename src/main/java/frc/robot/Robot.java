@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -49,6 +51,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     // Shuffleboard.getTab("SmartDashboard").add(autoChooser);
     SmartDashboard.putData(autoChooser);
+
+            DataLogManager.start();
+        DriverStation.startDataLog(DataLogManager.getLog());
 
     m_robotContainer = new RobotContainer();
   }

@@ -22,6 +22,8 @@ import java.util.function.Consumer;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -80,6 +82,8 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+
+        // DataLogManager.logNetworkTables(true);
 
         NamedCommands.registerCommand("Shoot Close", new SequentialCommandGroup(
                 new InstantCommand(() -> {
