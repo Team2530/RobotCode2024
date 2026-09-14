@@ -351,7 +351,7 @@ public class RobotContainer {
         operatorXbox.rightBumper().and(new BooleanSupplier() {
             public boolean getAsBoolean() {
                 // note in shootake
-                return intake.getIntakeSideLimitClosed() || intake.getShooterSideLimitClosed();
+                return intake.hasNote;
             }
         }).onTrue(new SequentialCommandGroup(
                 new AlignNoteCommand(intake, shooter),
@@ -372,6 +372,7 @@ public class RobotContainer {
                             }
                         }),
                         new AlignNoteCommand(intake, shooter)));
+                
                         
         // operatorXbox.rightBumper().onFalse(new ConditionalCommand(new SequentialCommandGroup(new ShootCommand(shooter, intake).deadlineWith(new WaitUntilCommand(1.5)), new InstantCommand(() -> {shooter.stop();})), new PrintCommand(""), new BooleanSupplier() {
         //         @Override
@@ -402,11 +403,15 @@ public class RobotContainer {
             climber.rightArm.is_calibrated = false;
         }));
 
+        operatorXbox.leftStick().onTrue(new InstantCommand(() -> {
+            intake.toggleNote();
+        }));
+
         // Driver trigger shoot
         driverXbox.leftTrigger().and(new BooleanSupplier() {
             @Override
             public boolean getAsBoolean() {
-                return driverXbox.getLeftTriggerAxis() > 0.25 && shooter.isUpToSpeed();
+                return driverXbox.getLeftTriggerAxis() > 0.25;
             }
         }).onTrue(new ShootCommand(shooter, intake).deadlineWith(new WaitCommand(1.0)));
 

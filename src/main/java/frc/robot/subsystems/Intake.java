@@ -63,6 +63,8 @@ public class Intake extends SubsystemBase {
     private final CommandXboxController driverXboxController;
     private final CommandXboxController operatorXboxController;
 
+    public Boolean hasNote = false;
+
     public Intake(CommandXboxController driverXboxController, CommandXboxController operatXboxController) {
         hardwareInit();
 
@@ -75,13 +77,15 @@ public class Intake extends SubsystemBase {
         limconf.ForwardLimitSource = ForwardLimitSourceValue.LimitSwitchPin;
         limconf.ReverseLimitSource = ReverseLimitSourceValue.LimitSwitchPin;
         limconf.ReverseLimitEnable = false;
-        limconf.ForwardLimitEnable = true;
+        limconf.ForwardLimitEnable = false;
         intakeMotor.getConfigurator().apply(limconf);
 
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
         intakeMotor.setInverted(true);
     }
 
+
+    
     @Override
     public void periodic() {
         double percent = intakeProfile.calculate(outputPercent);
@@ -106,12 +110,7 @@ public class Intake extends SubsystemBase {
     }
 
     public BooleanSupplier containsNote() {
-        return new BooleanSupplier() {
-            @Override
-            public boolean getAsBoolean() {
-                return getIntakeSideLimitClosed() || getShooterSideLimitClosed();
-            }
-        };
+        return () -> hasNote;
     }
 
     /**
@@ -168,5 +167,9 @@ public class Intake extends SubsystemBase {
     public void setShooterLimitEnabled(boolean enabled) {
         limconf.ForwardLimitEnable = enabled;
         intakeMotor.getConfigurator().apply(limconf);
+    }
+
+    public void toggleNote() {
+        hasNote = !hasNote;
     }
 }

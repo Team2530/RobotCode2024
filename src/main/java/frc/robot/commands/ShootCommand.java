@@ -40,7 +40,7 @@ public class ShootCommand extends Command {
             shooter.setMode(ShooterMode.STOPPED);
             intake.setMode(IntakeMode.STOPPED);
         }
-        intake.setShooterLimitEnabled(true);
+        intake.setShooterLimitEnabled(false);
 
         SmartDashboard.putString("Shootake", "Ending Shooting Sequence");
     }
@@ -49,6 +49,6 @@ public class ShootCommand extends Command {
     public boolean isFinished() {
         // terminate after 1.5 seconds has passed and front limit doesn't see the note
         // TODO Determine if 1.5 seconds is too long or not
-       return (!intake.getShooterSideLimitClosed()) && (!intake.getIntakeSideLimitClosed());
+       return !intake.hasNote;
     }
 }
